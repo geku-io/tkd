@@ -1,0 +1,101 @@
+import React, { useState } from "react";
+import {
+   Popover,
+   PopoverContent,
+   PopoverTrigger,
+} from "../lib-components/popover";
+import { Ellipsis, Trash } from "lucide-react";
+import { Command, CommandItem, CommandList } from "../lib-components/command";
+import { useMutation } from "@tanstack/react-query";
+import { ISourceAndKey } from "@/types/main.types";
+import { toast } from "sonner";
+import { queryClient } from "@/providers/QueryProvider";
+import ConfirmModal from "../modals/ConfirmModal";
+import { IDeleteMany } from "@/types/query.types";
+import { fetchApi } from "@/lib/fetchApi";
+
+interface IProps extends ISourceAndKey {
+   ids?: string[];
+   resettingSelection: () => void;
+}
+
+const DropDown = ({ ids, source, queryKey, resettingSelection }: IProps) => {
+   const [isOpen, setIsOpen] = useState(false);
+   const [isModalOpen, setIsModalOpen] = useState(false);
+   const mutation = useMutation({
+      mutationFn: async (body: IDeleteMany<string>) => {
+         const res = await fetchApi(source, {
+            method: "DELETE",
+            body: JSON.stringify(body),
+         });
+         return res;
+      },
+
+      onSuccess: () => {
+         toast.success("Записи успешно удалены");
+         resettingSelection();
+         queryClient.invalidateQueries({
+            queryKey: [queryKey],
+         });
+      },
+
+      onError: () => {
+         toast.error("Ошибка при удалении");
+      },
+   });
+
+   const deleteEntityHandler = () => {
+      if (ids && ids.length > 0) {
+         mutation.mutate({ items: ids });
+      }
+   };
+   const clickHandler = () => {
+      setIsOpen(false);
+      if (ids && ids.length > 0) {
+         setIsModalOpen(true);
+      } else {
+         toast.error("Записи для удаления не выбраны");
+      }
+   };
+   return (
+      <div className="relative">
+         <ConfirmModal
+            title="Удаление"
+            description="Запись невозможно будет восстановить. Вы уверены?"
+            actionBtnText="Удалить"
+            confirmedAction={deleteEntityHandler}
+            isOpen={isModalOpen}
+            setIsOpen={setIsModalOpen}
+            btnType="delete"
+         />
+         <Popover open={isOpen} onOpenChange={setIsOpen}>
+            <PopoverTrigger asChild={true}>
+               <Ellipsis className="cursor-pointer" />
+            </PopoverTrigger>
+            <PopoverContent
+               align="end"
+               className="bg-white rounded-lg shadow-popover border-0 w-30 p-0"
+            >
+               <Command>
+                  <CommandList>
+                     <CommandItem className="group w-full transition-colors hover:bg-alt-gray cursor-pointer p-0">
+                        <button
+                           type="button"
+                           className="w-full h-full p-3 flex items-center justify-between"
+                           onClick={clickHandler}
+                        >
+                           <div className="font-bold text-red-accent group-hover:text-black/80 transition-colors">
+                              Удалить
+                           </div>
+                           <Trash className="text-red-accent group-hover:text-black/80 transition-colors" />
+                        </button>
+                     </CommandItem>
+                  </CommandList>
+               </Command>
+            </PopoverContent>
+         </Popover>
+      </div>
+   );
+};
+
+export default DropDown;

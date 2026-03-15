@@ -1,0 +1,20 @@
+import * as z from "zod";
+
+export const newCompetitionSchema = z.object({
+   tournamentTitle: z.string().min(1, "Это обязательное поле"),
+   arenas: z.array(
+      z.object({
+         id: z.string(),
+         arenaTitle: z.string().min(1, "Это обязательное поле"),
+         info: z.array(
+            z.object({
+               id: z.string(),
+               discipline: z.string(),
+               categories: z.array(z.string()),
+            })
+         ),
+      })
+   ),
+});
+
+export type CompetitionType = z.infer<typeof newCompetitionSchema>;
