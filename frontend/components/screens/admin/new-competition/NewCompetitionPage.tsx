@@ -1,0 +1,210 @@
+"use client";
+import React, { useEffect, useRef } from "react";
+import MainBlock from "../MainBlock";
+import {
+   CompetitionType,
+   newCompetitionSchema,
+} from "./new-competition.schema";
+import { defaultCompetition } from "./new-competition.constants";
+import { v4 as uuidv4 } from "uuid";
+import { useCreateEntities } from "../../../../hooks/query";
+import { API } from "../../../../constants/api";
+import { QUERY_KEYS } from "../../../../constants/queryKeys";
+import { useAppForm } from "../../../../contexts/AdminFormContext";
+import { FieldGroup } from "../../../UI/lib-components/field";
+import Cross from "../../../UI/Cross";
+import AddFieldButton from "../../../UI/form/AddFieldButton";
+
+const NewCompetitionPage = () => {
+   const firstInputRef = useRef<HTMLInputElement | null>(null);
+   const mutation = useCreateEntities<CompetitionType>({
+      source: API.COMPETITIONS,
+      queryKey: QUERY_KEYS.TOURNAMENTS,
+   });
+   const form = useAppForm({
+      defaultValues: defaultCompetition,
+      onSubmit: ({ value }) => {
+         mutation.mutate(value);
+      },
+      validators: {
+         onChange: newCompetitionSchema,
+         onBlur: newCompetitionSchema,
+      },
+   });
+   useEffect(() => {
+      firstInputRef.current?.focus();
+   }, []);
+   return (
+      <MainBlock title="Создание нового соревнования">
+         <div className="flex justify-between gap-x-24 w-full">
+            <form
+               onSubmit={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+               }}
+               className="w-full"
+            >
+               <FieldGroup className="flex flex-col gap-y-10">
+                  <form.AppField name="tournamentTitle">
+                     {field => {
+                        return (
+                           <div className="border p-8 rounded-lg border-border-gray shadow-border">
+                              <field.SelectField
+                                 ref={firstInputRef}
+                                 isMulti={false}
+                                 label="Название соревнования *"
+                                 source={API.TOURNAMENTS}
+                                 queryKey={QUERY_KEYS.TOURNAMENTS}
+                              />
+                           </div>
+                        );
+                     }}
+                  </form.AppField>
+                  <form.Field name="arenas" mode="array">
+                     {fieldArr => (
+                        <div className="flex flex-col gap-y-10">
+                           {fieldArr.state.value.map((val, index) => (
+                              <div
+                                 key={val.id}
+                                 className="relative flex flex-col py-8 rounded-lg border-border-gray shadow-border"
+                              >
+                                 {fieldArr.state.value.length > 1 && (
+                                    <Cross
+                                       className="absolute top-3 right-3"
+                                       clickHandler={() => {
+                                          fieldArr.removeValue(index);
+                                       }}
+                                    />
+                                 )}
+                                 <form.AppField
+                                    name={`arenas[${index}].arenaTitle`}
+                                 >
+                                    {field => (
+                                       <div className="px-8 pb-8 border-b border-border">
+                                          <field.SelectField
+                                             isMulti={false}
+                                             label="Название арены *"
+                                             source={API.ARENAS}
+                                             queryKey={QUERY_KEYS.ARENAS}
+                                          />
+                                       </div>
+                                    )}
+                                 </form.AppField>
+                                 <form.Field
+                                    name={`arenas[${index}].info`}
+                                    mode="array"
+                                 >
+                                    {subFieldArr => (
+                                       <div className="mb-4">
+                                          <div className="mb-6">
+                                             {(
+                                                subFieldArr.state.value ?? []
+                                             ).map((subVal, subIndex) => (
+                                                <div
+                                                   className="relative flex flex-col gap-y-6 px-8 pt-8 pb-8 last:pb-0 last:border-none border-b border-border"
+                                                   key={subVal.id}
+                                                >
+                                                   {subFieldArr.state.value
+                                                      .length > 1 && (
+                                                      <Cross
+                                                         className="absolute top-3 right-3"
+                                                         clickHandler={() => {
+                                                            subFieldArr.removeValue(
+                                                               subIndex
+                                                            );
+                                                         }}
+                                                      />
+                                                   )}
+                                                   <form.AppField
+                                                      name={`arenas[${index}].info[${subIndex}].discipline`}
+                                                   >
+                                                      {disciplineField => (
+                                                         <disciplineField.SelectField
+                                                            source={
+                                                               API.DISCIPLINES
+                                                            }
+                                                            queryKey={
+                                                               QUERY_KEYS.DISCIPLINES
+                                                            }
+                                                            label="Название дисциплины"
+                                                            isMulti={false}
+                                                         />
+                                                      )}
+                                                   </form.AppField>
+                                                   <form.Subscribe
+                                                      selector={state =>
+                                                         state.values.arenas[
+                                                            index
+                                                         ].info[subIndex]
+                                                            .categories
+                                                      }
+                                                   >
+                                                      {() => (
+                                                         <form.AppField
+                                                            name={`arenas[${index}].info[${subIndex}].categories`}
+                                                            mode="array"
+                                                         >
+                                                            {categoriesField => (
+                                                               <categoriesField.SelectField
+                                                                  source={
+                                                                     API.CATEGORIES
+                                                                  }
+                                                                  queryKey={
+                                                                     QUERY_KEYS.CATEGORIES
+                                                                  }
+                                                                  label="Название категорий"
+                                                               />
+                                                            )}
+                                                         </form.AppField>
+                                                      )}
+                                                   </form.Subscribe>
+                                                </div>
+                                             ))}
+                                          </div>
+                                          <AddFieldButton
+                                             text="Добавить дисциплину"
+                                             clickHandler={() =>
+                                                subFieldArr.pushValue({
+                                                   id: uuidv4(),
+                                                   discipline: "",
+                                                   categories: [],
+                                                })
+                                             }
+                                          />
+                                       </div>
+                                    )}
+                                 </form.Field>
+                              </div>
+                           ))}
+                           <AddFieldButton
+                              text="Добавить арену"
+                              clickHandler={() =>
+                                 fieldArr.pushValue({
+                                    arenaTitle: "",
+                                    id: uuidv4(),
+                                    info: [
+                                       {
+                                          id: uuidv4(),
+                                          discipline: "",
+                                          categories: [],
+                                       },
+                                    ],
+                                 })
+                              }
+                           />
+                        </div>
+                     )}
+                  </form.Field>
+               </FieldGroup>
+            </form>
+            <div>
+               <form.AppForm>
+                  <form.SubmitButton className="w-[200px]" />
+               </form.AppForm>
+            </div>
+         </div>
+      </MainBlock>
+   );
+};
+
+export default NewCompetitionPage;
