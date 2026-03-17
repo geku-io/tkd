@@ -22,6 +22,8 @@ import appConfig from 'src/config/app.config';
         password: db.password,
         database: db.db_name,
         synchronize: app.NODE_ENV === 'development',
+        migrationsRun: app.NODE_ENV === 'production',
+        migrations: ['dist/migrations/*.js'],
         autoLoadEntities: true,
       }),
       inject: [databaseConfig.KEY, appConfig.KEY],

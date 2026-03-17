@@ -1,0 +1,60 @@
+networks:
+   tkd-network:
+
+services:
+   frontend:
+      build:
+         context: ./frontend
+      container_name: tkd-frontend
+      restart: unless-stopped
+      env_file:
+         - ./frontend/.env.production
+      environment:
+         - NODE_ENV=production
+      networks:
+         - tkd-network
+
+   backend:
+      build:
+         context: ./backend
+      container_name: tkd-backend
+      restart: unless-stopped
+      env_file:
+         - ./backend/.env.production
+      environment:
+         - NODE_ENV=production
+      networks:
+         - tkd-network
+      depends_on:
+         - db
+
+   db:
+      image: postgres:17-alpine
+      container_name: tkd-db
+      restart: unless-stopped
+      environment:
+         - POSTGRES_USER=${POSTGRES_USERNAME:-postgres}
+         - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+         - POSTGRES_DB=${POSTGRES_DB:-tkd}
+      volumes:
+         - postgres_data:/var/lib/postgresql/data
+      networks:
+         - tkd-network
+
+   nginx:
+      image: nginx:1.28.2-alpine-slim
+      container_name: tkd-nginx
+      restart: unless-stopped
+      ports:
+         - "80:80"
+         - "443:443"
+      volumes:
+         - ./nginx.conf:/etc/nginx/nginx.conf
+      networks:
+         - tkd-network
+      depends_on:
+         - frontend
+         - backend
+
+volumes:
+   postgres_data:
