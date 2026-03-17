@@ -32,6 +32,8 @@ services:
       image: postgres:17-alpine
       container_name: tkd-db
       restart: unless-stopped
+      env_file:
+         - ./.env
       environment:
          - POSTGRES_USER=${POSTGRES_USERNAME:-postgres}
          - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
