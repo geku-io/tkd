@@ -11,8 +11,10 @@ export const verifySession = cache(async (): Promise<IAuthUser> => {
    const refreshCookie = cookieStore.get(CookieNames.REFRESH)?.value;
 
    if (!authCookie && !refreshCookie) {
+      console.log("ERRRORRORORRO");
       redirect(ROUTES.LOGIN);
    }
+   console.log("VERDICT:", !authCookie && !refreshCookie);
 
    try {
       const payload = await fetch(API.VALIDATE, {
