@@ -25,6 +25,7 @@ export class AuthController {
   @Public()
   @Get('validate')
   validateToken(@Req() req: AuthRequest) {
+    console.log('VALIDATE CONTROLLER: ', req);
     return this.authService.validateToken(req);
   }
 
