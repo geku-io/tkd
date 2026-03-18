@@ -22,12 +22,12 @@ ENV NODE_ENV=production
 
 # COPY --from=builder /app/dist /usr/share/nginx/html
 
-COPY --from=builder --chown=nodejs:nodejs /app/dist ./dist
-COPY --from=builder --chown=nodejs:nodejs /app/package.json ./
-COPY --from=builder --chown=nodejs:nodejs /app/yarn.lock ./
-COPY --from=builder --chown=nodejs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=node:node /app/dist ./dist
+COPY --from=builder --chown=node:node /app/package.json ./
+COPY --from=builder --chown=node:node /app/yarn.lock ./
+COPY --from=builder --chown=node:node /app/node_modules ./node_modules
 
-USER nodejs
+USER node
 
 EXPOSE 3001
 
