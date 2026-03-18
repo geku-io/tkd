@@ -8,8 +8,13 @@ import cookieParser from 'cookie-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useWebSocketAdapter(new IoAdapter(app));
+  const configService = app.get(ConfigService);
+  const isProduction = configService.get<string>('NODE_ENV') === 'production';
+
   app.enableCors({
-    origin: 'http://localhost:3000',
+    origin: isProduction
+      ? ['https://gekuio.ru', 'https://www.gekuio.ru']
+      : 'http://localhost:3000',
     credentials: true,
   });
   app.use(cookieParser());

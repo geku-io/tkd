@@ -10,6 +10,10 @@ export const verifySession = cache(async (): Promise<IAuthUser> => {
    const authCookie = cookieStore.get(CookieNames.AUTH)?.value;
    const refreshCookie = cookieStore.get(CookieNames.REFRESH)?.value;
 
+   if (!authCookie && !refreshCookie) {
+      redirect(ROUTES.LOGIN);
+   }
+
    try {
       const payload = await fetch(API.VALIDATE, {
          headers: {
@@ -17,6 +21,10 @@ export const verifySession = cache(async (): Promise<IAuthUser> => {
             Cookie: `${CookieNames.AUTH}=${authCookie}; ${CookieNames.REFRESH}=${refreshCookie}`,
          },
       });
+
+      if (!payload.ok) {
+         redirect(ROUTES.LOGIN);
+      }
 
       const result: IAuthUser = await payload.json();
 
