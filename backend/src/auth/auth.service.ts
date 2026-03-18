@@ -107,11 +107,8 @@ export class AuthService {
   }
 
   validateToken(request: AuthRequest) {
-    console.log('TEST');
     const accessToken = request.cookies?.[CookieNames.AUTH];
     const refreshToken = request.cookies?.[CookieNames.REFRESH];
-    console.log('access: ', accessToken);
-    console.log('refresh: ', refreshToken);
     let payload: JwtPayload | null = null;
     try {
       if (accessToken) {

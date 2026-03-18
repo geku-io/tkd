@@ -83,7 +83,6 @@ const UpdateUserModal = ({ isOpen, setIsOpen }: IModalProps) => {
    const closeCurrentModal = (
       e: React.MouseEvent<HTMLButtonElement, MouseEvent>
    ) => {
-      console.log(data);
       if (
          data &&
          (data.name !== form.state.values.name ||

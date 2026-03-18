@@ -19,7 +19,6 @@ export const verifySession = cache(async (): Promise<IAuthUser> => {
 
    try {
       if (API_INTERNAL_URL && NEXT_PUBLIC_API_URL) {
-         console.log("NICE!!!!");
          const url = API.VALIDATE.replace(
             NEXT_PUBLIC_API_URL,
             API_INTERNAL_URL
@@ -32,22 +31,17 @@ export const verifySession = cache(async (): Promise<IAuthUser> => {
             },
          });
 
-         console.log("PAYLOAD", payload);
-
          if (!payload.ok) {
-            console.log("NOT OK");
             redirect(ROUTES.LOGIN);
          }
 
          const result: IAuthUser = await payload.json();
-         console.log("RESULT: ", result);
 
          return result;
       } else {
          redirect(ROUTES.BASE);
       }
    } catch {
-      console.log("BIG ERROR");
       redirect(ROUTES.LOGIN);
    }
 });

@@ -21,19 +21,12 @@ const SubmitButton = ({
    className,
 }: IProps) => {
    const form = useFormContext();
-   const heightStyle = {
-      "h-10": size === "default",
-      "h-8 text-sm": size === "sm",
-      "h-12": size === "lg",
-      "size-9": size === "icon",
-      "size-8": size === "icon-sm",
-      "size-10": size === "icon-lg",
-   };
    return (
       <form.Subscribe selector={state => [state.canSubmit, state.isSubmitting]}>
          {([canSubmit, isSubmitting]) => (
             <ActionButton
-               className={cn("rounded-lg text-lg", heightStyle, className)}
+               size={size}
+               className={cn("rounded-lg sm:text-base text-sm", className)}
                action={() => {
                   form.handleSubmit();
                }}

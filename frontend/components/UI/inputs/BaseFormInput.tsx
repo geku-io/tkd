@@ -31,7 +31,7 @@ const BaseFormInput = ({ label, type, ref, ...rest }: IProps) => {
          </label>
          <div
             className={cn(
-               "w-full h-9 px-3 min-w-0 rounded-md border bg-transparent py-1 text-base shadow-xs transition-[color,box-shadow] outline-none focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]",
+               "w-full sm:h-9 h-8 px-3 min-w-0 rounded-md border bg-transparent sm:py-1 text-base shadow-xs transition-[color,box-shadow] outline-none focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]",
                {
                   "flex items-center justify-between gap-x-2":
                      type === "password",
@@ -44,7 +44,7 @@ const BaseFormInput = ({ label, type, ref, ...rest }: IProps) => {
          >
             <input
                ref={ref}
-               className="w-full text-base"
+               className="w-full h-full sm:text-base text-sm"
                type={
                   type === "password"
                      ? isShowPassword

@@ -24,7 +24,7 @@ const ActionButton = ({
          type="button"
          onClick={action}
          className={cn(
-            " transition-colors text-white",
+            "transition-colors text-white",
             { "bg-blue-accent hover:bg-blue-accent/80": btnType === "blue" },
             { "bg-red-accent hover:bg-red-accent/80": btnType === "delete" },
             {

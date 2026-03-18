@@ -52,8 +52,8 @@ const LoginPage = () => {
    });
 
    return (
-      <div className="size-full flex items-center justify-center overflow-hidden">
-         <div className="min-w-[450px] bg-white border-none rounded-xl shadow-popover visible opacity-100 transition-opacity px-6 py-6">
+      <div className="size-full flex items-center justify-center overflow-hidden px-4">
+         <div className="max-sm:w-full max-sm:max-w-80 sm:min-w-[450px] bg-white border-none rounded-xl shadow-popover visible opacity-100 transition-opacity sm:p-6 p-4">
             <h2 className="mb-2">Вход в систему</h2>
             <form
                onSubmit={e => {
@@ -88,11 +88,7 @@ const LoginPage = () => {
                </div>
                <div className="w-full flex justify-end">
                   <form.AppForm>
-                     <form.SubmitButton
-                        title="Войти"
-                        size="default"
-                        className="text-base"
-                     />
+                     <form.SubmitButton title="Войти" size="default" />
                   </form.AppForm>
                </div>
             </form>

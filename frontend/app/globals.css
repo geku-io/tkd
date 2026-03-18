@@ -46,7 +46,7 @@ body {
       @apply text-3xl font-bold tracking-wide;
    }
    h2 {
-      @apply text-2xl font-medium tracking-wide;
+      @apply sm:text-2xl text-xl font-medium tracking-wide;
    }
 
    input:-webkit-autofill {
