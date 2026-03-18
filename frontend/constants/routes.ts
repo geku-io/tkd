@@ -8,6 +8,7 @@ export interface IRoute {
 export type RouteRolesType = UserRole[] | "public";
 
 export const ROUTES = {
+   BASE: "/",
    LOGIN: "/login",
    HOME: "/dashboard",
    USERS: "/dashboard/users",
@@ -18,6 +19,7 @@ export const ROUTES = {
 } as const;
 
 export const ROUTES_ROLES: Record<keyof typeof ROUTES, RouteRolesType> = {
+   BASE: "public",
    LOGIN: "public",
    HOME: [UserRole.ADMIN, UserRole.EDITOR],
    USERS: [UserRole.ADMIN],

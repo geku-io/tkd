@@ -13,7 +13,7 @@ async function bootstrap() {
 
   app.enableCors({
     origin: isProduction
-      ? ['https://gekuio.ru', 'https://www.gekuio.ru']
+      ? ['https://gekuio.ru', 'https://www.gekuio.ru', 'http://frontend:3000']
       : 'http://localhost:3000',
     credentials: true,
   });

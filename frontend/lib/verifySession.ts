@@ -5,6 +5,9 @@ import { API } from "../constants/api";
 import { CookieNames, IAuthUser } from "../types/main.types";
 import { ROUTES } from "../constants/routes";
 
+const API_INTERNAL_URL = process.env.API_INTERNAL_URL;
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export const verifySession = cache(async (): Promise<IAuthUser> => {
    const cookieStore = await cookies();
    const authCookie = cookieStore.get(CookieNames.AUTH)?.value;
@@ -15,24 +18,34 @@ export const verifySession = cache(async (): Promise<IAuthUser> => {
    }
 
    try {
-      const payload = await fetch(API.VALIDATE, {
-         headers: {
-            "Content-Type": "application/json",
-            Cookie: `${CookieNames.AUTH}=${authCookie}; ${CookieNames.REFRESH}=${refreshCookie}`,
-         },
-      });
+      if (API_INTERNAL_URL && NEXT_PUBLIC_API_URL) {
+         console.log("NICE!!!!");
+         const url = API.VALIDATE.replace(
+            NEXT_PUBLIC_API_URL,
+            API_INTERNAL_URL
+         );
 
-      console.log("PAYLOAD", payload);
+         const payload = await fetch(url, {
+            headers: {
+               "Content-Type": "application/json",
+               Cookie: `${CookieNames.AUTH}=${authCookie}; ${CookieNames.REFRESH}=${refreshCookie}`,
+            },
+         });
 
-      if (!payload.ok) {
-         console.log("NOT OK");
-         redirect(ROUTES.LOGIN);
+         console.log("PAYLOAD", payload);
+
+         if (!payload.ok) {
+            console.log("NOT OK");
+            redirect(ROUTES.LOGIN);
+         }
+
+         const result: IAuthUser = await payload.json();
+         console.log("RESULT: ", result);
+
+         return result;
+      } else {
+         redirect(ROUTES.BASE);
       }
-
-      const result: IAuthUser = await payload.json();
-      console.log("RESULT: ", result);
-
-      return result;
    } catch {
       console.log("BIG ERROR");
       redirect(ROUTES.LOGIN);
