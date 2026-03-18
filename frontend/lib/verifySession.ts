@@ -11,10 +11,8 @@ export const verifySession = cache(async (): Promise<IAuthUser> => {
    const refreshCookie = cookieStore.get(CookieNames.REFRESH)?.value;
 
    if (!authCookie && !refreshCookie) {
-      console.log("ERRRORRORORRO");
       redirect(ROUTES.LOGIN);
    }
-   console.log("VERDICT:", !authCookie && !refreshCookie);
 
    try {
       const payload = await fetch(API.VALIDATE, {
@@ -24,14 +22,19 @@ export const verifySession = cache(async (): Promise<IAuthUser> => {
          },
       });
 
+      console.log("PAYLOAD", payload);
+
       if (!payload.ok) {
+         console.log("NOT OK");
          redirect(ROUTES.LOGIN);
       }
 
       const result: IAuthUser = await payload.json();
+      console.log("RESULT: ", result);
 
       return result;
    } catch {
+      console.log("BIG ERROR");
       redirect(ROUTES.LOGIN);
    }
 });
