@@ -63,12 +63,14 @@ export class AuthService {
       secure: this.appConfig.NODE_ENV === 'production',
       sameSite: 'lax',
       httpOnly: true,
+      path: '/',
     });
 
     res.cookie(CookieNames.REFRESH, refreshToken, {
       secure: this.appConfig.NODE_ENV === 'production',
       sameSite: 'lax',
       httpOnly: true,
+      path: '/',
     });
     return {
       access_token: accessToken,

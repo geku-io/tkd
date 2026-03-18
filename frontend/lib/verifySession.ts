@@ -9,6 +9,8 @@ export const verifySession = cache(async (): Promise<IAuthUser> => {
    const cookieStore = await cookies();
    const authCookie = cookieStore.get(CookieNames.AUTH)?.value;
    const refreshCookie = cookieStore.get(CookieNames.REFRESH)?.value;
+   console.log("auth token in verifySession: ", authCookie);
+   console.log("refresh token in verifySession: ", refreshCookie);
    try {
       const payload = await fetch(API.VALIDATE, {
          headers: {
