@@ -5,8 +5,6 @@ export async function proxy(request: NextRequest) {
    const path = request.nextUrl.pathname;
    const authToken = (await cookies()).get("Authentication")?.value;
 
-   console.log("auth token in proxy: ", authToken);
-
    if (!authToken && path.includes("/dashboard")) {
       return NextResponse.redirect(new URL("/login", request.nextUrl));
    }
