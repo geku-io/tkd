@@ -32,7 +32,7 @@ const ConfirmModal = ({
    cancelBtnText,
    btnType,
 }: IProps) => {
-   const { setCurrentId } = useGetModalsContext();
+   const { setCurrentId, setCurrentType } = useGetModalsContext();
    const closeConfirmModal = (
       e: React.MouseEvent<HTMLButtonElement, MouseEvent>
    ) => {
@@ -44,12 +44,18 @@ const ConfirmModal = ({
          if (setCurrentId) {
             setCurrentId(null);
          }
+         if (setCurrentType) {
+            setCurrentType(null);
+         }
       }
    };
    const confirmHanlder = () => {
       confirmedAction();
       if (setCurrentId) {
          setCurrentId(null);
+      }
+      if (setCurrentType) {
+         setCurrentType(null);
       }
    };
    return (

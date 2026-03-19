@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { TournamentsArenasService } from './tournaments_arenas.service';
 import { CreateTournamentsArenaDto } from './dto/create-tournaments_arena.dto';
@@ -32,16 +33,13 @@ export class TournamentsArenasController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tournamentsArenasService.findOne(+id);
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
+    return this.tournamentsArenasService.findOne(id);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateTournamentsArenaDto: UpdateTournamentsArenaDto,
-  ) {
-    return this.tournamentsArenasService.update(+id, updateTournamentsArenaDto);
+  @Patch()
+  update(@Body() updateTournamentsArenaDto: UpdateTournamentsArenaDto) {
+    return this.tournamentsArenasService.update(updateTournamentsArenaDto);
   }
 
   @Delete()

@@ -127,6 +127,9 @@ export const useUpdateEntity = <T = IUpdateEntity>({
    const queryClient = useQueryClient();
    const mutation = useMutation({
       mutationFn: async (body: T) => {
+         if (!source) {
+            throw new Error("Некоректный путь");
+         }
          const res = await fetchApi(`${source}/${id}`, {
             method: "PATCH",
             body: JSON.stringify(body),
@@ -149,6 +152,37 @@ export const useUpdateEntity = <T = IUpdateEntity>({
    return mutation;
 };
 
+export const useUpdateMiddleEntity = <T = IUpdateEntity>({
+   queryKey,
+   source,
+}: Partial<ISourceAndKey>) => {
+   const queryClient = useQueryClient();
+   const mutation = useMutation({
+      mutationFn: async (body: T) => {
+         if (!source) {
+            throw new Error("Некоректный путь");
+         }
+         const res = await fetchApi(source, {
+            method: "PATCH",
+            body: JSON.stringify(body),
+         });
+
+         return res;
+      },
+
+      onSuccess: () => {
+         toast.success("Запись успешно обновлена");
+         queryClient.invalidateQueries({
+            queryKey: [queryKey],
+         });
+      },
+
+      onError: () => {
+         toast.error("Ошибка при обновлении");
+      },
+   });
+   return mutation;
+};
 /* export const useCreateCompetition = ({ queryKey }: Partial<ISourceAndKey>) => {
    const mutation = useMutation({
       mutationFn: async (body: ICreateCompetitionBody) => {

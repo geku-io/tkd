@@ -1,17 +1,10 @@
 import { Type } from 'class-transformer';
-import { IsArray, IsUUID, ValidateNested } from 'class-validator';
-
-export class RemoveTournamentsArenaItemDto {
-  @IsUUID()
-  tournamentId: string;
-
-  @IsUUID()
-  arenaId: string;
-}
+import { IsArray, ValidateNested } from 'class-validator';
+import { TournamentsArenaInfoDto } from './tournaments_arena.dto';
 
 export class RemoveTournamentsArenaDto {
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => RemoveTournamentsArenaItemDto)
-  items: RemoveTournamentsArenaItemDto[];
+  @Type(() => TournamentsArenaInfoDto)
+  items: TournamentsArenaInfoDto[];
 }

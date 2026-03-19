@@ -31,6 +31,8 @@ export interface IUpdateEntity {
    title: string;
 }
 
+export interface IUpdateArena extends IArenaInfo, IUpdateEntity {}
+
 export interface IArenaInfo {
    arenaId: string;
    tournamentId: string;

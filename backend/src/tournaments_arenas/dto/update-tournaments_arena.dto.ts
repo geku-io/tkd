@@ -1,6 +1,7 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateTournamentsArenaDto } from './create-tournaments_arena.dto';
+import { IsString } from 'class-validator';
+import { TournamentsArenaInfoDto } from './tournaments_arena.dto';
 
-export class UpdateTournamentsArenaDto extends PartialType(
-  CreateTournamentsArenaDto,
-) {}
+export class UpdateTournamentsArenaDto extends TournamentsArenaInfoDto {
+  @IsString()
+  title: string;
+}

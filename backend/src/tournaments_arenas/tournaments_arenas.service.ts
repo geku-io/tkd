@@ -68,12 +68,38 @@ export class TournamentsArenasService {
     return `This action returns all tournamentsArenas`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tournamentsArena`;
+  findOne(id: string) {
+    return this.taRepository.findOneBy({ id });
   }
 
-  update(id: number, updateTournamentsArenaDto: UpdateTournamentsArenaDto) {
-    return `This action updates a #${id} tournamentsArena`;
+  async update(updateTournamentsArenaDto: UpdateTournamentsArenaDto) {
+    const { arenaId, title, tournamentId } = updateTournamentsArenaDto;
+    const oldArena = await this.taRepository.findOneBy({
+      arena: {
+        id: arenaId,
+      },
+      tournament: {
+        id: tournamentId,
+      },
+    });
+
+    let arena = await this.arenaRepository.findOneBy({
+      title,
+    });
+    if (!arena) {
+      arena = await this.arenaRepository.save(
+        this.arenaRepository.create({ title }),
+      );
+    }
+
+    await this.competitionsService.updateArena(arenaId, arena.id);
+
+    return this.taRepository.save({
+      ...oldArena,
+      arena: {
+        id: arena.id,
+      },
+    });
   }
 
   remove(id: number) {

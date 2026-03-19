@@ -42,7 +42,7 @@ const AdminTournamentGridContent = ({ data }: IProps) => {
                   showUpdateModal();
                }
             };
-            const showTournamentCreateModal = () => {
+            const showArenaCreateModal = () => {
                if (showCreateModal && setCurrentId && setCurrentType) {
                   setCurrentId({ tournamentId });
                   setCurrentType("arena");
@@ -56,7 +56,7 @@ const AdminTournamentGridContent = ({ data }: IProps) => {
                      <TournamentOptions
                         showDelete={showTournamentDeleteModal}
                         showUpdate={showTournamentUpdateModal}
-                        showCreate={showTournamentCreateModal}
+                        showCreate={showArenaCreateModal}
                      />
                   </div>
                   <div>

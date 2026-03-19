@@ -37,6 +37,7 @@ import { fetchApi } from "../../../../lib/fetchApi";
 import { QUERY_KEYS } from "../../../../constants/queryKeys";
 import { SortableItemDataType } from "../../../../types/dnd.types";
 import { ModalsProvider } from "../../../../contexts/ModalsContext";
+import UpdateArenaModal from "../../modals/arena-modals/UpdateArenaModal";
 
 interface IProps {
    tournaments: IStructuredTournaments;
@@ -360,9 +361,16 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
             />
             <UpdateModal
                id={searchId ?? null}
-               isOpen={isUpdateModalOpen && currentType !== "competition"}
+               isOpen={
+                  isUpdateModalOpen &&
+                  currentType !== "competition" &&
+                  currentType !== "arena"
+               }
                setIsOpen={setIsUpdateModalOpen}
                source={modalsProps?.update?.source ?? modalsProps?.source}
+               searchSource={
+                  modalsProps?.update?.searchSource ?? modalsProps?.searchSource
+               }
                queryKey={modalsProps?.update?.queryKey ?? modalsProps?.queryKey}
             />
             <CreateModal
@@ -380,24 +388,48 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
                }
                queryKey={modalsProps?.create?.queryKey ?? modalsProps?.queryKey}
             />
-            <CreateCompetitionModal
-               isOpen={isCreateModalOpen && currentType === "competition"}
-               setIsOpen={setIsCreateModalOpen}
-               tournamentId={currentId?.tournamentId}
-               arenaId={currentId?.arenaId}
-               queryKey={modalsProps?.create?.queryKey ?? modalsProps?.queryKey}
-               title="Добавление соревнованией"
-               description="Добавьте одну или несколько записей дисциплин"
-            />
-            <UpdateCompetitionModal
-               id={searchId ?? null}
-               isOpen={isUpdateModalOpen && currentType === "competition"}
-               setIsOpen={setIsUpdateModalOpen}
-               source={modalsProps?.update?.source ?? modalsProps?.source}
-               queryKey={modalsProps?.update?.queryKey ?? modalsProps?.queryKey}
-               title="Изменение соревнования"
-               description="Измените название дисциплины или категорий у соревнования"
-            />
+            {currentType === "competition" && (
+               <CreateCompetitionModal
+                  isOpen={isCreateModalOpen}
+                  setIsOpen={setIsCreateModalOpen}
+                  tournamentId={currentId?.tournamentId}
+                  arenaId={currentId?.arenaId}
+                  queryKey={
+                     modalsProps?.create?.queryKey ?? modalsProps?.queryKey
+                  }
+                  title="Добавление соревнованией"
+                  description="Добавьте одну или несколько записей дисциплин"
+               />
+            )}
+            {currentType === "competition" && (
+               <UpdateCompetitionModal
+                  id={searchId ?? null}
+                  isOpen={isUpdateModalOpen}
+                  setIsOpen={setIsUpdateModalOpen}
+                  source={modalsProps?.update?.source ?? modalsProps?.source}
+                  queryKey={
+                     modalsProps?.update?.queryKey ?? modalsProps?.queryKey
+                  }
+                  title="Изменение соревнования"
+                  description="Измените название дисциплины или категорий у соревнования"
+               />
+            )}
+            {currentType === "arena" && (
+               <UpdateArenaModal
+                  id={{
+                     arenaId: currentId?.arenaId ?? "",
+                     tournamentId: currentId?.tournamentId ?? "",
+                  }}
+                  isOpen={isUpdateModalOpen}
+                  setIsOpen={setIsUpdateModalOpen}
+                  source={modalsProps?.update?.source ?? modalsProps?.source}
+                  queryKey={
+                     modalsProps?.update?.queryKey ?? modalsProps?.queryKey
+                  }
+                  title="Изменение названия арены"
+                  description="Измените название арены для данного соревнования"
+               />
+            )}
             <AdminTournamentGridContent data={tournaments} />
          </ModalsProvider>
          {createPortal(

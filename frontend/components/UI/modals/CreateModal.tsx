@@ -38,7 +38,7 @@ const CreateModal = ({
    arenaId,
    tournamentId,
 }: IProps) => {
-   const { setCurrentId } = useGetModalsContext();
+   const { setCurrentId, setCurrentType } = useGetModalsContext();
    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
    const [selectedValues, setSelectedValues] = useState<string[]>([]);
    const { mutate: createEntities } = useCreateEntities({ queryKey, source });
@@ -55,6 +55,9 @@ const CreateModal = ({
       if (selectedValues.length > 0) {
          if (setCurrentId) {
             setCurrentId(null);
+         }
+         if (setCurrentType) {
+            setCurrentType(null);
          }
          createEntities({ titles: selectedValues, arenaId, tournamentId });
          resetForm();
@@ -75,6 +78,9 @@ const CreateModal = ({
       } else {
          if (setCurrentId) {
             setCurrentId(null);
+         }
+         if (setCurrentType) {
+            setCurrentType(null);
          }
       }
    };

@@ -38,7 +38,7 @@ const CreateCompetitionModal = ({
    arenaId,
    queryKey,
 }: IProps) => {
-   const { setCurrentId } = useGetModalsContext();
+   const { setCurrentId, setCurrentType } = useGetModalsContext();
    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
    const { mutate: createEntities } = useCreateEntities<ICreateCompetitionBody>(
       {
@@ -55,6 +55,9 @@ const CreateCompetitionModal = ({
       if (formState.discipline !== "" && tournamentId && arenaId) {
          if (setCurrentId) {
             setCurrentId(null);
+         }
+         if (setCurrentType) {
+            setCurrentType(null);
          }
          createEntities({
             tournamentId: tournamentId,
@@ -89,6 +92,9 @@ const CreateCompetitionModal = ({
       } else {
          if (setCurrentId) {
             setCurrentId(null);
+         }
+         if (setCurrentType) {
+            setCurrentType(null);
          }
       }
    };

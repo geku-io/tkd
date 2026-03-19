@@ -34,16 +34,21 @@ const UpdateModal = ({
    actionBtnText,
    cancelBtnText,
 }: IProps) => {
-   const { setCurrentId } = useGetModalsContext();
+   const requestSource = searchSource ? searchSource : source;
+   const { setCurrentId, setCurrentType } = useGetModalsContext();
    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
    const { data, isFetching } = useGetEntity({
       queryKey,
-      source,
+      source: requestSource,
       id,
       enabled: !!isOpen,
    });
 
-   const { mutate: updateMutation } = useUpdateEntity({ queryKey, source, id });
+   const { mutate: updateMutation } = useUpdateEntity({
+      queryKey,
+      source,
+      id,
+   });
 
    const form = useAppForm({
       defaultValues: {
@@ -65,6 +70,9 @@ const UpdateModal = ({
       } else {
          if (setCurrentId) {
             setCurrentId(null);
+         }
+         if (setCurrentType) {
+            setCurrentType(null);
          }
       }
    };
@@ -88,6 +96,9 @@ const UpdateModal = ({
          }
          if (setCurrentId) {
             setCurrentId(null);
+         }
+         if (setCurrentType) {
+            setCurrentType(null);
          }
       }
    };
@@ -125,7 +136,7 @@ const UpdateModal = ({
                   <div className="text-md mb-4">
                      <UpdateForm
                         form={form}
-                        source={searchSource ? searchSource : source}
+                        source={requestSource}
                         queryKey={queryKey}
                         isPending={isFetching}
                      />

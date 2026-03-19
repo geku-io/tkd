@@ -26,7 +26,12 @@ const Sidebar = ({ session }: ISession) => {
       return res;
    };
    return (
-      <div className="h-full shrink-0 basis-[320px] py-4 bg-light-white">
+      <div
+         className={cn(
+            "h-full shrink-0 basis-[320px] py-4 bg-light-white",
+            "max-lg:fixed max-lg:top-0 max-lg:left-0"
+         )}
+      >
          <div className="h-full flex flex-col">
             <Link
                href={ROUTES.HOME}

@@ -289,6 +289,17 @@ export class CompetitionsService {
     return this.competitionRepository.findOneBy({ id });
   }
 
+  async updateArena(oldArenaId: string, newArenaId: string) {
+    const oldCompetitions = await this.competitionRepository.findBy({
+      arena: { id: oldArenaId },
+    });
+    for (const comp of oldCompetitions) {
+      await this.competitionRepository.update(comp.id, {
+        arena: { id: newArenaId },
+      });
+    }
+  }
+
   async update(id: string, updateCompetitionDto: UpdateCompetitionDto) {
     const { isFinished, categories, discipline } = updateCompetitionDto;
     if (

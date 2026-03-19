@@ -1,6 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
+import { XIcon } from "lucide-react";
+import { IArenaInfo, IUpdateArena } from "../../../../types/query.types";
+import { useGetModalsContext } from "../../../../contexts/ModalsContext";
+import { useGetEntity, useUpdateMiddleEntity } from "../../../../hooks/query";
+import { useAppForm } from "../../../../contexts/AdminFormContext";
+import ConfirmModal from "../ConfirmModal";
 import {
    Dialog,
    DialogClose,
@@ -9,71 +15,46 @@ import {
    DialogPortal,
    DialogTitle,
 } from "../../lib-components/dialog";
+import UpdateForm from "../../form/update-form/UpdateForm";
 import ActionButton from "../../buttons/ActionButton";
-import { XIcon } from "lucide-react";
-import ConfirmModal from "../ConfirmModal";
-import CompetitionForm from "../../form/competition-form/CompetitionForm";
 import { IModalOptionalContent } from "../../../../types/modals.types";
-import { useGetModalsContext } from "../../../../contexts/ModalsContext";
-import { useGetEntity, useUpdateEntity } from "../../../../hooks/query";
-import { ICompetitionInfo } from "../../../../types/query.types";
-import { ICompetition } from "../../../../types/entities.types";
-import { useAppForm } from "../../../../contexts/AdminFormContext";
 
 interface IProps extends IModalOptionalContent {
-   id: string | null;
-   isAdding?: boolean;
+   id: IArenaInfo | null;
 }
 
-const UpdateCompetitionModal = ({
+const UpdateArenaModal = ({
    isOpen,
    setIsOpen,
+   source,
+   queryKey,
+   id,
    title,
+   description,
+   searchSource,
    actionBtnText,
    cancelBtnText,
-   description,
-   queryKey,
-   source,
-   id,
 }: IProps) => {
+   const requestSource = searchSource ? searchSource : source;
    const { setCurrentId, setCurrentType } = useGetModalsContext();
    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-
-   const { mutate: updateMutation } = useUpdateEntity<ICompetitionInfo>({
+   const { data, isFetching } = useGetEntity({
       queryKey,
-      source,
-      id,
+      source: requestSource,
+      id: id?.arenaId ?? null,
+      enabled: !!isOpen,
    });
 
-   const { data, isFetching } = useGetEntity<ICompetition>({
+   const { mutate: updateMutation } = useUpdateMiddleEntity<IUpdateArena>({
       queryKey,
       source,
-      id,
-      enabled: !!isOpen,
    });
 
    const form = useAppForm({
       defaultValues: {
-         discipline: data?.discipline.title ?? "",
-         categories: data?.categories.map(item => item.category.title) ?? [],
+         title: data?.title ?? "",
       },
    });
-
-   const updateHandler = () => {
-      const formState = form.state.values;
-      if (formState.discipline !== "") {
-         if (setCurrentId) {
-            setCurrentId(null);
-         }
-         if (setCurrentType) {
-            setCurrentType(null);
-         }
-         updateMutation({
-            discipline: formState.discipline,
-            categories: formState.categories,
-         });
-      }
-   };
 
    const showConfirmHandler = () => {
       setIsOpen(false);
@@ -83,11 +64,7 @@ const UpdateCompetitionModal = ({
    const closeCurrentModal = (
       e: React.MouseEvent<HTMLButtonElement, MouseEvent>
    ) => {
-      const formState = form.state.values;
-      if (
-         formState.discipline !== data?.discipline.title &&
-         data?.categories.join(",") !== formState.categories.join(",")
-      ) {
+      if (data && data.title !== form.state.values.title) {
          e.preventDefault();
          showConfirmHandler();
       } else {
@@ -111,11 +88,30 @@ const UpdateCompetitionModal = ({
       form.reset();
    };
 
+   const updateHandler = () => {
+      const fieldValue = form.state.values.title;
+      if (data && id) {
+         if (data.title !== fieldValue && id.arenaId && id.tournamentId) {
+            updateMutation({
+               title: fieldValue,
+               arenaId: id.arenaId,
+               tournamentId: id.tournamentId,
+            });
+         }
+         if (setCurrentId) {
+            setCurrentId(null);
+         }
+         if (setCurrentType) {
+            setCurrentType(null);
+         }
+      }
+   };
    return (
       <ConfirmModal
          title="Вы уверены?"
-         description="Все введенные данные будут утеряны"
+         description="Измененные данные не сохранятся. Отменить изменения?"
          actionBtnText="Закрыть"
+         cancelBtnText="Продолжить"
          confirmedAction={closeHandler}
          cancelHandler={cancelHandler}
          isOpen={isConfirmModalOpen}
@@ -136,15 +132,18 @@ const UpdateCompetitionModal = ({
                   }}
                >
                   <DialogTitle className="text-xl font-bold">
-                     {title ? title : "Создание записей"}
+                     {title ? title : "Изменение"}
                   </DialogTitle>
                   <DialogDescription>
-                     {description
-                        ? description
-                        : "Добавление только уникальных записей"}
+                     {description ? description : "Измение данных записи"}
                   </DialogDescription>
                   <div className="text-md mb-4">
-                     <CompetitionForm form={form} isPending={isFetching} />
+                     <UpdateForm
+                        form={form}
+                        source={requestSource}
+                        queryKey={queryKey}
+                        isPending={isFetching}
+                     />
                   </div>
                   <div className="flex items-center justify-end gap-x-2">
                      <DialogClose asChild={true}>
@@ -157,7 +156,7 @@ const UpdateCompetitionModal = ({
                      </DialogClose>
                      <DialogClose asChild={true}>
                         <ActionButton btnType="blue" onClick={updateHandler}>
-                           {actionBtnText ? actionBtnText : "Изменить"}
+                           {actionBtnText ? actionBtnText : "Подтвердить"}
                         </ActionButton>
                      </DialogClose>
                   </div>
@@ -175,4 +174,4 @@ const UpdateCompetitionModal = ({
    );
 };
 
-export default UpdateCompetitionModal;
+export default UpdateArenaModal;
