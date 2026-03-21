@@ -11,7 +11,15 @@ import {
 import { fetchApi } from "../lib/fetchApi";
 import { getQueryKey } from "../utils/getQueryKey";
 
-interface IEntityWithId extends Partial<ISourceAndKey> {
+interface IMutationProps extends Partial<ISourceAndKey> {
+   onSettledHandler?: () => void;
+}
+
+interface IDeleteProps extends ISourceAndKey {
+   onSettledHandler?: () => void;
+}
+
+interface IEntityWithId extends IMutationProps {
    id: string | null;
 }
 
@@ -20,9 +28,10 @@ interface IEnabledEntityWithId extends IEntityWithId {
 }
 
 export const useCreateEntities = <T = ICreateEntities>({
+   onSettledHandler,
    queryKey,
    source,
-}: Partial<ISourceAndKey>) => {
+}: IMutationProps) => {
    const queryClient = useQueryClient();
    const mutation = useMutation({
       mutationFn: async (body: T) => {
@@ -50,11 +59,19 @@ export const useCreateEntities = <T = ICreateEntities>({
       onError: () => {
          toast.error("Ошибка при создании");
       },
+
+      onSettled: () => {
+         if (onSettledHandler) onSettledHandler();
+      },
    });
    return mutation;
 };
 
-export const useDeleteEntity = ({ queryKey, source }: ISourceAndKey) => {
+export const useDeleteEntity = ({
+   queryKey,
+   source,
+   onSettledHandler,
+}: IDeleteProps) => {
    const queryClient = useQueryClient();
    const mutation = useMutation({
       mutationFn: async ({ id, body }: IIdWithBody<IArenaInfo>) => {
@@ -79,11 +96,19 @@ export const useDeleteEntity = ({ queryKey, source }: ISourceAndKey) => {
       onError: () => {
          toast.error("Ошибка при удалении");
       },
+
+      onSettled: () => {
+         if (onSettledHandler) onSettledHandler();
+      },
    });
    return mutation;
 };
 
-export const useDeleteEntities = <T>({ queryKey, source }: ISourceAndKey) => {
+export const useDeleteEntities = <T>({
+   queryKey,
+   source,
+   onSettledHandler,
+}: IDeleteProps) => {
    const queryClient = useQueryClient();
    const deleteEntities = useMutation({
       mutationFn: async (body: IDeleteMany<T>) => {
@@ -108,6 +133,10 @@ export const useDeleteEntities = <T>({ queryKey, source }: ISourceAndKey) => {
       onError: () => {
          toast.error("Ошибка при удалении");
       },
+
+      onSettled: () => {
+         if (onSettledHandler) onSettledHandler();
+      },
    });
    return deleteEntities;
 };
@@ -130,6 +159,7 @@ export const useGetEntity = <T = IBaseEntityWithTitle>({
 };
 
 export const useUpdateEntity = <T = IUpdateEntity>({
+   onSettledHandler,
    queryKey,
    source,
    id,
@@ -161,14 +191,19 @@ export const useUpdateEntity = <T = IUpdateEntity>({
       onError: () => {
          toast.error("Ошибка при обновлении");
       },
+
+      onSettled: () => {
+         if (onSettledHandler) onSettledHandler();
+      },
    });
    return mutation;
 };
 
 export const useUpdateMiddleEntity = <T = IUpdateEntity>({
+   onSettledHandler,
    queryKey,
    source,
-}: Partial<ISourceAndKey>) => {
+}: IMutationProps) => {
    const queryClient = useQueryClient();
    const mutation = useMutation({
       mutationFn: async (body: T) => {
@@ -195,6 +230,10 @@ export const useUpdateMiddleEntity = <T = IUpdateEntity>({
 
       onError: () => {
          toast.error("Ошибка при обновлении");
+      },
+
+      onSettled: () => {
+         if (onSettledHandler) onSettledHandler();
       },
    });
    return mutation;

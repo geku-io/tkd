@@ -44,7 +44,17 @@ const UpdateModal = ({
       enabled: !!isOpen,
    });
 
+   const restoreModalState = () => {
+      if (setCurrentId) {
+         setCurrentId(null);
+      }
+      if (setCurrentType) {
+         setCurrentType(null);
+      }
+   };
+
    const { mutate: updateMutation } = useUpdateEntity({
+      onSettledHandler: restoreModalState,
       queryKey,
       source,
       id,
@@ -68,12 +78,7 @@ const UpdateModal = ({
          e.preventDefault();
          showConfirmHandler();
       } else {
-         if (setCurrentId) {
-            setCurrentId(null);
-         }
-         if (setCurrentType) {
-            setCurrentType(null);
-         }
+         restoreModalState();
       }
    };
 
@@ -93,12 +98,6 @@ const UpdateModal = ({
       if (data && id) {
          if (data.title !== fieldValue) {
             updateMutation({ title: fieldValue });
-         }
-         if (setCurrentId) {
-            setCurrentId(null);
-         }
-         if (setCurrentType) {
-            setCurrentType(null);
          }
       }
    };

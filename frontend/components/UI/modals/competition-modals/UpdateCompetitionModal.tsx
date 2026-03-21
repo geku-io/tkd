@@ -39,7 +39,17 @@ const UpdateCompetitionModal = ({
    const { setCurrentId, setCurrentType } = useGetModalsContext();
    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
+   const restoreModalState = () => {
+      if (setCurrentId) {
+         setCurrentId(null);
+      }
+      if (setCurrentType) {
+         setCurrentType(null);
+      }
+   };
+
    const { mutate: updateMutation } = useUpdateEntity<ICompetitionInfo>({
+      onSettledHandler: restoreModalState,
       queryKey,
       source,
       id,
@@ -62,12 +72,6 @@ const UpdateCompetitionModal = ({
    const updateHandler = () => {
       const formState = form.state.values;
       if (formState.discipline !== "") {
-         if (setCurrentId) {
-            setCurrentId(null);
-         }
-         if (setCurrentType) {
-            setCurrentType(null);
-         }
          updateMutation({
             discipline: formState.discipline,
             categories: formState.categories,
@@ -91,12 +95,7 @@ const UpdateCompetitionModal = ({
          e.preventDefault();
          showConfirmHandler();
       } else {
-         if (setCurrentId) {
-            setCurrentId(null);
-         }
-         if (setCurrentType) {
-            setCurrentType(null);
-         }
+         restoreModalState();
       }
    };
 

@@ -20,10 +20,6 @@ import ActionButton from "../../buttons/ActionButton";
 import { IModalOptionalContent } from "../../../../types/modals.types";
 import { IModalIds } from "../../tournament-card/admin-card/AdminTournamentGrid";
 
-/* interface IProps extends IModalOptionalContent {
-   id: { arenaId: string; tournamentId: string } | null;
-} */
-
 const UpdateArenaModal = ({
    isOpen,
    setIsOpen,
@@ -40,7 +36,17 @@ const UpdateArenaModal = ({
       useGetModalsContext<IModalIds | null>();
    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
+   const restoreModalState = () => {
+      if (setCurrentId) {
+         setCurrentId(null);
+      }
+      if (setCurrentType) {
+         setCurrentType(null);
+      }
+   };
+
    const { mutate: updateMutation } = useUpdateMiddleEntity<IUpdateArena>({
+      onSettledHandler: restoreModalState,
       queryKey,
       source,
    });
@@ -70,12 +76,7 @@ const UpdateArenaModal = ({
          e.preventDefault();
          showConfirmHandler();
       } else {
-         if (setCurrentId) {
-            setCurrentId(null);
-         }
-         if (setCurrentType) {
-            setCurrentType(null);
-         }
+         restoreModalState();
       }
    };
 
@@ -103,12 +104,6 @@ const UpdateArenaModal = ({
                arenaId: currentId.arenaId,
                tournamentId: currentId.tournamentId,
             });
-         }
-         if (setCurrentId) {
-            setCurrentId(null);
-         }
-         if (setCurrentType) {
-            setCurrentType(null);
          }
       }
    };

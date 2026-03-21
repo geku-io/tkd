@@ -41,7 +41,21 @@ const CreateModal = ({
    const { setCurrentId, setCurrentType } = useGetModalsContext();
    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
    const [selectedValues, setSelectedValues] = useState<string[]>([]);
-   const { mutate: createEntities } = useCreateEntities({ queryKey, source });
+
+   const restoreModalState = () => {
+      if (setCurrentId) {
+         setCurrentId(null);
+      }
+      if (setCurrentType) {
+         setCurrentType(null);
+      }
+   };
+
+   const { mutate: createEntities } = useCreateEntities({
+      queryKey,
+      source,
+      onSettledHandler: restoreModalState,
+   });
    const form = useAppForm({
       defaultValues: defaultCreationData,
    });
@@ -53,12 +67,6 @@ const CreateModal = ({
 
    const createHandler = () => {
       if (selectedValues.length > 0) {
-         if (setCurrentId) {
-            setCurrentId(null);
-         }
-         if (setCurrentType) {
-            setCurrentType(null);
-         }
          createEntities({ titles: selectedValues, arenaId, tournamentId });
          resetForm();
       }
@@ -76,12 +84,7 @@ const CreateModal = ({
          e.preventDefault();
          showConfirmHandler();
       } else {
-         if (setCurrentId) {
-            setCurrentId(null);
-         }
-         if (setCurrentType) {
-            setCurrentType(null);
-         }
+         restoreModalState();
       }
    };
 
