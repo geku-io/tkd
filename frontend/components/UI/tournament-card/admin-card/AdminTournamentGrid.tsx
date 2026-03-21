@@ -416,13 +416,13 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
             )}
             {currentType === "arena" && (
                <UpdateArenaModal
-                  id={{
-                     arenaId: currentId?.arenaId ?? "",
-                     tournamentId: currentId?.tournamentId ?? "",
-                  }}
                   isOpen={isUpdateModalOpen}
                   setIsOpen={setIsUpdateModalOpen}
                   source={modalsProps?.update?.source ?? modalsProps?.source}
+                  searchSource={
+                     modalsProps?.update?.searchSource ??
+                     modalsProps?.searchSource
+                  }
                   queryKey={
                      modalsProps?.update?.queryKey ?? modalsProps?.queryKey
                   }

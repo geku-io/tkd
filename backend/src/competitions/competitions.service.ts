@@ -327,6 +327,8 @@ export class CompetitionsService {
         }
       }
 
+      const newCategories: CompetitionCategory[] = [];
+
       if (categories) {
         await this.ccRepository.delete({ competition: { id } });
 
@@ -342,7 +344,7 @@ export class CompetitionsService {
             category = newCategory;
           }
 
-          await this.ccRepository.save(
+          const newCategory = await this.ccRepository.save(
             this.ccRepository.create({
               competition: {
                 id: oldCompetition.id,
@@ -350,12 +352,14 @@ export class CompetitionsService {
               category,
             }),
           );
+          newCategories.push(newCategory);
         }
       }
 
       return this.competitionRepository.save({
         ...oldCompetition,
         discipline: newDiscipline ?? oldCompetition.discipline,
+        categories: newCategories,
         isFinished: isFinished ?? oldCompetition.isFinished,
       });
     }

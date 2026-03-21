@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { XIcon } from "lucide-react";
-import { IArenaInfo, IUpdateArena } from "../../../../types/query.types";
+import { IUpdateArena } from "../../../../types/query.types";
 import { useGetModalsContext } from "../../../../contexts/ModalsContext";
 import { useGetEntity, useUpdateMiddleEntity } from "../../../../hooks/query";
 import { useAppForm } from "../../../../contexts/AdminFormContext";
@@ -18,36 +18,38 @@ import {
 import UpdateForm from "../../form/update-form/UpdateForm";
 import ActionButton from "../../buttons/ActionButton";
 import { IModalOptionalContent } from "../../../../types/modals.types";
+import { IModalIds } from "../../tournament-card/admin-card/AdminTournamentGrid";
 
-interface IProps extends IModalOptionalContent {
-   id: IArenaInfo | null;
-}
+/* interface IProps extends IModalOptionalContent {
+   id: { arenaId: string; tournamentId: string } | null;
+} */
 
 const UpdateArenaModal = ({
    isOpen,
    setIsOpen,
    source,
    queryKey,
-   id,
    title,
    description,
    searchSource,
    actionBtnText,
    cancelBtnText,
-}: IProps) => {
+}: IModalOptionalContent) => {
    const requestSource = searchSource ? searchSource : source;
-   const { setCurrentId, setCurrentType } = useGetModalsContext();
+   const { setCurrentId, setCurrentType, currentId } =
+      useGetModalsContext<IModalIds | null>();
    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-   const { data, isFetching } = useGetEntity({
-      queryKey,
-      source: requestSource,
-      id: id?.arenaId ?? null,
-      enabled: !!isOpen,
-   });
 
    const { mutate: updateMutation } = useUpdateMiddleEntity<IUpdateArena>({
       queryKey,
       source,
+   });
+
+   const { data, isFetching } = useGetEntity({
+      queryKey,
+      source: requestSource,
+      id: currentId?.arenaId ?? null,
+      enabled: !!isOpen,
    });
 
    const form = useAppForm({
@@ -90,12 +92,16 @@ const UpdateArenaModal = ({
 
    const updateHandler = () => {
       const fieldValue = form.state.values.title;
-      if (data && id) {
-         if (data.title !== fieldValue && id.arenaId && id.tournamentId) {
+      if (data && currentId) {
+         if (
+            data.title !== fieldValue &&
+            currentId.arenaId &&
+            currentId.tournamentId
+         ) {
             updateMutation({
                title: fieldValue,
-               arenaId: id.arenaId,
-               tournamentId: id.tournamentId,
+               arenaId: currentId.arenaId,
+               tournamentId: currentId.tournamentId,
             });
          }
          if (setCurrentId) {

@@ -9,6 +9,7 @@ import {
    IUpdateEntity,
 } from "../types/query.types";
 import { fetchApi } from "../lib/fetchApi";
+import { getQueryKey } from "../utils/getQueryKey";
 
 interface IEntityWithId extends Partial<ISourceAndKey> {
    id: string | null;
@@ -38,8 +39,11 @@ export const useCreateEntities = <T = ICreateEntities>({
 
       onSuccess: () => {
          toast.success("Записи успешно созданы");
-         queryClient.invalidateQueries({
-            queryKey: [queryKey],
+         const queryKeyArr = getQueryKey({ queryKey });
+         queryKeyArr.forEach(item => {
+            queryClient.invalidateQueries({
+               queryKey: [item],
+            });
          });
       },
 
@@ -64,8 +68,11 @@ export const useDeleteEntity = ({ queryKey, source }: ISourceAndKey) => {
 
       onSuccess: () => {
          toast.success("Запись успешно удалена");
-         queryClient.invalidateQueries({
-            queryKey: [queryKey],
+         const queryKeyArr = getQueryKey({ queryKey });
+         queryKeyArr.forEach(item => {
+            queryClient.invalidateQueries({
+               queryKey: [item],
+            });
          });
       },
 
@@ -90,8 +97,11 @@ export const useDeleteEntities = <T>({ queryKey, source }: ISourceAndKey) => {
 
       onSuccess: () => {
          toast.success("Записи успешно удалены");
-         queryClient.invalidateQueries({
-            queryKey: [queryKey],
+         const queryKeyArr = getQueryKey({ queryKey });
+         queryKeyArr.forEach(item => {
+            queryClient.invalidateQueries({
+               queryKey: [item],
+            });
          });
       },
 
@@ -109,7 +119,7 @@ export const useGetEntity = <T = IBaseEntityWithTitle>({
    enabled,
 }: IEnabledEntityWithId) => {
    const query = useQuery<T>({
-      queryKey: [queryKey, id],
+      queryKey: [...getQueryKey({ queryKey }), id],
       queryFn: async () => {
          const result = await fetchApi<T>(`${source}/${id}`);
          return result;
@@ -140,8 +150,11 @@ export const useUpdateEntity = <T = IUpdateEntity>({
 
       onSuccess: () => {
          toast.success("Запись успешно обновлена");
-         queryClient.invalidateQueries({
-            queryKey: [queryKey],
+         const queryKeyArr = getQueryKey({ queryKey });
+         queryKeyArr.forEach(item => {
+            queryClient.invalidateQueries({
+               queryKey: [item],
+            });
          });
       },
 
@@ -172,8 +185,11 @@ export const useUpdateMiddleEntity = <T = IUpdateEntity>({
 
       onSuccess: () => {
          toast.success("Запись успешно обновлена");
-         queryClient.invalidateQueries({
-            queryKey: [queryKey],
+         const queryKeyArr = getQueryKey({ queryKey });
+         queryKeyArr.forEach(item => {
+            queryClient.invalidateQueries({
+               queryKey: [item],
+            });
          });
       },
 

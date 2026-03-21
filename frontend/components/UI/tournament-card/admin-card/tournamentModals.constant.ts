@@ -14,7 +14,11 @@ export const modalOptions: Record<
       searchSource: API.ARENAS,
    },
    competition: {
-      queryKey: QUERY_KEYS.TOURNAMENTS,
+      queryKey: [
+         QUERY_KEYS.TOURNAMENTS,
+         QUERY_KEYS.CATEGORIES,
+         QUERY_KEYS.DISCIPLINES,
+      ],
       source: API.COMPETITIONS,
    },
    tournament: {
