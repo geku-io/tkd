@@ -33,7 +33,7 @@ export enum UserRole {
 
 export const UserRoleTitle: Record<UserRole, string> = {
    admin: "Админ",
-   editor: "Редактор",
+   editor: "Арбитр",
 };
 
 export interface IUserCredentials {

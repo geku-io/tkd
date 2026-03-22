@@ -1,0 +1,71 @@
+@reference '../../../../app/globals.css';
+
+.sidebar {
+   @apply lg:h-full lg:shrink-0 lg:basis-[320px] bg-light-white;
+}
+
+.wrapper {
+   @apply h-full w-full py-4;
+}
+
+.burger-wrapper {
+   @apply lg:hidden transition-all;
+}
+.burger {
+   @apply relative h-4 w-6 cursor-pointer;
+}
+.burger::after,
+.burger::before,
+.burger > span {
+   @apply absolute content-[''] left-0 w-full h-[2px] transition-all bg-blue-accent;
+}
+.burger::before {
+   @apply top-0;
+}
+.burger::after {
+   @apply bottom-0;
+}
+.burger > span {
+   @apply top-[calc(50%-1px)];
+}
+
+@media (max-width: 1023px) {
+   .sidebar._open {
+      & > .wrapper {
+         @apply left-0;
+      }
+   }
+   .sidebar::before {
+      @apply content-[''] fixed w-full h-full opacity-0 invisible top-0 z-30 bg-black/40 transition-all;
+   }
+   .sidebar._open::before {
+      @apply opacity-100 visible;
+   }
+   .wrapper {
+      @apply fixed top-0 -left-full z-40 w-[min(45%,320px)] h-full bg-light-white transition-all;
+   }
+   .burger-wrapper {
+      @apply fixed z-40 top-6 left-6;
+   }
+   .burger-wrapper._open {
+      @apply left-[calc(min(45%,320px)+18px)];
+      & > .burger span {
+         @apply scale-0;
+      }
+      & > .burger::before {
+         @apply top-[calc(50%-1px)] rotate-45;
+      }
+      & > .burger::after {
+         @apply top-[calc(50%-1px)] -rotate-45;
+      }
+   }
+}
+
+@media (max-width: 450px) {
+   .wrapper {
+      @apply w-[70%];
+   }
+   .burger-wrapper._open {
+      @apply left-[calc(70%+10px)];
+   }
+}

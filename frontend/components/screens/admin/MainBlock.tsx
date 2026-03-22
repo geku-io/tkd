@@ -18,15 +18,15 @@ const MainBlock = ({
    className,
 }: IProps) => {
    return (
-      <div className="h-full grow pt-4 pr-4">
-         <div className="min-h-full h-auto w-full py-14 px-22 bg-white border border-border rounded-xl">
+      <div className="h-full grow lg:pt-4 lg:pr-4">
+         <div className="min-h-full h-auto w-full lg:py-14 py-8 lg:px-22 pl-20 pr-8 bg-white lg:border lg:border-border rounded-xl">
             <BackButton className="mb-2" />
             {title && (
                <div
                   className={cn(
                      "mb-12",
                      {
-                        "flex justify-between items-start": !!actions,
+                        "flex gap-x-6 justify-between items-start": !!actions,
                      },
                      className
                   )}
