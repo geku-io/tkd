@@ -99,7 +99,6 @@ const Sidebar = ({ session }: ISession) => {
          <MobileHeader
             isOpen={isOpen}
             setIsOpen={setIsOpen}
-            username={session.name}
             logout={async () => {
                await logoutHandler();
             }}
