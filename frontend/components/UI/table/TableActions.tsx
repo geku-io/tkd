@@ -19,7 +19,7 @@ const TableActions = ({
    queryKey,
 }: IProps) => {
    return (
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-8 gap-x-4">
          <div className="basis-xs">
             <TableSearch
                value={value}

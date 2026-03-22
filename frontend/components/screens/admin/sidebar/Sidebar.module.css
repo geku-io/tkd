@@ -36,16 +36,22 @@
       }
    }
    .sidebar::before {
-      @apply content-[''] fixed w-full h-full opacity-0 invisible top-0 z-30 bg-black/40 transition-all;
+      @apply content-[''] fixed w-full h-full opacity-0 invisible top-0 z-40 bg-black/80 transition-all;
    }
    .sidebar._open::before {
       @apply opacity-100 visible;
    }
    .wrapper {
-      @apply fixed top-0 -left-full z-40 w-[min(45%,320px)] h-full bg-light-white transition-all;
+      @apply fixed top-0 -left-full z-50 w-[min(45%,320px)] h-full bg-light-white transition-all;
+   }
+   .header {
+      @apply fixed z-30 top-0 left-0 w-full h-12 bg-white shadow-main;
+   }
+   .header-wrapper {
+      @apply size-full relative;
    }
    .burger-wrapper {
-      @apply fixed z-40 top-6 left-6;
+      @apply fixed z-60 top-[calc((48px-16px)/2)] left-6;
    }
    .burger-wrapper._open {
       @apply left-[calc(min(45%,320px)+18px)];

@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import ConfirmModal from "../../modals/ConfirmModal";
-import UpdateModal from "../../modals/UpdateModal";
+import dynamic from "next/dynamic";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {
@@ -21,11 +20,8 @@ import { arrayMove } from "@dnd-kit/sortable";
 import { createPortal } from "react-dom";
 import { IStructuredTournaments } from "../changeTournamentData";
 import AdminTournamentGridContent from "./AdminTournamentGridContent";
-import CreateModal from "../../modals/CreateModal";
 import { useModalsService } from "./modals.service";
 import { modalOptions, ModalType } from "./tournamentModals.constant";
-import CreateCompetitionModal from "../../modals/competition-modals/CreateCompetitionModal";
-import UpdateCompetitionModal from "../../modals/competition-modals/UpdateCompetitionModal";
 import {
    IArenaInfo,
    IReorderCompetitionBody,
@@ -37,7 +33,28 @@ import { fetchApi } from "../../../../lib/fetchApi";
 import { QUERY_KEYS } from "../../../../constants/queryKeys";
 import { SortableItemDataType } from "../../../../types/dnd.types";
 import { ModalsProvider } from "../../../../contexts/ModalsContext";
-import UpdateArenaModal from "../../modals/arena-modals/UpdateArenaModal";
+
+const UpdateArenaModal = dynamic(
+   () => import("../../modals/arena-modals/UpdateArenaModal"),
+   { ssr: false }
+);
+const CreateCompetitionModal = dynamic(
+   () => import("../../modals/competition-modals/CreateCompetitionModal"),
+   { ssr: false }
+);
+const CreateModal = dynamic(() => import("../../modals/CreateModal"), {
+   ssr: false,
+});
+const UpdateCompetitionModal = dynamic(
+   () => import("../../modals/competition-modals/UpdateCompetitionModal"),
+   { ssr: false }
+);
+const ConfirmModal = dynamic(() => import("../../modals/ConfirmModal"), {
+   ssr: false,
+});
+const UpdateModal = dynamic(() => import("../../modals/UpdateModal"), {
+   ssr: false,
+});
 
 interface IProps {
    tournaments: IStructuredTournaments;
@@ -348,46 +365,59 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
                showCreateModal: () => setIsCreateModalOpen(true),
             }}
          >
-            <ConfirmModal
-               title={modalsProps?.title || modalsProps?.delete?.title}
-               description={
-                  modalsProps?.description || modalsProps?.delete?.description
-               }
-               actionBtnText="Удалить"
-               confirmedAction={getDeleteAction()}
-               isOpen={isDeleteModalOpen}
-               setIsOpen={setIsDeleteModalOpen}
-               btnType="delete"
-            />
-            <UpdateModal
-               id={searchId ?? null}
-               isOpen={
-                  isUpdateModalOpen &&
-                  currentType !== "competition" &&
-                  currentType !== "arena"
-               }
-               setIsOpen={setIsUpdateModalOpen}
-               source={modalsProps?.update?.source ?? modalsProps?.source}
-               searchSource={
-                  modalsProps?.update?.searchSource ?? modalsProps?.searchSource
-               }
-               queryKey={modalsProps?.update?.queryKey ?? modalsProps?.queryKey}
-            />
-            <CreateModal
-               isOpen={isCreateModalOpen && currentType !== "competition"}
-               setIsOpen={setIsCreateModalOpen}
-               tournamentId={currentId?.tournamentId}
-               isAdding={true}
-               title={modalsProps?.title || modalsProps?.create?.title}
-               description={
-                  modalsProps?.description || modalsProps?.create?.description
-               }
-               source={modalsProps?.create?.source ?? modalsProps?.source}
-               searchSource={
-                  modalsProps?.create?.searchSource ?? modalsProps?.searchSource
-               }
-               queryKey={modalsProps?.create?.queryKey ?? modalsProps?.queryKey}
-            />
+            {isDeleteModalOpen && (
+               <ConfirmModal
+                  title={modalsProps?.title || modalsProps?.delete?.title}
+                  description={
+                     modalsProps?.description ||
+                     modalsProps?.delete?.description
+                  }
+                  actionBtnText="Удалить"
+                  confirmedAction={getDeleteAction()}
+                  isOpen={isDeleteModalOpen}
+                  setIsOpen={setIsDeleteModalOpen}
+                  btnType="delete"
+               />
+            )}
+            {isUpdateModalOpen &&
+               currentType !== "competition" &&
+               currentType !== "arena" && (
+                  <UpdateModal
+                     id={searchId ?? null}
+                     isOpen={isUpdateModalOpen}
+                     setIsOpen={setIsUpdateModalOpen}
+                     source={modalsProps?.update?.source ?? modalsProps?.source}
+                     searchSource={
+                        modalsProps?.update?.searchSource ??
+                        modalsProps?.searchSource
+                     }
+                     queryKey={
+                        modalsProps?.update?.queryKey ?? modalsProps?.queryKey
+                     }
+                  />
+               )}
+            {isCreateModalOpen && currentType !== "competition" && (
+               <CreateModal
+                  isOpen={isCreateModalOpen}
+                  setIsOpen={setIsCreateModalOpen}
+                  tournamentId={currentId?.tournamentId}
+                  isAdding={true}
+                  title={modalsProps?.title || modalsProps?.create?.title}
+                  description={
+                     modalsProps?.description ||
+                     modalsProps?.create?.description
+                  }
+                  source={modalsProps?.create?.source ?? modalsProps?.source}
+                  searchSource={
+                     modalsProps?.create?.searchSource ??
+                     modalsProps?.searchSource
+                  }
+                  queryKey={
+                     modalsProps?.create?.queryKey ?? modalsProps?.queryKey
+                  }
+               />
+            )}
+
             {currentType === "competition" && (
                <CreateCompetitionModal
                   isOpen={isCreateModalOpen}

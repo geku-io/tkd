@@ -43,7 +43,7 @@ body {
       @apply cursor-pointer;
    }
    h1 {
-      @apply text-3xl font-bold tracking-wide;
+      @apply sm:text-3xl text-2xl max-sm:leading-7 font-bold tracking-wide;
    }
    h2 {
       @apply sm:text-2xl text-xl font-medium tracking-wide;

@@ -73,6 +73,8 @@ const columns = [
    columnHelper.accessor("name", {
       header: "Имя",
       cell: info => info.getValue(),
+      size: 150,
+      minSize: 100,
    }),
    columnHelper.accessor("role", {
       header: "Роль",
@@ -292,106 +294,110 @@ const UsersTable = () => {
                      <NotSearched inputValue={inputValue} />
                   )
                ) : (
-                  <table className={styles.table}>
-                     <thead>
-                        {table.getHeaderGroups().map(headerGroup => (
-                           <tr
-                              key={headerGroup.id}
-                              className={styles["header-row"]}
-                           >
-                              {headerGroup.headers.map(header => (
-                                 <th
-                                    key={header.id}
-                                    className={cn(styles["header-item"], {
-                                       [styles._specified]:
-                                          header.getSize() <= 100,
-                                    })}
-                                    style={{
-                                       width: `${
-                                          header.getSize() !== 150
-                                             ? header.getSize() + "px"
-                                             : ""
-                                       }`,
-                                    }}
-                                 >
-                                    <div
-                                       className={styles["header-cell"]}
-                                       onClick={() => {
-                                          if (!isPending) {
-                                             sortingHandler(
-                                                header.id,
-                                                header.column.getCanSort()
-                                             );
-                                          }
-                                       }}
-                                    >
-                                       <div>
-                                          {flexRender(
-                                             header.column.columnDef.header,
-                                             header.getContext()
-                                          )}
-                                       </div>
-                                       {checkIsSorted(header.id) && (
-                                          <div className="absolute -right-6 top-1/2 -translate-y-1/2">
-                                             {sorting.find(
-                                                item => item.id === header.id
-                                             )?.desc ? (
-                                                <ArrowDown size={18} />
-                                             ) : (
-                                                <ArrowUp size={18} />
-                                             )}
-                                          </div>
-                                       )}
-                                    </div>
-                                 </th>
-                              ))}
-                           </tr>
-                        ))}
-                     </thead>
-                     {isPending ? (
-                        <TableSkeleton table={table} />
-                     ) : (
-                        <tbody>
-                           {table.getRowModel().rows.map(row => (
+                  <div className="overflow-x-auto">
+                     <table className={styles.table}>
+                        <thead>
+                           {table.getHeaderGroups().map(headerGroup => (
                               <tr
-                                 key={row.id}
-                                 className={cn(styles["data-row"], {
-                                    [styles._selected]: row.getIsSelected(),
-                                 })}
+                                 key={headerGroup.id}
+                                 className={styles["header-row"]}
                               >
-                                 {row.getVisibleCells().map(cell => (
-                                    <td
-                                       key={cell.id}
-                                       className={cn(styles["data-item"], {
+                                 {headerGroup.headers.map(header => (
+                                    <th
+                                       key={header.id}
+                                       className={cn(styles["header-item"], {
                                           [styles._specified]:
-                                             cell.column.getSize() <= 100,
+                                             header.getSize() <= 100,
                                        })}
                                        style={{
                                           width: `${
-                                             cell.column.getSize() !== 150
-                                                ? cell.column.getSize() + "px"
-                                                : ""
-                                          }`,
-                                          minWidth: `${
-                                             cell.column.getSize() !== 150
-                                                ? cell.column.getSize() + "px"
+                                             header.getSize() !== 150
+                                                ? header.getSize() + "px"
                                                 : ""
                                           }`,
                                        }}
                                     >
-                                       <div className="size-full overflow-hidden whitespace-nowrap text-ellipsis">
-                                          {flexRender(
-                                             cell.column.columnDef.cell,
-                                             cell.getContext()
+                                       <div
+                                          className={styles["header-cell"]}
+                                          onClick={() => {
+                                             if (!isPending) {
+                                                sortingHandler(
+                                                   header.id,
+                                                   header.column.getCanSort()
+                                                );
+                                             }
+                                          }}
+                                       >
+                                          <div>
+                                             {flexRender(
+                                                header.column.columnDef.header,
+                                                header.getContext()
+                                             )}
+                                          </div>
+                                          {checkIsSorted(header.id) && (
+                                             <div className="absolute -right-6 top-1/2 -translate-y-1/2">
+                                                {sorting.find(
+                                                   item => item.id === header.id
+                                                )?.desc ? (
+                                                   <ArrowDown size={18} />
+                                                ) : (
+                                                   <ArrowUp size={18} />
+                                                )}
+                                             </div>
                                           )}
                                        </div>
-                                    </td>
+                                    </th>
                                  ))}
                               </tr>
                            ))}
-                        </tbody>
-                     )}
-                  </table>
+                        </thead>
+                        {isPending ? (
+                           <TableSkeleton table={table} />
+                        ) : (
+                           <tbody>
+                              {table.getRowModel().rows.map(row => (
+                                 <tr
+                                    key={row.id}
+                                    className={cn(styles["data-row"], {
+                                       [styles._selected]: row.getIsSelected(),
+                                    })}
+                                 >
+                                    {row.getVisibleCells().map(cell => (
+                                       <td
+                                          key={cell.id}
+                                          className={cn(styles["data-item"], {
+                                             [styles._specified]:
+                                                cell.column.getSize() <= 100,
+                                          })}
+                                          style={{
+                                             width: `${
+                                                cell.column.getSize() !== 150
+                                                   ? cell.column.getSize() +
+                                                     "px"
+                                                   : ""
+                                             }`,
+                                             minWidth: `${
+                                                cell.column.getSize() !== 150
+                                                   ? cell.column.getSize() +
+                                                     "px"
+                                                   : ""
+                                             }`,
+                                          }}
+                                       >
+                                          <div className="size-full overflow-hidden whitespace-nowrap text-ellipsis">
+                                             {flexRender(
+                                                cell.column.columnDef.cell,
+                                                cell.getContext()
+                                             )}
+                                          </div>
+                                       </td>
+                                    ))}
+                                 </tr>
+                              ))}
+                           </tbody>
+                        )}
+                     </table>
+                  </div>
                )}
                <TableFooter
                   allRowsCount={response?.count}

@@ -1,7 +1,11 @@
 @reference '../../../app/globals.css';
 
 .table {
-   @apply table-fixed w-full max-w-full overflow-hidden box-border border-separate border-spacing-0 rounded-xl shadow-border mb-6;
+   @apply table-fixed w-full max-w-full box-border border-separate border-spacing-0 rounded-xl shadow-border mb-6;
+}
+
+.table-wrapper {
+   @apply overflow-x-auto;
 }
 
 .header-row {

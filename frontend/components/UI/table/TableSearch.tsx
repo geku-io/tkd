@@ -9,7 +9,7 @@ interface IProps {
 
 const TableSearch = ({ value, setValue, placeholder }: IProps) => {
    return (
-      <div className="flex items-center gap-x-4 h-10">
+      <div className="flex items-center gap-x-4 sm:h-10 h-9">
          <Command
             shouldFilter={false}
             className="relative overflow-visible h-full"
