@@ -223,7 +223,7 @@ const InputAndSelect = ({
    const heightStyle = {
       "h-9 text-sm": size === "default",
       "h-8 text-sm": size === "sm",
-      "h-10": size === "lg",
+      "sm:h-10 h-8": size === "lg",
       "size-9": size === "icon",
       "size-8": size === "icon-sm",
       "size-10": size === "icon-lg",
@@ -232,7 +232,7 @@ const InputAndSelect = ({
       <div>
          {label && (
             <div
-               className={cn("mb-2 text-sm", {
+               className={cn("mb-2 sm:text-sm text-xs", {
                   "text-red-accent": !isValid && validation && errorMessage,
                })}
             >
@@ -244,7 +244,7 @@ const InputAndSelect = ({
                <Command
                   ref={commandRef}
                   shouldFilter={false}
-                  className="relative overflow-visible h-full"
+                  className="grow relative overflow-visible h-full"
                   label={label}
                >
                   <CommandInput

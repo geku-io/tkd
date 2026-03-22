@@ -10,7 +10,7 @@ const AddFieldButton = ({ clickHandler, text }: IProps) => {
    return (
       <button
          type="button"
-         className="flex items-center gap-x-2 mx-auto text-sm text-blue-accent"
+         className="flex items-center gap-x-2 mx-auto sm:text-sm text-xs text-blue-accent"
          onClick={clickHandler}
       >
          <Plus size={18} />

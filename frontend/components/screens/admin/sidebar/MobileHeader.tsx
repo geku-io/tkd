@@ -7,17 +7,15 @@ import ActionButton from "../../../UI/buttons/ActionButton";
 interface IProps {
    isOpen: boolean;
    setIsOpen: SetStateType<boolean>;
-   username: string;
    logout: () => void;
 }
 
-const MobileHeader = ({ isOpen, setIsOpen, username, logout }: IProps) => {
+const MobileHeader = ({ isOpen, setIsOpen, logout }: IProps) => {
    return (
       <>
          <div className={styles.header}>
             <div className={styles["header-wrapper"]}>
                <div className="flex items-center h-full justify-end pr-6 gap-x-2">
-                  <div className="text-base font-bold">{username}</div>
                   <ActionButton action={logout} size="sm">
                      Выйти
                   </ActionButton>

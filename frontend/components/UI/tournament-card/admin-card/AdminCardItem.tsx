@@ -144,7 +144,7 @@ const AdminCardItem = ({ item, tournamentId, arenaId }: IProps) => {
                />
             </div>
             <div
-               className="grow cursor-grab"
+               className="grow cursor-grab touch-none"
                ref={setActivatorNodeRef}
                {...listeners}
             >

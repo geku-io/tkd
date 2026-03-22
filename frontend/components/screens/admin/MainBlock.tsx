@@ -20,7 +20,7 @@ const MainBlock = ({
    return (
       <div className="h-full grow lg:pt-4 lg:pr-4">
          <div className="min-h-full h-auto w-full lg:py-14 pt-20 pb-10 xl:px-22 lg:px-12 px-6 bg-white lg:border lg:border-border rounded-xl">
-            <BackButton className="mb-2" />
+            <BackButton className="sm:mb-2 mb-1" />
             {title && (
                <div
                   className={cn(

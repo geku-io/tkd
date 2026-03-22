@@ -36,7 +36,7 @@ const NewCompetitionPage = () => {
    }, []);
    return (
       <MainBlock title="Создание нового соревнования">
-         <div className="flex justify-between gap-x-24 w-full">
+         <div className="md:flex md:justify-between md:gap-x-[8%] w-full">
             <form
                onSubmit={e => {
                   e.preventDefault();
@@ -44,11 +44,11 @@ const NewCompetitionPage = () => {
                }}
                className="w-full"
             >
-               <FieldGroup className="flex flex-col gap-y-10">
+               <FieldGroup className="flex flex-col sm:gap-y-10 gap-y-6">
                   <form.AppField name="tournamentTitle">
                      {field => {
                         return (
-                           <div className="border p-8 rounded-lg border-border-gray shadow-border">
+                           <div className="border sm:p-8 p-4 rounded-lg border-border-gray shadow-border">
                               <field.SelectField
                                  ref={firstInputRef}
                                  isMulti={false}
@@ -62,11 +62,11 @@ const NewCompetitionPage = () => {
                   </form.AppField>
                   <form.Field name="arenas" mode="array">
                      {fieldArr => (
-                        <div className="flex flex-col gap-y-10">
+                        <div className="flex flex-col sm:gap-y-10 gap-y-6">
                            {fieldArr.state.value.map((val, index) => (
                               <div
                                  key={val.id}
-                                 className="relative flex flex-col py-8 rounded-lg border-border-gray shadow-border"
+                                 className="relative flex flex-col sm:py-8 py-4 rounded-lg border-border-gray shadow-border"
                               >
                                  {fieldArr.state.value.length > 1 && (
                                     <Cross
@@ -80,7 +80,7 @@ const NewCompetitionPage = () => {
                                     name={`arenas[${index}].arenaTitle`}
                                  >
                                     {field => (
-                                       <div className="px-8 pb-8 border-b border-border">
+                                       <div className="sm:px-8 px-4 sm:pb-8 pb-4 border-b border-border">
                                           <field.SelectField
                                              isMulti={false}
                                              label="Название арены *"
@@ -95,13 +95,13 @@ const NewCompetitionPage = () => {
                                     mode="array"
                                  >
                                     {subFieldArr => (
-                                       <div className="mb-4">
+                                       <div className="sm:mb-4 mb-2">
                                           <div className="mb-6">
                                              {(
                                                 subFieldArr.state.value ?? []
                                              ).map((subVal, subIndex) => (
                                                 <div
-                                                   className="relative flex flex-col gap-y-6 px-8 pt-8 pb-8 last:pb-0 last:border-none border-b border-border"
+                                                   className="relative flex flex-col gap-y-6 sm:p-8 p-4 last:pb-0 last:border-none border-b border-border"
                                                    key={subVal.id}
                                                 >
                                                    {subFieldArr.state.value
@@ -197,9 +197,9 @@ const NewCompetitionPage = () => {
                   </form.Field>
                </FieldGroup>
             </form>
-            <div>
+            <div className="md:basis-[20%] max-md:mt-8">
                <form.AppForm>
-                  <form.SubmitButton className="w-[200px]" />
+                  <form.SubmitButton className="w-full" />
                </form.AppForm>
             </div>
          </div>

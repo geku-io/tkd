@@ -19,7 +19,10 @@ const BackButton = ({ className }: IProps) => {
    return (
       <button
          type="button"
-         className={cn("flex items-center gap-x-2 text-blue-accent", className)}
+         className={cn(
+            "flex items-center gap-x-2 text-blue-accent sm:text-base text-sm",
+            className
+         )}
          onClick={() => {
             if (pathArr.length < 4) {
                router.push(ROUTES.HOME);
@@ -28,7 +31,7 @@ const BackButton = ({ className }: IProps) => {
             }
          }}
       >
-         <ArrowLeft size={20} />
+         <ArrowLeft className="sm:size-5 size-4" />
          <div className="font-medium">Назад</div>
       </button>
    );
