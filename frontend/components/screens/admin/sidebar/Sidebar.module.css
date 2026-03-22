@@ -8,6 +8,10 @@
    @apply h-full w-full py-4;
 }
 
+.header {
+   @apply lg:hidden;
+}
+
 .burger-wrapper {
    @apply lg:hidden transition-all;
 }
