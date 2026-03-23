@@ -73,7 +73,7 @@ const columns = [
    columnHelper.accessor("name", {
       header: "Имя",
       cell: info => info.getValue(),
-      size: 150,
+      size: 160,
       minSize: 100,
    }),
    columnHelper.accessor("role", {
