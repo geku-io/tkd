@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Toaster } from "sonner";
 import "./globals.css";
 import QueryProvider from "../providers/QueryProvider";
+import { SocketProvider } from "../providers/SocketProvider";
 
 export const metadata: Metadata = {
    title: "Расписание соревнование ТКД по тхэквондо",
@@ -22,8 +23,14 @@ export default function RootLayout({
       <html lang="ru" suppressHydrationWarning>
          <body className={roboto.className}>
             <QueryProvider>
-               <Toaster position="top-center" expand={true} richColors={true} />
-               {children}
+               <SocketProvider>
+                  <Toaster
+                     position="top-center"
+                     expand={true}
+                     richColors={true}
+                  />
+                  {children}
+               </SocketProvider>
             </QueryProvider>
          </body>
       </html>

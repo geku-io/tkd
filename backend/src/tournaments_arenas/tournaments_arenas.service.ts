@@ -7,6 +7,7 @@ import { TournamentsArena } from './entities/tournaments_arena.entity';
 import { DeleteResult, Repository } from 'typeorm';
 import { CompetitionsService } from 'src/competitions/competitions.service';
 import { Arena } from 'src/arenas/entities/arenas.entity';
+import { Gateway } from 'src/gateway/gateway';
 
 @Injectable()
 export class TournamentsArenasService {
@@ -18,6 +19,8 @@ export class TournamentsArenasService {
     private arenaRepository: Repository<Arena>,
 
     private readonly competitionsService: CompetitionsService,
+
+    private gateway: Gateway,
   ) {}
 
   async create(createTournamentsArenaDto: CreateTournamentsArenaDto) {
@@ -61,6 +64,8 @@ export class TournamentsArenasService {
         createdList.push(createdArena);
       }
     }
+
+    this.gateway.server.emit('tournament:edited', createdList);
     return createdList;
   }
 
@@ -94,6 +99,8 @@ export class TournamentsArenasService {
 
     await this.competitionsService.updateArena(arenaId, arena.id);
 
+    this.gateway.server.emit('tournament:edited', oldArena?.id);
+
     return this.taRepository.save({
       ...oldArena,
       arena: {
@@ -124,6 +131,9 @@ export class TournamentsArenasService {
       });
       deletedArenaArr.push(deletedArena);
     }
+
+    this.gateway.server.emit('tournament:edited', deletedArenaArr);
+
     return deletedArenaArr;
   }
 }

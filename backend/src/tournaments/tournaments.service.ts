@@ -9,15 +9,19 @@ import { Tournament } from './entities/tournament.entity';
 import { ILike, Repository } from 'typeorm';
 import { UpdateResult } from 'typeorm/browser';
 import { EntityWithTitleDto, FindDto } from 'src/common/dto';
+import { Gateway } from 'src/gateway/gateway';
 
 @Injectable()
 export class TournamentsService {
   constructor(
     @InjectRepository(Tournament)
     private tournamentRepository: Repository<Tournament>,
+
+    private gateway: Gateway,
   ) {}
 
   create(createTournamentDto: EntityWithTitleDto) {
+    this.gateway.server.emit('tournament:edited', createTournamentDto);
     return this.tournamentRepository.insert(createTournamentDto);
   }
 
@@ -61,6 +65,7 @@ export class TournamentsService {
   }
 
   update(id: string, updateTournamentDto: UpdateTournamentDto) {
+    this.gateway.server.emit('tournament:edited', id);
     return this.tournamentRepository.update(id, updateTournamentDto);
   }
 
@@ -73,6 +78,7 @@ export class TournamentsService {
       });
       entities.push(mutation);
     }
+    this.gateway.server.emit('tournament:edited', entities);
     return entities;
   }
 
@@ -94,6 +100,7 @@ export class TournamentsService {
       if (deleteResult.affected === 1) {
         await this.reorder({ items: updatingComps });
       }
+      this.gateway.server.emit('tournament:edited', deleteResult);
       return deleteResult;
     }
   }

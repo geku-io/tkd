@@ -4,19 +4,33 @@ import {
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
+  OnGatewayConnection,
+  OnGatewayDisconnect,
 } from '@nestjs/websockets';
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
+
+const corsOrigin = process.env.CORS_ORIGIN || 'http://localhost:3000';
 
 @WebSocketGateway({
-  port: 3001,
   cors: {
-    origin: '*',
+    origin: corsOrigin,
     credentials: true,
   },
+  namespace: '/ws',
+  pingTimeout: 60000,
+  pingInterval: 25000,
 })
-export class Gateway {
+export class Gateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
+
+  handleConnection(client: Socket) {
+    console.log(`Client connected: ${client.id}`);
+  }
+
+  handleDisconnect(client: Socket) {
+    console.log(`Client disconnected: ${client.id}`);
+  }
 
   @SubscribeMessage('events')
   handleEvent(

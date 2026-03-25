@@ -11,6 +11,7 @@ import { CompetitionCategory } from 'src/competition_categories/entities/competi
 import { TournamentsArena } from 'src/tournaments_arenas/entities/tournaments_arena.entity';
 import { DisciplinesModule } from 'src/disciplines/disciplines.module';
 import { CategoriesModule } from 'src/categories/categories.module';
+import { GatewayModule } from 'src/gateway/gateway.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { CategoriesModule } from 'src/categories/categories.module';
     ]),
     DisciplinesModule,
     CategoriesModule,
+    GatewayModule,
   ],
   controllers: [CompetitionsController],
   providers: [CompetitionsService],

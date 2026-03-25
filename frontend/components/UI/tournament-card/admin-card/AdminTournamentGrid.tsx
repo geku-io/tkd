@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -33,6 +33,7 @@ import { fetchApi } from "../../../../lib/fetchApi";
 import { QUERY_KEYS } from "../../../../constants/queryKeys";
 import { SortableItemDataType } from "../../../../types/dnd.types";
 import { ModalsProvider } from "../../../../contexts/ModalsContext";
+import { useGetSocketContext } from "../../../../providers/SocketProvider";
 
 const UpdateArenaModal = dynamic(
    () => import("../../modals/arena-modals/UpdateArenaModal"),
@@ -65,6 +66,7 @@ export interface IModalIds extends Partial<IArenaInfo> {
 }
 
 const AdminTournamentGrid = ({ tournaments }: IProps) => {
+   const { socketRef } = useGetSocketContext();
    const queryClient = useQueryClient();
    const [prevTournaments, setPrevTournaments] =
       useState<IStructuredTournaments | null>(null);
@@ -345,6 +347,20 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
    };
 
    const modalsProps = currentType && modalOptions[currentType];
+
+   useEffect(() => {
+      if (!socketRef || !socketRef.current) return;
+      const socket = socketRef.current;
+
+      socket.on("tournament:edited", data => {
+         console.log("Создано соревнование:", data);
+         queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.TOURNAMENTS] });
+      });
+
+      return () => {
+         socket.off("tournament:edited");
+      };
+   }, [socketRef, queryClient]);
 
    return (
       <DndContext

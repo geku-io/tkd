@@ -20,6 +20,7 @@ import {
 import { TournamentsArena } from 'src/tournaments_arenas/entities/tournaments_arena.entity';
 import { DisciplinesService } from 'src/disciplines/disciplines.service';
 import { CategoriesService } from 'src/categories/categories.service';
+import { Gateway } from 'src/gateway/gateway';
 
 @Injectable()
 export class CompetitionsService {
@@ -48,6 +49,8 @@ export class CompetitionsService {
     private disciplinesService: DisciplinesService,
 
     private categoriesService: CategoriesService,
+
+    private gateway: Gateway,
   ) {}
 
   async create(createCompetitionDto: CreateCompetitionDto) {
@@ -264,6 +267,9 @@ export class CompetitionsService {
         }
       }
     }
+
+    this.gateway.server.emit('tournament:edited', allCompetitions);
+
     return allCompetitions;
   }
 
@@ -356,6 +362,8 @@ export class CompetitionsService {
         }
       }
 
+      this.gateway.server.emit('tournament:edited', oldCompetition.id);
+
       return this.competitionRepository.save({
         ...oldCompetition,
         discipline: newDiscipline ?? oldCompetition.discipline,
@@ -380,6 +388,7 @@ export class CompetitionsService {
       });
       entities.push(mutation);
     }
+    this.gateway.server.emit('tournament:edited', entities);
     return entities;
   }
 
@@ -429,6 +438,7 @@ export class CompetitionsService {
       if (deleteResult.affected === 1) {
         await this.reorder({ items: updatingComps });
       }
+      this.gateway.server.emit('tournament:edited', deleteResult);
       return deleteResult;
     }
   }
