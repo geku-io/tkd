@@ -16,7 +16,7 @@ const corsOrigin = process.env.CORS_ORIGIN || 'http://localhost:3000';
     origin: corsOrigin,
     credentials: true,
   },
-  namespace: '/ws',
+  namespace: '/admin',
   pingTimeout: 60000,
   pingInterval: 25000,
 })

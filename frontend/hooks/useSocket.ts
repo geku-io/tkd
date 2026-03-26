@@ -6,7 +6,7 @@ export const useSocket = () => {
    const socketRef = useRef<Socket | null>(null);
 
    useEffect(() => {
-      const socketInstance = io(process.env.NEXT_PUBLIC_WS_URL || "", {
+      const socketInstance = io(process.env.NEXT_PUBLIC_ADMIN_NAMESPACE || "", {
          withCredentials: true,
          reconnection: true,
          reconnectionAttempts: 10,
@@ -14,6 +14,10 @@ export const useSocket = () => {
          reconnectionDelayMax: 5000,
          timeout: 20000,
          autoConnect: true,
+         path:
+            process.env.NODE_ENV === "production"
+               ? process.env.NEXT_PUBLIC_API_URL
+               : undefined,
       });
 
       socketRef.current = socketInstance;
