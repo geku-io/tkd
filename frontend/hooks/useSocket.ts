@@ -14,10 +14,7 @@ export const useSocket = () => {
          reconnectionDelayMax: 5000,
          timeout: 20000,
          autoConnect: true,
-         path:
-            process.env.NODE_ENV === "production"
-               ? process.env.NEXT_PUBLIC_API_URL
-               : undefined,
+         path: process.env.NEXT_PUBLIC_WS_URL,
       });
 
       socketRef.current = socketInstance;
