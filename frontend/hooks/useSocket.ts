@@ -6,7 +6,7 @@ export const useSocket = () => {
    const socketRef = useRef<Socket | null>(null);
 
    useEffect(() => {
-      const socketInstance = io({
+      const socketInstance = io(process.env.NEXT_PUBLIC_WS_URL, {
          withCredentials: true,
          reconnection: true,
          reconnectionAttempts: 10,
