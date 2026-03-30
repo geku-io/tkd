@@ -9,11 +9,11 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 
-const corsOrigin = process.env.CORS_ORIGIN || 'http://localhost:3000';
+// const corsOrigin = process.env.CORS_ORIGIN || 'http://localhost:3000';
 
 @WebSocketGateway({
   cors: {
-    origin: corsOrigin,
+    origin: true,
     credentials: true,
   },
   pingTimeout: 60000,

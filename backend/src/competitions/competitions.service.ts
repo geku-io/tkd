@@ -315,9 +315,11 @@ export class CompetitionsService {
     }
 
     if (!discipline && !categories) {
-      return this.competitionRepository.update(id, {
+      const updatedStatus = await this.competitionRepository.update(id, {
         isFinished: isFinished,
       });
+      this.gateway.server.emit('tournament:edited', updatedStatus);
+      return updatedStatus;
     }
 
     const oldCompetition = await this.findOne(id);
