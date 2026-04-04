@@ -14,12 +14,12 @@ import { QUERY_KEYS } from "../../../../constants/queryKeys";
 import { fetchApi } from "../../../../lib/fetchApi";
 import { ITournament } from "../../../../types/entities.types";
 import { API } from "../../../../constants/api";
-import { Spinner } from "../../../UI/lib-components/spinner";
 import { checkAuth } from "../../../../utils/checkAuth";
 import { ROUTES, ROUTES_ROLES } from "../../../../constants/routes";
 import AddingButton from "../../../UI/buttons/AddingButton";
 import AdminTournamentGrid from "../../../UI/tournament-card/admin-card/AdminTournamentGrid";
 import NotExist from "../../../UI/NotExist";
+import MainSpinner from "../../../UI/MainSpinner";
 
 const HomePage = ({ session }: ISession) => {
    const { data, isPending, isError } = useQuery<IStructuredTournaments>({
@@ -33,11 +33,7 @@ const HomePage = ({ session }: ISession) => {
    });
 
    if (isPending) {
-      return (
-         <div className="size-full flex items-center justify-center">
-            <Spinner className="size-16 text-blue-accent" />
-         </div>
-      );
+      return <MainSpinner />;
    }
    if (isError) {
       return <div>Ошибка получения данных</div>;

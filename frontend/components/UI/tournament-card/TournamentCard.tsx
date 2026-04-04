@@ -16,29 +16,32 @@ const TournamentCard = ({ competitions }: IProps) => {
                </div>
             </div>
             <div className="grow flex flex-col">
-               {/* <div className="grow">
+               <div className="grow">
                   {competitions.length > 0 && (
-                     <div className="flex flex-col gap-y-2 mb-6">
-                        {competitions.map(item => (
-                           <div key={item.id} className="p-2 text-sm">
-                              <div>
-                                 {item.discipline.title}
-                                 {item.categories.length > 0 && (
-                                    <span>
-                                       {" "}
-                                       (
-                                       {item.categories
-                                          .map(item => item.category.title)
-                                          .join(", ")}
-                                       )
-                                    </span>
-                                 )}
+                     <div className="flex flex-col gap-y-3">
+                        {competitions.map((item, index) => (
+                           <div key={item.id} className="px-2 text-sm">
+                              <div className="flex items-start gap-x-1">
+                                 <span>{index + 1}.</span>
+                                 <div>
+                                    {item.discipline.title}
+                                    {item.categories.length > 0 && (
+                                       <span>
+                                          {" "}
+                                          (
+                                          {item.categories
+                                             .map(item => item.category.title)
+                                             .join(", ")}
+                                          )
+                                       </span>
+                                    )}
+                                 </div>
                               </div>
                            </div>
                         ))}
                      </div>
                   )}
-               </div> */}
+               </div>
             </div>
          </div>
       </div>

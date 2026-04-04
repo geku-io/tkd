@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const NotExist = () => {
    return (
-      <div className=" mt-32 w-full h-full">
+      <div className="mt-32 w-full h-full">
          <div className="flex flex-col items-center">
             <Image
                src="/not-found.png"

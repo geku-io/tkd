@@ -37,18 +37,18 @@ import { useGetSocketContext } from "../../../../providers/SocketProvider";
 
 const UpdateArenaModal = dynamic(
    () => import("../../modals/arena-modals/UpdateArenaModal"),
-   { ssr: false }
+   { ssr: false },
 );
 const CreateCompetitionModal = dynamic(
    () => import("../../modals/competition-modals/CreateCompetitionModal"),
-   { ssr: false }
+   { ssr: false },
 );
 const CreateModal = dynamic(() => import("../../modals/CreateModal"), {
    ssr: false,
 });
 const UpdateCompetitionModal = dynamic(
    () => import("../../modals/competition-modals/UpdateCompetitionModal"),
-   { ssr: false }
+   { ssr: false },
 );
 const ConfirmModal = dynamic(() => import("../../modals/ConfirmModal"), {
    ssr: false,
@@ -87,8 +87,8 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
       currentType === "competition"
          ? currentId?.competitionId
          : currentType === "arena"
-         ? currentId?.arenaId
-         : currentId?.tournamentId;
+           ? currentId?.arenaId
+           : currentId?.tournamentId;
 
    const getDeleteAction = () => {
       if (currentType === "competition") {
@@ -114,7 +114,7 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
             {
                method: "PATCH",
                body: JSON.stringify({ items: competitions }),
-            }
+            },
          );
 
          return res;
@@ -125,7 +125,7 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
          if (onMutateResult) {
             context.client.setQueryData(
                [QUERY_KEYS.TOURNAMENTS],
-               prevTournaments
+               prevTournaments,
             );
          }
       },
@@ -209,7 +209,7 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
          const maxIndex = Math.max(fromIndex, toIndex);
 
          const filteredNextBody = nextBody.filter(
-            (_, index) => index >= minIndex && index <= maxIndex
+            (_, index) => index >= minIndex && index <= maxIndex,
          );
 
          changeOrderMutation.mutate(filteredNextBody);
@@ -222,15 +222,15 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
                tournamentId: fromTournamentId,
                arenaId: fromArenaId,
                order: index + 1,
-            })
+            }),
          );
 
          const filteredPrevBody = prevBody.filter(
-            (_, index) => index >= fromIndex
+            (_, index) => index >= fromIndex,
          );
 
          const filteredNextBody = nextBody.filter(
-            (_, index) => index >= toIndex
+            (_, index) => index >= toIndex,
          );
 
          changeOrderMutation.mutate([...filteredPrevBody, ...filteredNextBody]);
@@ -342,7 +342,7 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
                   orderByArena: nextOrderByArena,
                };
             }
-         }
+         },
       );
    };
 
@@ -352,8 +352,7 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
       if (!socketRef || !socketRef.current) return;
       const socket = socketRef.current;
 
-      socket.on("tournament:edited", data => {
-         console.log("Создано соревнование:", data);
+      socket.on("tournament:edited", () => {
          queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.TOURNAMENTS] });
       });
 
@@ -484,7 +483,7 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
                   <CardOverlay item={overlayItem} />
                ) : null}
             </DragOverlay>,
-            document.body
+            document.body,
          )}
       </DndContext>
    );
