@@ -15,7 +15,7 @@ const MobileHeader = ({ isOpen, setIsOpen, logout }: IProps) => {
       <>
          <div className={styles.header}>
             <div className={styles["header-wrapper"]}>
-               <div className="flex items-center h-full justify-end pr-6 gap-x-2">
+               <div className="flex items-center h-full justify-end sm:pr-6 pr-4 gap-x-2">
                   <ActionButton action={logout} size="sm">
                      Выйти
                   </ActionButton>

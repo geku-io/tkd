@@ -11,19 +11,16 @@ import appConfig from 'src/config/app.config';
         ConfigModule.forFeature(databaseConfig),
         ConfigModule.forFeature(appConfig),
       ],
-      useFactory: (
-        db: ConfigType<typeof databaseConfig>,
-        app: ConfigType<typeof appConfig>,
-      ) => ({
+      useFactory: (db: ConfigType<typeof databaseConfig>) => ({
         type: 'postgres',
         host: db.host,
         port: db.port,
         username: db.username,
         password: db.password,
         database: db.db_name,
-        synchronize: app.NODE_ENV === 'development',
-        migrationsRun: app.NODE_ENV === 'production',
-        migrations: ['dist/migrations/*.js'],
+        synchronize: false,
+        migrationsRun: true,
+        migrations: ['../migrations/**/*{.js,.ts}'],
         autoLoadEntities: true,
       }),
       inject: [databaseConfig.KEY, appConfig.KEY],

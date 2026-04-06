@@ -14,6 +14,10 @@ export class UpdateCompetitionDto extends PartialType(InfoDto) {
   @IsOptional()
   @IsBoolean()
   isFinished?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  isLive?: boolean;
 }
 
 export class ReorderCompetitionItem {

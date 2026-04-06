@@ -5,12 +5,14 @@ import {
 } from "../../../types/entities.types";
 import { IBaseEntityWithTitleAndCount } from "../../../types/main.types";
 
-interface IStructuredTournament {
+export interface IStructuredTournament {
    id: string;
    title: string;
    competitions: string[];
+   isVisible: boolean;
 }
-interface IStructuredCompetition extends ICompetition {
+
+export interface IStructuredCompetition extends ICompetition {
    tournamentId: string;
 }
 
@@ -49,7 +51,7 @@ const defaultValue: IStructuredTournaments = {
 };
 
 export const changeTournamentData = (
-   response: IBaseEntityWithTitleAndCount<ITournament> | undefined
+   response: IBaseEntityWithTitleAndCount<ITournament> | undefined,
 ) => {
    if (!response) return defaultValue;
 
@@ -78,6 +80,7 @@ export const changeTournamentData = (
       structuredData.tournaments.byId[tournament.id] = {
          id: tournament.id,
          title: tournament.title,
+         isVisible: tournament.isVisible,
          competitions: [],
       };
 
@@ -94,7 +97,7 @@ export const changeTournamentData = (
 
       for (const competition of tournament.competitions) {
          structuredData.tournaments.byId[tournament.id].competitions.push(
-            competition.id
+            competition.id,
          );
 
          structuredData.competitions.allIds.push(competition.id);

@@ -17,7 +17,10 @@ const MainPage = () => {
          const result = await fetchApi<
             IBaseEntityWithTitleAndCount<ITournament>
          >(API.TOURNAMENTS);
-         return result;
+         const sortedResult = result.data
+            .filter(tournament => tournament.isVisible)
+            .sort((a, b) => a.order - b.order);
+         return { ...result, data: sortedResult };
       },
    });
    if (isPending) {

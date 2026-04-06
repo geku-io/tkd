@@ -16,6 +16,12 @@ export class Competition extends EntityWithOrder {
   @Column({ type: 'boolean', default: false })
   isFinished: boolean;
 
+  @Column({ type: 'boolean', default: 'false' })
+  isLive: boolean;
+
+  @Column({ type: 'time', nullable: true, default: null })
+  startTime?: string;
+
   @ManyToOne(() => Discipline, (discipline) => discipline.competitions, {
     onDelete: 'SET NULL',
     nullable: true,

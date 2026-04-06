@@ -1,7 +1,7 @@
 import { EntityWithTitleAndOrder } from 'src/common/entity';
 import { Competition } from 'src/competitions/entities/competition.entity';
 import { TournamentsArena } from 'src/tournaments_arenas/entities/tournaments_arena.entity';
-import { Entity, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('tournaments')
 export class Tournament extends EntityWithTitleAndOrder {
@@ -15,4 +15,7 @@ export class Tournament extends EntityWithTitleAndOrder {
     eager: true,
   })
   arenas?: TournamentsArena[];
+
+  @Column({ type: 'boolean', default: 'true' })
+  isVisible: boolean;
 }

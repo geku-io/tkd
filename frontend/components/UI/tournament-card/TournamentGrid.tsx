@@ -29,14 +29,15 @@ const TournamentGrid = ({ tournaments }: IProps) => {
    return (
       <div className="max-w-[1440px] px-4 py-10 mx-auto">
          {tournaments.map(tournament => {
-            const uniqueArenas = new Set(
-               tournament.competitions.map(comp => comp.arena.id),
+            const sortedArenas = tournament.arenas.sort(
+               (a, b) => a.order - b.order,
             );
-            const competitionsByArena = Array.from(uniqueArenas).map(itemComp =>
+            const competitionsByArena = sortedArenas.map(itemComp =>
                tournament.competitions
-                  .filter(i => i.arena.id === itemComp)
+                  .filter(i => i.arena.id === itemComp.arena.id)
                   .sort((a, b) => a.order - b.order),
             );
+            console.log("sorted: ", competitionsByArena);
             return (
                <div className="mb-12" key={tournament.id}>
                   <h2 className="mb-4 max-sm:text-center">
@@ -50,13 +51,17 @@ const TournamentGrid = ({ tournaments }: IProps) => {
                               "max-sm:justify-center",
                            )}
                         >
-                           {competitionsByArena.map(competitions => (
-                              <TournamentCard
-                                 key={competitions[0].id}
-                                 tournamentId={tournament.id}
-                                 competitions={competitions}
-                              />
-                           ))}
+                           {competitionsByArena.map(competitions => {
+                              if (competitions.length !== 0) {
+                                 return (
+                                    <TournamentCard
+                                       key={competitions[0].id}
+                                       tournamentId={tournament.id}
+                                       competitions={competitions}
+                                    />
+                                 );
+                              }
+                           })}
                         </div>
                      ) : (
                         <div>Нет арен</div>

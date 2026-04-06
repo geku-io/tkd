@@ -10,11 +10,15 @@ import { IModalIds } from "./AdminTournamentGrid";
 import { ModalType } from "./tournamentModals.constant";
 import { ICompetition } from "../../../../types/entities.types";
 import { useGetModalsContext } from "../../../../contexts/ModalsContext";
-import { IUpdateCompetitionStatusBody } from "../../../../types/query.types";
+import {
+   IUpdateCompetitionStatusBody,
+   IUpdateLiving,
+} from "../../../../types/query.types";
 import { fetchApi } from "../../../../lib/fetchApi";
 import { API } from "../../../../constants/api";
 import { QUERY_KEYS } from "../../../../constants/queryKeys";
 import { cn } from "../../../../lib/utils";
+import { Zap } from "lucide-react";
 
 interface IProps {
    item: ICompetition;
@@ -47,6 +51,7 @@ const AdminCardItem = ({ item, tournamentId, arenaId }: IProps) => {
             method: "PATCH",
             body: JSON.stringify({
                isFinished: body.isFinished,
+               isLive: body?.isLive,
             }),
          });
 
@@ -79,7 +84,7 @@ const AdminCardItem = ({ item, tournamentId, arenaId }: IProps) => {
                      },
                   },
                };
-            }
+            },
          );
          return { prevState };
       },
@@ -88,7 +93,7 @@ const AdminCardItem = ({ item, tournamentId, arenaId }: IProps) => {
          toast.error("Ошибка при изменении статуса");
          context.client.setQueryData(
             [QUERY_KEYS.TOURNAMENTS],
-            onMutateResult?.prevState
+            onMutateResult?.prevState,
          );
       },
 
@@ -123,8 +128,73 @@ const AdminCardItem = ({ item, tournamentId, arenaId }: IProps) => {
       updateStatusMutation.mutate({
          id: item.id,
          isFinished: !item.isFinished,
+         isLive: !item.isFinished && item.isLive ? false : undefined,
       });
    };
+
+   const updateLiving = useMutation<
+      unknown,
+      unknown,
+      IUpdateLiving,
+      { prevState: IStructuredTournaments | undefined }
+   >({
+      mutationFn: async (body: IUpdateLiving) => {
+         const res = await fetchApi(`${API.COMPETITIONS}/${body.id}`, {
+            method: "PATCH",
+            body: JSON.stringify({
+               isLive: body.isLive,
+               isFinished: body?.isFinished,
+            }),
+         });
+
+         return res;
+      },
+
+      onMutate: async (updatedCompetition, context) => {
+         await context.client.cancelQueries({
+            queryKey: [QUERY_KEYS.TOURNAMENTS],
+         });
+
+         const prevState = context.client.getQueryData<IStructuredTournaments>([
+            QUERY_KEYS.TOURNAMENTS,
+         ]);
+
+         context.client.setQueryData<IStructuredTournaments>(
+            [QUERY_KEYS.TOURNAMENTS],
+            old => {
+               if (!old) return;
+               return {
+                  ...old,
+                  competitions: {
+                     ...old.competitions,
+                     byId: {
+                        ...old.competitions.byId,
+                        [updatedCompetition.id]: {
+                           ...old.competitions.byId[updatedCompetition.id],
+                           isLive: updatedCompetition.isLive,
+                        },
+                     },
+                  },
+               };
+            },
+         );
+         return { prevState };
+      },
+
+      onError: (error, variables, onMutateResult, context) => {
+         toast.error("Ошибка при изменении видимости");
+         context.client.setQueryData(
+            [QUERY_KEYS.TOURNAMENTS],
+            onMutateResult?.prevState,
+         );
+      },
+
+      onSettled: (data, error, variables, onMutateResult, context) => {
+         context.client.invalidateQueries({
+            queryKey: [QUERY_KEYS.TOURNAMENTS],
+         });
+      },
+   });
 
    if (!item.discipline) return null;
 
@@ -133,7 +203,7 @@ const AdminCardItem = ({ item, tournamentId, arenaId }: IProps) => {
          <div
             className={cn(
                "flex items-center gap-x-3 bg-white rounded-xl shadow-light p-2 text-sm min-h-10",
-               { "opacity-50": isDragging }
+               { "opacity-50": isDragging },
             )}
          >
             <div className="flex items-center justify-center">
@@ -152,17 +222,30 @@ const AdminCardItem = ({ item, tournamentId, arenaId }: IProps) => {
                   {item.discipline.title}
                   {item.categories.length > 0 && (
                      <span>
-                        {" "}
-                        (
+                        {", "}
+
                         {item.categories
                            .map(item => item.category.title)
                            .join(", ")}
-                        )
                      </span>
                   )}
                </div>
             </div>
-            <div className="shrink-0">
+            <div className="flex items-center gap-x-1 shrink-0">
+               <button
+                  type="button"
+                  onClick={() =>
+                     updateLiving.mutate({
+                        ...item,
+                        isLive: !item.isLive,
+                        isFinished:
+                           !item.isLive && item.isFinished ? false : undefined,
+                     })
+                  }
+                  className={cn({ "text-red-accent": item.isLive })}
+               >
+                  <Zap size={16} />
+               </button>
                <CardOptions
                   showDelete={showDeleteModalHandler}
                   showUpdate={showUpdateModalHandler}

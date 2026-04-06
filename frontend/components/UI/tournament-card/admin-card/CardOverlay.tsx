@@ -1,7 +1,8 @@
 import React from "react";
-import { EllipsisVertical } from "lucide-react";
+import { EllipsisVertical, Zap } from "lucide-react";
 import { Checkbox } from "../../lib-components/checkbox";
 import { ICompetition } from "../../../../types/entities.types";
+import { cn } from "../../../../lib/utils";
 
 interface IProps {
    item: ICompetition;
@@ -29,7 +30,10 @@ const CardOverlay = ({ item }: IProps) => {
                )}
             </div>
          </div>
-         <div className="shrink-0">
+         <div className="flex items-center gap-x-1 shrink-0">
+            <div className={cn({ "text-red-accent": item.isLive })}>
+               <Zap size={16} />
+            </div>
             <EllipsisVertical size={18} />
          </div>
       </div>

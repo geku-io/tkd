@@ -15,6 +15,8 @@ export interface ICompetition extends IBaseEntity {
    categories: ICompetitionCategory[];
    order: number;
    isFinished: boolean;
+   isLive: boolean;
+   startTime?: string;
 }
 
 export interface ITournamentArena extends IOrderedBaseEntity {
@@ -24,6 +26,7 @@ export interface ITournamentArena extends IOrderedBaseEntity {
 export interface ITournament extends IOrderedBaseEntityWithTitle {
    arenas: ITournamentArena[];
    competitions: ICompetition[];
+   isVisible: boolean;
 }
 
 export enum UserRole {

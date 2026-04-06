@@ -307,7 +307,7 @@ export class CompetitionsService {
   }
 
   async update(id: string, updateCompetitionDto: UpdateCompetitionDto) {
-    const { isFinished, categories, discipline } = updateCompetitionDto;
+    const { isFinished, categories, discipline, isLive } = updateCompetitionDto;
     if (
       Object.values(updateCompetitionDto).every((item) => item === undefined)
     ) {
@@ -316,7 +316,8 @@ export class CompetitionsService {
 
     if (!discipline && !categories) {
       const updatedStatus = await this.competitionRepository.update(id, {
-        isFinished: isFinished,
+        isFinished,
+        isLive,
       });
       this.gateway.server.emit('tournament:edited', updatedStatus);
       return updatedStatus;

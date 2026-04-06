@@ -1,9 +1,9 @@
 import { DataSource } from 'typeorm';
 import * as dotenv from 'dotenv';
-import * as path from 'path';
 
-// Загружаем .env.development для CLI миграций
-dotenv.config({ path: path.resolve(__dirname, '../../.env.development') });
+dotenv.config({
+  path: '.env.development',
+});
 
 export default new DataSource({
   type: 'postgres',
@@ -13,5 +13,7 @@ export default new DataSource({
   password: process.env.POSTGRES_PASSWORD || 'postgres',
   database: process.env.POSTGRES_DB || 'tkd',
   entities: ['src/**/*.entity{.ts,.js}'],
-  migrations: ['src/migrations/*.ts'],
+  migrations: ['src/migrations/*{.ts,.js}'],
+  synchronize: false,
+  migrationsRun: true,
 });

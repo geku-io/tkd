@@ -21,6 +21,7 @@ export interface ICreateCompetitionBody {
 export interface IUpdateCompetitionStatusBody {
    id: string;
    isFinished: boolean;
+   isLive?: boolean;
 }
 
 export interface IDeleteMany<T> {
@@ -29,6 +30,12 @@ export interface IDeleteMany<T> {
 
 export interface IUpdateEntity {
    title: string;
+}
+
+export interface IUpdateLiving {
+   id: string;
+   isLive: boolean;
+   isFinished?: boolean;
 }
 
 export interface IUpdateArena extends IArenaInfo, IUpdateEntity {}

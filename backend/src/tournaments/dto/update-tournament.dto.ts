@@ -1,7 +1,6 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateTournamentDto } from './create-tournament.dto';
 import {
   IsArray,
+  IsBoolean,
   IsNumber,
   IsString,
   IsUUID,
@@ -9,9 +8,12 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export class UpdateTournamentDto extends PartialType(CreateTournamentDto) {
+export class UpdateTournamentDto {
   @IsString()
   title: string;
+
+  @IsBoolean()
+  isVisible: boolean;
 }
 
 export class ReorderTournamentItem {

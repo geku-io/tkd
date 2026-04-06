@@ -19,7 +19,7 @@ const MainBlock = ({
 }: IProps) => {
    return (
       <div className="h-full grow lg:pt-4 lg:pr-4">
-         <div className="min-h-full h-auto w-full lg:py-14 pt-20 pb-10 xl:px-22 lg:px-12 px-6 bg-white lg:border lg:border-border rounded-xl">
+         <div className="min-h-full h-auto w-full lg:py-14 pt-20 pb-10 xl:px-22 lg:px-12 sm:px-6 px-4 bg-white lg:border lg:border-border rounded-xl">
             <BackButton className="sm:mb-2 mb-1" />
             {title && (
                <div
@@ -29,7 +29,7 @@ const MainBlock = ({
                         "md:flex md:gap-x-6 md:justify-between md:items-start":
                            !!actions,
                      },
-                     className
+                     className,
                   )}
                >
                   <div className="max-md:mb-4">

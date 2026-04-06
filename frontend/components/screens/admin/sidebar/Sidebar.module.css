@@ -55,7 +55,7 @@
       @apply size-full relative;
    }
    .burger-wrapper {
-      @apply fixed z-60 top-[calc((48px-16px)/2)] left-6;
+      @apply fixed z-60 top-[calc((48px-16px)/2)] sm:left-6 left-4;
    }
    .burger-wrapper._open {
       @apply left-[calc(min(45%,320px)+18px)];
