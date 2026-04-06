@@ -11,9 +11,6 @@ COPY . .
 
 RUN yarn build
 
-# Копируем миграции в dist/migrations
-COPY src/migrations ./dist/migrations
-
 FROM node:24-slim AS runner
 
 WORKDIR /app

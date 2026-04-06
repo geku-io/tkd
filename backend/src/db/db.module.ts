@@ -20,7 +20,7 @@ import appConfig from 'src/config/app.config';
         database: db.db_name,
         synchronize: false,
         migrationsRun: true,
-        migrations: ['../migrations/**/*{.js,.ts}'],
+        migrations: [__dirname + '/../migrations/**/*{.js,.ts}'],
         autoLoadEntities: true,
       }),
       inject: [databaseConfig.KEY, appConfig.KEY],
