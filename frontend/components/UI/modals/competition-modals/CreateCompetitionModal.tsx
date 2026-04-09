@@ -55,7 +55,7 @@ const CreateCompetitionModal = ({
          source: API.COMPETITIONS,
          queryKey,
          onSettledHandler: restoreModalState,
-      }
+      },
    );
    const form = useAppForm({
       defaultValues: defaultCreationCompData,
@@ -88,7 +88,7 @@ const CreateCompetitionModal = ({
    };
 
    const closeCurrentModal = (
-      e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
    ) => {
       const formState = form.state.values;
       if (formState.categories.length > 0 || formState.discipline !== "") {

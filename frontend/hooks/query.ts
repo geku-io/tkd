@@ -4,7 +4,7 @@ import { IBaseEntityWithTitle, ISourceAndKey } from "../types/main.types";
 import {
    IArenaInfo,
    ICreateEntities,
-   IDeleteMany,
+   IItemsArr,
    IIdWithBody,
    IUpdateEntity,
 } from "../types/query.types";
@@ -111,7 +111,7 @@ export const useDeleteEntities = <T>({
 }: IDeleteProps) => {
    const queryClient = useQueryClient();
    const deleteEntities = useMutation({
-      mutationFn: async (body: IDeleteMany<T>) => {
+      mutationFn: async (body: IItemsArr<T>) => {
          const res = await fetchApi(source, {
             method: "DELETE",
             body: JSON.stringify(body),

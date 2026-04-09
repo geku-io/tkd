@@ -13,18 +13,21 @@ import { API } from "../../../../constants/api";
 import { cn } from "../../../../lib/utils";
 import MobileHeader from "./MobileHeader";
 import styles from "./Sidebar.module.css";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Sidebar = ({ session }: ISession) => {
+   const queryClient = useQueryClient();
    const [isOpen, setIsOpen] = useState(false);
    const pathname = usePathname();
    const router = useRouter();
    const filteredRoutes = menuItems.filter(val =>
-      checkAuth(session.role, ROUTES_ROLES[val.link])
+      checkAuth(session.role, ROUTES_ROLES[val.link]),
    );
    const logoutHandler = async () => {
       const res = await fetchApi(API.LOGOUT, {
          method: "POST",
       });
+      queryClient.clear();
       router.replace(ROUTES.LOGIN);
       return res;
    };
@@ -66,7 +69,7 @@ const Sidebar = ({ session }: ISession) => {
                                  {
                                     "bg-gray text-black":
                                        pathname === ROUTES[item.link],
-                                 }
+                                 },
                               )}
                            >
                               <item.logo className="sm:size-6 size-5" />

@@ -1,13 +1,26 @@
 import React from "react";
 import { ICompetition } from "../../../types/entities.types";
 import { cn } from "../../../lib/utils";
+import { useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "../../../constants/queryKeys";
+import { useGetModalsContext } from "../../../contexts/ModalsContext";
 
 interface IProps {
    competitions: ICompetition[];
    tournamentId: string;
+   arenaId: string;
+   isInteractive?: boolean;
+   isSelected?: boolean;
 }
 
-const TournamentCard = ({ competitions }: IProps) => {
+const TournamentCard = ({
+   competitions,
+   isInteractive,
+   arenaId,
+   isSelected,
+}: IProps) => {
+   const { currentId } = useGetModalsContext<string>();
+   const queryClient = useQueryClient();
    const sortedCompetitions = competitions
       .slice()
       .sort(
@@ -21,8 +34,33 @@ const TournamentCard = ({ competitions }: IProps) => {
    const filteredCompetitions = finishedCompetitions.concat(
       sortedCompetitions.filter(item => !item.isFinished),
    );
+   const handleClick = () => {
+      if (isInteractive && currentId) {
+         queryClient.setQueryData<string[]>(
+            [QUERY_KEYS.USERS_IN_ARENAS, currentId],
+            old => {
+               if (!old) return;
+               if (old.includes(arenaId)) {
+                  return old.filter(item => item !== arenaId);
+               } else {
+                  return old.concat(arenaId);
+               }
+            },
+         );
+      }
+   };
    return (
-      <div className="bg-light-gray rounded-xl min-h-40 shadow-border">
+      <div
+         className={cn(
+            "bg-light-gray rounded-xl min-h-40 transition border-2 border-transparent",
+            {
+               "cursor-pointer": isInteractive,
+               "shadow-border": !isSelected,
+               "border-blue-accent": isSelected,
+            },
+         )}
+         onClick={handleClick}
+      >
          <div className="flex flex-col h-full text-black py-4 px-2">
             <div className="flex items-center justify-between mb-4">
                <div className="font-medium pl-2">

@@ -41,7 +41,10 @@ const CompetitionForm = withForm({
                                     isMulti={false}
                                     label="Название дисциплины *"
                                     source={API.DISCIPLINES}
-                                    queryKey={QUERY_KEYS.TOURNAMENTS}
+                                    queryKey={[
+                                       QUERY_KEYS.TOURNAMENTS,
+                                       QUERY_KEYS.DISCIPLINES,
+                                    ]}
                                     size="default"
                                  />
                               );
@@ -67,7 +70,10 @@ const CompetitionForm = withForm({
                                        label="Название категорий"
                                        size="default"
                                        source={API.CATEGORIES}
-                                       queryKey={QUERY_KEYS.TOURNAMENTS}
+                                       queryKey={[
+                                          QUERY_KEYS.TOURNAMENTS,
+                                          QUERY_KEYS.CATEGORIES,
+                                       ]}
                                     />
                                  )}
                               </form.AppField>

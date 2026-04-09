@@ -433,7 +433,7 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
                />
             )}
 
-            {currentType === "competition" && (
+            {isCreateModalOpen && currentType === "competition" && (
                <CreateCompetitionModal
                   isOpen={isCreateModalOpen}
                   setIsOpen={setIsCreateModalOpen}
@@ -446,7 +446,7 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
                   description="Добавьте одну или несколько записей дисциплин"
                />
             )}
-            {currentType === "competition" && (
+            {isUpdateModalOpen && currentType === "competition" && (
                <UpdateCompetitionModal
                   id={searchId ?? null}
                   isOpen={isUpdateModalOpen}
@@ -459,7 +459,7 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
                   description="Измените название дисциплины или категорий у соревнования"
                />
             )}
-            {currentType === "arena" && (
+            {isUpdateModalOpen && currentType === "arena" && (
                <UpdateArenaModal
                   isOpen={isUpdateModalOpen}
                   setIsOpen={setIsUpdateModalOpen}

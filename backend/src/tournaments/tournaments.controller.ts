@@ -19,8 +19,10 @@ import { Public } from 'src/auth/decorators/public.decorator';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { UserRole } from 'src/types/enums';
 import { EntityWithTitleDto, FindDto } from 'src/common/dto';
+import { type JwtPayload } from 'src/auth/guards/auth/auth.guard';
+import { CurrentUser } from 'src/auth/decorators/currentUser.decorator';
 
-@Roles([UserRole.ADMIN])
+@Roles([UserRole.ADMIN, UserRole.EDITOR])
 @Controller('tournaments')
 export class TournamentsController {
   constructor(private readonly tournamentsService: TournamentsService) {}
@@ -30,8 +32,13 @@ export class TournamentsController {
     return this.tournamentsService.create(createTournamentDto);
   }
 
-  @Public()
   @Get()
+  find(@Query() query: FindDto, @CurrentUser() user: JwtPayload) {
+    return this.tournamentsService.find(query, user);
+  }
+
+  @Public()
+  @Get('/schedule')
   findAll(@Query() query: FindDto) {
     return this.tournamentsService.findAll(query);
   }

@@ -6,10 +6,13 @@ import {
 } from './dto/update-tournament.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Tournament } from './entities/tournament.entity';
-import { ILike, Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { UpdateResult } from 'typeorm/browser';
 import { EntityWithTitleDto, FindDto } from 'src/common/dto';
 import { Gateway } from 'src/gateway/gateway';
+import { JwtPayload } from 'src/auth/guards/auth/auth.guard';
+import { UserRole } from 'src/types/enums';
+import { UsersTournamentsArenasService } from 'src/users_tournaments_arenas/users_tournaments_arenas.service';
 
 @Injectable()
 export class TournamentsService {
@@ -18,6 +21,7 @@ export class TournamentsService {
     private tournamentRepository: Repository<Tournament>,
 
     private gateway: Gateway,
+    private uta: UsersTournamentsArenasService,
   ) {}
 
   create(createTournamentDto: EntityWithTitleDto) {
@@ -25,8 +29,16 @@ export class TournamentsService {
     return this.tournamentRepository.insert(createTournamentDto);
   }
 
-  async findAll(query: FindDto) {
+  async findAll(query: FindDto, options?: FindOptionsWhere<Tournament>[]) {
     const { q: querySearch, limit, skip, order } = query;
+
+    const whereOptionsArr = options ?? [];
+
+    if (querySearch) {
+      whereOptionsArr.push({
+        title: ILike(`%${querySearch}%`),
+      });
+    }
 
     const orderPairs = order
       ? Object.fromEntries(
@@ -48,16 +60,38 @@ export class TournamentsService {
         },
       },
       order: orderPairs,
-      where: querySearch
-        ? {
-            title: ILike(`%${querySearch}%`),
-          }
-        : undefined,
+      where: whereOptionsArr,
     });
     return {
       data,
       count,
     };
+  }
+
+  async find(query: FindDto, user: JwtPayload) {
+    const whereOptionsArr: FindOptionsWhere<Tournament>[] = [];
+
+    if (user && user.role !== UserRole.ADMIN) {
+      const acceptedArenas = await this.uta.findByUserId(user.id);
+      if (acceptedArenas.length > 0) {
+        for (const acceptedArena of acceptedArenas) {
+          whereOptionsArr.push({
+            arenas: { id: acceptedArena.tournamentsArena.id },
+            competitions: {
+              arena: { id: acceptedArena.tournamentsArena.arena.id },
+              tournament: { id: acceptedArena.tournamentsArena.tournament.id },
+            },
+          });
+        }
+      } else {
+        return {
+          data: [],
+          count: 0,
+        };
+      }
+    }
+    const result = await this.findAll(query, whereOptionsArr);
+    return result;
   }
 
   findOne(id: string) {

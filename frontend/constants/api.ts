@@ -13,5 +13,7 @@ export const API = {
    REORDER_COMPETITIONS: BASEPATH + "/competitions/reorder",
    MOVE_COMPETITIONS: BASEPATH + "/competitions/move",
    TOURNAMENTS: BASEPATH + "/tournaments",
+   TOURNAMENTS_PUBLIC: BASEPATH + "/tournaments/schedule",
    ARENAS_IN_TOURNAMENT: BASEPATH + "/tournaments-arenas",
+   USERS_IN_ARENAS: BASEPATH + "/users-tournaments-arenas",
 } as const;

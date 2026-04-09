@@ -15,7 +15,7 @@ const Page = async () => {
    if (!checkAuth(session.role, ROUTES_ROLES.CATEGORIES)) {
       redirect(ROUTES.HOME);
    }
-   return <CategoriesPage />;
+   return <CategoriesPage session={session} />;
 };
 
 export default Page;

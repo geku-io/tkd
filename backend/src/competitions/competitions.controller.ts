@@ -22,7 +22,7 @@ import {
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { UserRole } from 'src/types/enums';
 
-@Roles([UserRole.ADMIN])
+@Roles([UserRole.ADMIN, UserRole.EDITOR])
 @Controller('competitions')
 export class CompetitionsController {
   constructor(private readonly competitionsService: CompetitionsService) {}

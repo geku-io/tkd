@@ -23,6 +23,11 @@ export interface ITournamentArena extends IOrderedBaseEntity {
    arena: IBaseEntityWithTitle;
 }
 
+export interface IUsersTourArenas extends IBaseEntity {
+   tournamentsArena: IOrderedBaseEntity;
+   user: IBaseEntityWithTitle;
+}
+
 export interface ITournament extends IOrderedBaseEntityWithTitle {
    arenas: ITournamentArena[];
    competitions: ICompetition[];

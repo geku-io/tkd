@@ -12,7 +12,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import ConfirmModal from "../modals/ConfirmModal";
 import { ISourceAndKey } from "../../../types/main.types";
-import { IDeleteMany } from "../../../types/query.types";
+import { IItemsArr } from "../../../types/query.types";
 import { fetchApi } from "../../../lib/fetchApi";
 
 interface IProps extends ISourceAndKey {
@@ -25,7 +25,7 @@ const DropDown = ({ ids, source, queryKey, resettingSelection }: IProps) => {
    const [isOpen, setIsOpen] = useState(false);
    const [isModalOpen, setIsModalOpen] = useState(false);
    const mutation = useMutation({
-      mutationFn: async (body: IDeleteMany<string>) => {
+      mutationFn: async (body: IItemsArr<string>) => {
          const res = await fetchApi(source, {
             method: "DELETE",
             body: JSON.stringify(body),

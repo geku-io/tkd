@@ -2,6 +2,7 @@ import {
   IsArray,
   IsBoolean,
   IsNumber,
+  IsOptional,
   IsString,
   IsUUID,
   ValidateNested,
@@ -13,7 +14,8 @@ export class UpdateTournamentDto {
   title: string;
 
   @IsBoolean()
-  isVisible: boolean;
+  @IsOptional()
+  isVisible?: boolean;
 }
 
 export class ReorderTournamentItem {

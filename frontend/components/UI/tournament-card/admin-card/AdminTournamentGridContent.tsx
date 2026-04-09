@@ -17,12 +17,15 @@ import { fetchApi } from "../../../../lib/fetchApi";
 import { API } from "../../../../constants/api";
 import { QUERY_KEYS } from "../../../../constants/queryKeys";
 import { toast } from "sonner";
+import { useGetUserContext } from "../../../../providers/UserProvider";
+import { UserRole } from "../../../../types/entities.types";
 
 interface IProps {
    data: IStructuredTournaments;
 }
 
 const AdminTournamentGridContent = ({ data }: IProps) => {
+   const user = useGetUserContext();
    const {
       setCurrentId,
       setCurrentType,
@@ -142,11 +145,13 @@ const AdminTournamentGridContent = ({ data }: IProps) => {
                               <EyeOff className="size-full" />
                            )}
                         </button>
-                        <TournamentOptions
-                           showDelete={showTournamentDeleteModal}
-                           showUpdate={showTournamentUpdateModal}
-                           showCreate={showArenaCreateModal}
-                        />
+                        {user?.role === UserRole.ADMIN && (
+                           <TournamentOptions
+                              showDelete={showTournamentDeleteModal}
+                              showUpdate={showTournamentUpdateModal}
+                              showCreate={showArenaCreateModal}
+                           />
+                        )}
                      </div>
                   </div>
                   <div>

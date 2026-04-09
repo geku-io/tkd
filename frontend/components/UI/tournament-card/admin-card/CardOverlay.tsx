@@ -20,12 +20,11 @@ const CardOverlay = ({ item }: IProps) => {
                {item.discipline.title}
                {item.categories.length > 0 && (
                   <span>
-                     {" "}
-                     (
+                     {", "}
+
                      {item.categories
                         .map(item => item.category.title)
                         .join(", ")}
-                     )
                   </span>
                )}
             </div>

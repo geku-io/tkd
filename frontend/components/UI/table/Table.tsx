@@ -28,6 +28,7 @@ import NotExist from "../NotExist";
 import UpdateModal from "../modals/UpdateModal";
 import ConfirmModal from "../modals/ConfirmModal";
 import {
+   IAuthUser,
    IBaseEntityWithTitle,
    IBaseEntityWithTitleAndCount,
    ISourceAndKey,
@@ -100,7 +101,11 @@ const columns = [
    }),
 ];
 
-const Table = ({ queryKey, source }: ISourceAndKey) => {
+interface IProps extends ISourceAndKey {
+   session: IAuthUser;
+}
+
+const Table = ({ queryKey, source, session }: IProps) => {
    const queryClient = useQueryClient();
    const [currentId, setCurrentId] = useState<string | null>(null);
    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -141,7 +146,7 @@ const Table = ({ queryKey, source }: ISourceAndKey) => {
          });
 
          const result = await fetchApi<IBaseEntityWithTitleAndCount>(
-            `${source}?${params.toString()}`
+            `${source}?${params.toString()}`,
          );
          return result;
       },
@@ -160,7 +165,7 @@ const Table = ({ queryKey, source }: ISourceAndKey) => {
          toast.success("Записи успешно удалены");
          setRowSelection(prev => {
             return Object.fromEntries(
-               Object.entries(prev).filter(item => item[0] !== id)
+               Object.entries(prev).filter(item => item[0] !== id),
             );
          });
          queryClient.invalidateQueries({
@@ -188,8 +193,8 @@ const Table = ({ queryKey, source }: ISourceAndKey) => {
          if (sortingElement) {
             setSorting(prev =>
                prev.map(item =>
-                  item.id === id ? { ...item, desc: !item.desc } : item
-               )
+                  item.id === id ? { ...item, desc: !item.desc } : item,
+               ),
             );
          } else {
             setSorting([
@@ -284,6 +289,7 @@ const Table = ({ queryKey, source }: ISourceAndKey) => {
                   resettingSelection={resettingSelection}
                   source={source}
                   queryKey={queryKey}
+                  session={session}
                />
                {!isPending && isSuccess && response?.count === 0 ? (
                   inputValue === null ? (
@@ -321,7 +327,7 @@ const Table = ({ queryKey, source }: ISourceAndKey) => {
                                              if (!isPending) {
                                                 sortingHandler(
                                                    header.id,
-                                                   header.column.getCanSort()
+                                                   header.column.getCanSort(),
                                                 );
                                              }
                                           }}
@@ -329,13 +335,14 @@ const Table = ({ queryKey, source }: ISourceAndKey) => {
                                           <div>
                                              {flexRender(
                                                 header.column.columnDef.header,
-                                                header.getContext()
+                                                header.getContext(),
                                              )}
                                           </div>
                                           {checkIsSorted(header.id) && (
                                              <div className="absolute -right-6 top-1/2 -translate-y-1/2">
                                                 {sorting.find(
-                                                   item => item.id === header.id
+                                                   item =>
+                                                      item.id === header.id,
                                                 )?.desc ? (
                                                    <ArrowDown size={18} />
                                                 ) : (
@@ -370,12 +377,14 @@ const Table = ({ queryKey, source }: ISourceAndKey) => {
                                           style={{
                                              width: `${
                                                 cell.column.getSize() !== 150
-                                                   ? cell.column.getSize() + "px"
+                                                   ? cell.column.getSize() +
+                                                     "px"
                                                    : ""
                                              }`,
                                              minWidth: `${
                                                 cell.column.getSize() !== 150
-                                                   ? cell.column.getSize() + "px"
+                                                   ? cell.column.getSize() +
+                                                     "px"
                                                    : ""
                                              }`,
                                           }}
@@ -383,7 +392,7 @@ const Table = ({ queryKey, source }: ISourceAndKey) => {
                                           <div className="size-full overflow-hidden whitespace-nowrap text-ellipsis">
                                              {flexRender(
                                                 cell.column.columnDef.cell,
-                                                cell.getContext()
+                                                cell.getContext(),
                                              )}
                                           </div>
                                        </td>

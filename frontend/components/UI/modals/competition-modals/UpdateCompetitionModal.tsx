@@ -85,7 +85,7 @@ const UpdateCompetitionModal = ({
    };
 
    const closeCurrentModal = (
-      e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
    ) => {
       const formState = form.state.values;
       if (

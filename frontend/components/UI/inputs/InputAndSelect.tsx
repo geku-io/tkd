@@ -24,7 +24,8 @@ import useOutside from "../../../hooks/useOutside";
 import { cn } from "../../../lib/utils";
 
 export interface ISelectProps
-   extends Partial<ISourceAndKey>,
+   extends
+      Partial<ISourceAndKey>,
       Omit<VariantProps<typeof buttonVariants>, "size">,
       Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
    size?: VariantProps<typeof buttonVariants>["size"];
@@ -76,7 +77,7 @@ const InputAndSelect = ({
 }: ISelectProps) => {
    const commandRef = useRef<HTMLDivElement>(null);
    const [uncontrolledValue, setUncontrolledValue] = useState(
-      initialValue ? initialValue : ""
+      initialValue ? initialValue : "",
    );
    const [uncontrolledSelectedValues, setUncontrolledSelectedValues] = useState<
       string[]
@@ -94,7 +95,6 @@ const InputAndSelect = ({
          ? controlledSelectedValues
          : uncontrolledSelectedValues;
    const debouncedValue = useDebounce(value);
-
    const {
       data: response,
       isError,
@@ -103,7 +103,7 @@ const InputAndSelect = ({
       queryKey: [queryKey, debouncedValue],
       queryFn: async () => {
          const result = await fetchApi<IBaseEntityWithTitleAndCount>(
-            `${source}?q=${encodeURIComponent(debouncedValue)}`
+            `${source}?q=${encodeURIComponent(debouncedValue)}`,
          );
          return result;
       },
@@ -111,7 +111,7 @@ const InputAndSelect = ({
    });
 
    const suggestedItems = response?.data.filter(
-      item => !selectedValues.includes(item.title)
+      item => !selectedValues.includes(item.title),
    );
 
    const closeHandler = () => {
@@ -181,11 +181,11 @@ const InputAndSelect = ({
          unselectHandler(selectedVal);
          if (isControlledSelect && setControlledSelectedValues) {
             setControlledSelectedValues(
-               selectedValues.filter(item => item !== selectedVal)
+               selectedValues.filter(item => item !== selectedVal),
             );
          } else {
             setUncontrolledSelectedValues(
-               selectedValues.filter(item => item !== selectedVal)
+               selectedValues.filter(item => item !== selectedVal),
             );
          }
       }
@@ -205,7 +205,7 @@ const InputAndSelect = ({
       if (e.key === "ArrowUp") {
          e.preventDefault();
          setHoverIndex(
-            prev => (prev - 1 + suggestedItems.length) % suggestedItems.length
+            prev => (prev - 1 + suggestedItems.length) % suggestedItems.length,
          );
       }
       if (e.key === "Enter" && hoverIndex >= 0) {
@@ -327,7 +327,7 @@ const InputAndSelect = ({
                         key={selectedVal + index}
                         className={cn(
                            "shrink-0 flex items-center gap-x-4",
-                           heightStyle
+                           heightStyle,
                         )}
                      >
                         <div className="flex items-center h-full grow bg-light-gray rounded-lg pl-4">

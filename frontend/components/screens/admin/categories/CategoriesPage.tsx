@@ -6,8 +6,9 @@ import CreateModal from "../../../UI/modals/CreateModal";
 import { API } from "../../../../constants/api";
 import { QUERY_KEYS } from "../../../../constants/queryKeys";
 import Table from "../../../UI/table/Table";
+import { IAuthUser } from "../../../../types/main.types";
 
-const CategoriesPage = () => {
+const CategoriesPage = ({ session }: { session: IAuthUser }) => {
    const [isOpen, setIsOpen] = useState(false);
    return (
       <MainBlock
@@ -21,7 +22,11 @@ const CategoriesPage = () => {
             source={API.CATEGORIES}
             queryKey={QUERY_KEYS.CATEGORIES}
          />
-         <Table source={API.CATEGORIES} queryKey={QUERY_KEYS.CATEGORIES} />
+         <Table
+            session={session}
+            source={API.CATEGORIES}
+            queryKey={QUERY_KEYS.CATEGORIES}
+         />
       </MainBlock>
    );
 };

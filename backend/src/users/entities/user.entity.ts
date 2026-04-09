@@ -1,6 +1,7 @@
 import { BaseEntity } from 'src/common/entity';
 import { UserRole } from 'src/types/enums';
-import { Column, Entity } from 'typeorm';
+import { UsersTournamentsArena } from 'src/users_tournaments_arenas/entities/users_tournaments_arena.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -19,4 +20,7 @@ export class User extends BaseEntity {
     default: UserRole.EDITOR,
   })
   role: UserRole;
+
+  @OneToMany(() => UsersTournamentsArena, (uta) => uta.user, { nullable: true })
+  tournamentsArenas?: UsersTournamentsArena[];
 }

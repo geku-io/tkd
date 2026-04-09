@@ -9,9 +9,15 @@ import { cn } from "../../../lib/utils";
 
 interface IProps {
    tournaments: ITournament[];
+   isInteractive?: boolean;
+   selectedItems?: string[];
 }
 
-const TournamentGrid = ({ tournaments }: IProps) => {
+const TournamentGrid = ({
+   tournaments,
+   isInteractive = false,
+   selectedItems,
+}: IProps) => {
    const { socketRef } = useGetSocketContext();
    const queryClient = useQueryClient();
    useEffect(() => {
@@ -27,17 +33,18 @@ const TournamentGrid = ({ tournaments }: IProps) => {
       };
    }, [socketRef, queryClient]);
    return (
-      <div className="max-w-[1440px] px-4 py-10 mx-auto">
+      <>
          {tournaments.map(tournament => {
             const sortedArenas = tournament.arenas.sort(
                (a, b) => a.order - b.order,
             );
+            console.log("sorted", sortedArenas);
             const competitionsByArena = sortedArenas.map(itemComp =>
                tournament.competitions
                   .filter(i => i.arena.id === itemComp.arena.id)
                   .sort((a, b) => a.order - b.order),
             );
-            console.log("sorted: ", competitionsByArena);
+            // console.log(competitionsByArena);
             return (
                <div className="mb-12" key={tournament.id}>
                   <h2 className="mb-4 max-sm:text-center">
@@ -51,26 +58,31 @@ const TournamentGrid = ({ tournaments }: IProps) => {
                               "max-sm:justify-center",
                            )}
                         >
-                           {competitionsByArena.map(competitions => {
+                           {competitionsByArena.map((competitions, index) => {
                               if (competitions.length !== 0) {
                                  return (
                                     <TournamentCard
                                        key={competitions[0].id}
                                        tournamentId={tournament.id}
+                                       arenaId={sortedArenas[index].id}
                                        competitions={competitions}
+                                       isInteractive={isInteractive}
+                                       isSelected={selectedItems?.includes(
+                                          sortedArenas[index].id,
+                                       )}
                                     />
                                  );
                               }
                            })}
                         </div>
                      ) : (
-                        <div>Нет арен</div>
+                        <div className="text-black">Нет арен</div>
                      )}
                   </div>
                </div>
             );
          })}
-      </div>
+      </>
    );
 };
 

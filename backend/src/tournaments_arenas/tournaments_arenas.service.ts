@@ -24,6 +24,7 @@ export class TournamentsArenasService {
   ) {}
 
   async create(createTournamentsArenaDto: CreateTournamentsArenaDto) {
+    console.log('create');
     const { titles, tournamentId } = createTournamentsArenaDto;
     const createdList: TournamentsArena[] = [];
     for (const title of titles) {

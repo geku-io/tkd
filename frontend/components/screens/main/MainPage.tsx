@@ -10,20 +10,34 @@ import TournamentGrid from "../../UI/tournament-card/TournamentGrid";
 import MainSpinner from "../../UI/MainSpinner";
 import Image from "next/image";
 
-const MainPage = () => {
-   const { data, isPending, isError } = useQuery({
-      queryKey: [QUERY_KEYS.TOURNAMENTS],
+interface IProps {
+   isInteractive?: boolean;
+   isPending?: boolean;
+   selectedItems?: string[];
+}
+
+const MainPage = ({
+   isInteractive = false,
+   isPending = false,
+   selectedItems,
+}: IProps) => {
+   const {
+      data,
+      isPending: fetchIsPending,
+      isError,
+   } = useQuery({
+      queryKey: [QUERY_KEYS.BASE_TOURNAMENTS],
       queryFn: async () => {
          const result = await fetchApi<
             IBaseEntityWithTitleAndCount<ITournament>
-         >(API.TOURNAMENTS);
+         >(API.TOURNAMENTS_PUBLIC);
          const sortedResult = result.data
             .filter(tournament => tournament.isVisible)
             .sort((a, b) => a.order - b.order);
          return { ...result, data: sortedResult };
       },
    });
-   if (isPending) {
+   if (fetchIsPending || isPending) {
       return <MainSpinner />;
    }
    if (isError) {
@@ -43,7 +57,13 @@ const MainPage = () => {
          </div>
       );
    }
-   return <TournamentGrid tournaments={data.data} />;
+   return (
+      <TournamentGrid
+         tournaments={data.data}
+         selectedItems={selectedItems}
+         isInteractive={isInteractive}
+      />
+   );
 };
 
 export default MainPage;

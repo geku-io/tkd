@@ -24,7 +24,7 @@ export interface IUpdateCompetitionStatusBody {
    isLive?: boolean;
 }
 
-export interface IDeleteMany<T> {
+export interface IItemsArr<T> {
    items: T[];
 }
 

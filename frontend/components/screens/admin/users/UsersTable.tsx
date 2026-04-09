@@ -18,13 +18,20 @@ import { ArrowDown, ArrowUp, CircleX } from "lucide-react";
 import { toast } from "sonner";
 import styles from "../../../UI/table/Table.module.css";
 import UpdateUserModal from "./UpdateUserModal";
-import { IUser, UserRoleTitle } from "../../../../types/entities.types";
+import {
+   IUser,
+   UserRole,
+   UserRoleTitle,
+} from "../../../../types/entities.types";
 import { Checkbox } from "../../../UI/lib-components/checkbox";
 import { dateFormatter } from "../../../../utils/date-formatter";
 import UpdateAction from "../../../UI/table/UpdateAction";
 import DeleteAction from "../../../UI/table/DeleteAction";
 import { useDebounce } from "../../../../hooks/useDebounce";
-import { IBaseEntityWithTitleAndCount } from "../../../../types/main.types";
+import {
+   IAuthUser,
+   IBaseEntityWithTitleAndCount,
+} from "../../../../types/main.types";
 import { QUERY_KEYS } from "../../../../constants/queryKeys";
 import { fetchApi } from "../../../../lib/fetchApi";
 import { API } from "../../../../constants/api";
@@ -37,6 +44,8 @@ import NotSearched from "../../../UI/table/NotSearched";
 import { cn } from "../../../../lib/utils";
 import TableSkeleton from "../../../UI/table/TableSkeleton";
 import TableFooter from "../../../UI/table/TableFooter";
+import PickAction from "./PickAction";
+import PickArenasModal from "./PickArenasModal";
 
 const columnHelper = createColumnHelper<IUser>();
 
@@ -92,6 +101,17 @@ const columns = [
       size: 160,
    }),
    columnHelper.display({
+      id: "link",
+      cell: ({ row }) => {
+         const userRole = row.original.role;
+         if (userRole !== UserRole.ADMIN) {
+            return <PickAction id={row.id} />;
+         }
+         return null;
+      },
+      size: 20,
+   }),
+   columnHelper.display({
       id: "update",
       cell: ({ row }) => {
          return <UpdateAction id={row.id} />;
@@ -105,10 +125,11 @@ const columns = [
    }),
 ];
 
-const UsersTable = () => {
+const UsersTable = ({ session }: { session: IAuthUser }) => {
    const queryClient = useQueryClient();
    const [currentId, setCurrentId] = useState<string | null>(null);
    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
    const [rowSelection, setRowSelection] = useState({});
    const [inputValue, setInputValue] = useState<string | null>(null);
@@ -146,7 +167,7 @@ const UsersTable = () => {
          });
 
          const result = await fetchApi<IBaseEntityWithTitleAndCount<IUser>>(
-            `${API.USERS}?${params.toString()}`
+            `${API.USERS}?${params.toString()}`,
          );
          return result;
       },
@@ -164,7 +185,7 @@ const UsersTable = () => {
          toast.success("Записи успешно удалены");
          setRowSelection(prev => {
             return Object.fromEntries(
-               Object.entries(prev).filter(item => item[0] !== id)
+               Object.entries(prev).filter(item => item[0] !== id),
             );
          });
          queryClient.invalidateQueries({
@@ -192,8 +213,8 @@ const UsersTable = () => {
          if (sortingElement) {
             setSorting(prev =>
                prev.map(item =>
-                  item.id === id ? { ...item, desc: !item.desc } : item
-               )
+                  item.id === id ? { ...item, desc: !item.desc } : item,
+               ),
             );
          } else {
             setSorting([
@@ -262,11 +283,16 @@ const UsersTable = () => {
             currentId: currentId,
             showDeleteModal: () => setIsDeleteModalOpen(true),
             showUpdateModal: () => setIsUpdateModalOpen(true),
+            showCreateModal: () => setIsCreateModalOpen(true),
          }}
       >
          <UpdateUserModal
             isOpen={isUpdateModalOpen}
             setIsOpen={setIsUpdateModalOpen}
+         />
+         <PickArenasModal
+            isOpen={isCreateModalOpen}
+            setIsOpen={setIsCreateModalOpen}
          />
          <ConfirmModal
             title="Удаление"
@@ -280,6 +306,7 @@ const UsersTable = () => {
          <div>
             <div>
                <TableActions
+                  session={session}
                   value={inputValue ?? ""}
                   setValue={tableSearchHandler}
                   selectedIds={Object.keys(rowSelection)}
@@ -323,7 +350,7 @@ const UsersTable = () => {
                                              if (!isPending) {
                                                 sortingHandler(
                                                    header.id,
-                                                   header.column.getCanSort()
+                                                   header.column.getCanSort(),
                                                 );
                                              }
                                           }}
@@ -331,13 +358,14 @@ const UsersTable = () => {
                                           <div>
                                              {flexRender(
                                                 header.column.columnDef.header,
-                                                header.getContext()
+                                                header.getContext(),
                                              )}
                                           </div>
                                           {checkIsSorted(header.id) && (
                                              <div className="absolute -right-6 top-1/2 -translate-y-1/2">
                                                 {sorting.find(
-                                                   item => item.id === header.id
+                                                   item =>
+                                                      item.id === header.id,
                                                 )?.desc ? (
                                                    <ArrowDown size={18} />
                                                 ) : (
@@ -387,7 +415,7 @@ const UsersTable = () => {
                                           <div className="size-full overflow-hidden whitespace-nowrap text-ellipsis">
                                              {flexRender(
                                                 cell.column.columnDef.cell,
-                                                cell.getContext()
+                                                cell.getContext(),
                                              )}
                                           </div>
                                        </td>

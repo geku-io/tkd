@@ -15,7 +15,7 @@ import { RemoveTournamentsArenaDto } from './dto/delete-tournaments_arena.dto';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { UserRole } from 'src/types/enums';
 
-@Roles([UserRole.ADMIN])
+@Roles([UserRole.ADMIN, UserRole.EDITOR])
 @Controller('tournaments-arenas')
 export class TournamentsArenasController {
   constructor(

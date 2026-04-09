@@ -50,7 +50,6 @@ const CreateModal = ({
          setCurrentType(null);
       }
    };
-
    const { mutate: createEntities } = useCreateEntities({
       queryKey,
       source,
@@ -78,7 +77,7 @@ const CreateModal = ({
    };
 
    const closeCurrentModal = (
-      e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
    ) => {
       if (selectedValues.length > 0) {
          e.preventDefault();

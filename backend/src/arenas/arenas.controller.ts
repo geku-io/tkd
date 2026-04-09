@@ -19,7 +19,7 @@ import {
   FindDto,
 } from 'src/common/dto';
 
-@Roles([UserRole.ADMIN])
+@Roles([UserRole.ADMIN, UserRole.EDITOR])
 @Controller('arenas')
 export class ArenasController {
   constructor(private readonly arenasService: ArenasService) {}
