@@ -1,5 +1,5 @@
 import React from "react";
-import { ICompetition } from "../../../types/entities.types";
+import { ICompetition, ITournamentArena } from "../../../types/entities.types";
 import { cn } from "../../../lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "../../../constants/queryKeys";
@@ -8,7 +8,7 @@ import { useGetModalsContext } from "../../../contexts/ModalsContext";
 interface IProps {
    competitions: ICompetition[];
    tournamentId: string;
-   arenaId: string;
+   arena: ITournamentArena;
    isInteractive?: boolean;
    isSelected?: boolean;
 }
@@ -16,7 +16,7 @@ interface IProps {
 const TournamentCard = ({
    competitions,
    isInteractive,
-   arenaId,
+   arena,
    isSelected,
 }: IProps) => {
    const { currentId } = useGetModalsContext<string>();
@@ -40,10 +40,10 @@ const TournamentCard = ({
             [QUERY_KEYS.USERS_IN_ARENAS, currentId],
             old => {
                if (!old) return;
-               if (old.includes(arenaId)) {
-                  return old.filter(item => item !== arenaId);
+               if (old.includes(arena.id)) {
+                  return old.filter(item => item !== arena.id);
                } else {
-                  return old.concat(arenaId);
+                  return old.concat(arena.id);
                }
             },
          );
@@ -63,9 +63,7 @@ const TournamentCard = ({
       >
          <div className="flex flex-col h-full text-black py-4 px-2">
             <div className="flex items-center justify-between mb-4">
-               <div className="font-medium pl-2">
-                  {competitions[0].arena.title}
-               </div>
+               <div className="font-medium pl-2">{arena.arena.title}</div>
             </div>
             <div className="grow flex flex-col">
                <div className="grow">

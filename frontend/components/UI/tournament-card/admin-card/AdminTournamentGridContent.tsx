@@ -128,31 +128,32 @@ const AdminTournamentGridContent = ({ data }: IProps) => {
                      <h2 className="inline-block max-sm:grow">
                         {currentTournament.title}
                      </h2>
-                     <div className="flex items-center gap-x-1">
-                        <button
-                           type="button"
-                           className="size-5"
-                           onClick={() =>
-                              updateVisibility.mutate({
-                                 ...currentTournament,
-                                 isVisible: !currentTournament.isVisible,
-                              })
-                           }
-                        >
-                           {currentTournament.isVisible ? (
-                              <Eye className="size-full" />
-                           ) : (
-                              <EyeOff className="size-full" />
-                           )}
-                        </button>
-                        {user?.role === UserRole.ADMIN && (
+                     {user?.role === UserRole.ADMIN && (
+                        <div className="flex items-center gap-x-1">
+                           <button
+                              type="button"
+                              className="size-5"
+                              onClick={() =>
+                                 updateVisibility.mutate({
+                                    ...currentTournament,
+                                    isVisible: !currentTournament.isVisible,
+                                 })
+                              }
+                           >
+                              {currentTournament.isVisible ? (
+                                 <Eye className="size-full" />
+                              ) : (
+                                 <EyeOff className="size-full" />
+                              )}
+                           </button>
+
                            <TournamentOptions
                               showDelete={showTournamentDeleteModal}
                               showUpdate={showTournamentUpdateModal}
                               showCreate={showArenaCreateModal}
                            />
-                        )}
-                     </div>
+                        </div>
+                     )}
                   </div>
                   <div>
                      {arenaIds.length !== 0 ? (

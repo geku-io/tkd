@@ -33,7 +33,7 @@ const PickArenasModal = ({ isOpen, setIsOpen }: IModalProps) => {
    });
 
    const { data: selectedArenas, isFetching } = useQuery({
-      queryKey: [QUERY_KEYS.USERS_IN_ARENAS, currentId],
+      queryKey: [QUERY_KEYS.TOURNAMENTS, QUERY_KEYS.USERS_IN_ARENAS, currentId],
       queryFn: async () => {
          if (currentId) {
             const result = await fetchApi<IUsersTourArenas[]>(

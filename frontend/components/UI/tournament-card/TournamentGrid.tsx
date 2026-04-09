@@ -38,20 +38,21 @@ const TournamentGrid = ({
             const sortedArenas = tournament.arenas.sort(
                (a, b) => a.order - b.order,
             );
-            console.log("sorted", sortedArenas);
             const competitionsByArena = sortedArenas.map(itemComp =>
                tournament.competitions
                   .filter(i => i.arena.id === itemComp.arena.id)
                   .sort((a, b) => a.order - b.order),
             );
-            // console.log(competitionsByArena);
             return (
                <div className="mb-12" key={tournament.id}>
                   <h2 className="mb-4 max-sm:text-center">
                      {tournament.title}
                   </h2>
                   <div>
-                     {competitionsByArena.length !== 0 ? (
+                     {competitionsByArena.reduce(
+                        (prev, current) => (prev += current.length),
+                        0,
+                     ) !== 0 || isInteractive ? (
                         <div
                            className={cn(
                               styles["card-grid"],
@@ -59,12 +60,12 @@ const TournamentGrid = ({
                            )}
                         >
                            {competitionsByArena.map((competitions, index) => {
-                              if (competitions.length !== 0) {
+                              if (competitions.length !== 0 || isInteractive) {
                                  return (
                                     <TournamentCard
-                                       key={competitions[0].id}
+                                       key={sortedArenas[index].id}
                                        tournamentId={tournament.id}
-                                       arenaId={sortedArenas[index].id}
+                                       arena={sortedArenas[index]}
                                        competitions={competitions}
                                        isInteractive={isInteractive}
                                        isSelected={selectedItems?.includes(
