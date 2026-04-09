@@ -37,7 +37,7 @@ const TournamentCard = ({
    const handleClick = () => {
       if (isInteractive && currentId) {
          queryClient.setQueryData<string[]>(
-            [QUERY_KEYS.USERS_IN_ARENAS, currentId],
+            [QUERY_KEYS.TOURNAMENTS, QUERY_KEYS.USERS_IN_ARENAS, currentId],
             old => {
                if (!old) return;
                if (old.includes(arena.id)) {
