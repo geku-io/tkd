@@ -63,7 +63,10 @@ const UpdateUserModal = ({ isOpen, setIsOpen }: IModalProps) => {
          password: data?.password ?? "",
       },
       onSubmit: ({ value }) => {
-         updateUser(value);
+         updateUser({
+            ...value,
+            password: value.password ? value.password : undefined,
+         });
       },
    });
 
@@ -81,7 +84,7 @@ const UpdateUserModal = ({ isOpen, setIsOpen }: IModalProps) => {
    };
 
    const closeCurrentModal = (
-      e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
    ) => {
       if (
          data &&
@@ -190,7 +193,7 @@ const UpdateUserModal = ({ isOpen, setIsOpen }: IModalProps) => {
                                                       >
                                                          {UserRoleTitle[item]}
                                                       </SelectItem>
-                                                   )
+                                                   ),
                                                 )}
                                              </SelectGroup>
                                           </SelectContent>
