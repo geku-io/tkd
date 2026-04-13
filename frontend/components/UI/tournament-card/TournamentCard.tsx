@@ -62,10 +62,7 @@ const TournamentCard = ({
                   {filteredCompetitions.length > 0 && (
                      <div className="flex flex-col gap-y-3">
                         {filteredCompetitions.map((item, index) => (
-                           <div
-                              key={item.id}
-                              className="px-2 text-base tracking-wide"
-                           >
+                           <div key={item.id} className="px-2 text-base">
                               <div
                                  className={cn("flex items-start gap-x-1", {
                                     "font-bold": item.isLive,
