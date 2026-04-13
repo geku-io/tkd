@@ -6,9 +6,8 @@ import CreateModal from "../../../UI/modals/CreateModal";
 import { API } from "../../../../constants/api";
 import { QUERY_KEYS } from "../../../../constants/queryKeys";
 import Table from "../../../UI/table/Table";
-import { IAuthUser } from "../../../../types/main.types";
 
-const DisciplinesPage = ({ session }: { session: IAuthUser }) => {
+const DisciplinesPage = () => {
    const [isOpen, setIsOpen] = useState(false);
    return (
       <MainBlock
@@ -22,11 +21,7 @@ const DisciplinesPage = ({ session }: { session: IAuthUser }) => {
             source={API.DISCIPLINES}
             queryKey={QUERY_KEYS.DISCIPLINES}
          />
-         <Table
-            session={session}
-            source={API.DISCIPLINES}
-            queryKey={QUERY_KEYS.DISCIPLINES}
-         />
+         <Table source={API.DISCIPLINES} queryKey={QUERY_KEYS.DISCIPLINES} />
       </MainBlock>
    );
 };

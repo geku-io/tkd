@@ -28,7 +28,6 @@ import NotExist from "../NotExist";
 import UpdateModal from "../modals/UpdateModal";
 import ConfirmModal from "../modals/ConfirmModal";
 import {
-   IAuthUser,
    IBaseEntityWithTitle,
    IBaseEntityWithTitleAndCount,
    ISourceAndKey,
@@ -101,11 +100,7 @@ const columns = [
    }),
 ];
 
-interface IProps extends ISourceAndKey {
-   session: IAuthUser;
-}
-
-const Table = ({ queryKey, source, session }: IProps) => {
+const Table = ({ queryKey, source }: ISourceAndKey) => {
    const queryClient = useQueryClient();
    const [currentId, setCurrentId] = useState<string | null>(null);
    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -289,7 +284,6 @@ const Table = ({ queryKey, source, session }: IProps) => {
                   resettingSelection={resettingSelection}
                   source={source}
                   queryKey={queryKey}
-                  session={session}
                />
                {!isPending && isSuccess && response?.count === 0 ? (
                   inputValue === null ? (

@@ -15,7 +15,7 @@ const Page = async () => {
    if (!checkAuth(ROUTES_ROLES.DISCIPLINES, session.role)) {
       redirect(ROUTES.HOME);
    }
-   return <DisciplinesPage session={session} />;
+   return <DisciplinesPage />;
 };
 
 export default Page;
