@@ -16,12 +16,17 @@ export class DisciplinesService {
   ) {}
 
   async create(createDisciplineDto: EntityWithTitleArrDto) {
-    const entities = createDisciplineDto.titles.map((item) => ({
-      title: item,
-    }));
-    return this.disciplineRepository.save(
-      this.disciplineRepository.create(entities),
-    );
+    const createResult: Discipline[] = [];
+    for (const title of createDisciplineDto.titles) {
+      let entity = await this.disciplineRepository.findOneBy({ title });
+      if (!entity) {
+        entity = await this.disciplineRepository.save(
+          this.disciplineRepository.create({ title }),
+        );
+      }
+      createResult.push(entity);
+    }
+    return createResult;
   }
 
   async findAll(query: FindDto) {

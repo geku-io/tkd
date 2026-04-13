@@ -23,7 +23,7 @@ export class Competition extends EntityWithOrder {
   startTime?: string;
 
   @ManyToOne(() => Discipline, (discipline) => discipline.competitions, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
     nullable: true,
     eager: true,
   })
@@ -31,7 +31,7 @@ export class Competition extends EntityWithOrder {
   discipline?: Discipline;
 
   @ManyToOne(() => Arena, (arena) => arena.competitions, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
     nullable: true,
   })
   @JoinColumn({ name: 'arena_id' })
