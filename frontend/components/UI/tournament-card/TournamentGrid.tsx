@@ -43,6 +43,7 @@ const TournamentGrid = ({
                   .filter(i => i.arena.id === itemComp.arena.id)
                   .sort((a, b) => a.order - b.order),
             );
+            // console.log(competitionsByArena);
             return (
                <div className="mb-12" key={tournament.id}>
                   <h2 className="mb-4 max-sm:text-center">

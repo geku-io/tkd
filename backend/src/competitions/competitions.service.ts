@@ -319,6 +319,37 @@ export class CompetitionsService {
         isFinished,
         isLive,
       });
+      /* const changedItem = await this.competitionRepository.findOne({
+        where: { id },
+        relations: {
+          arena: true,
+          tournament: true,
+        },
+      });
+      console.log('ch', changedItem);
+      if (changedItem && changedItem.arena) {
+        const nextItem = await this.competitionRepository.findOne({
+          where: {
+            arena: {
+              id: changedItem.arena.id,
+            },
+            tournament: {
+              id: changedItem.tournament.id,
+            },
+            isFinished: false,
+          },
+          order: {
+            order: 'ASC',
+          },
+        });
+        console.log('next', nextItem);
+        if (nextItem && !nextItem.isLive) {
+          await this.competitionRepository.update(nextItem.id, {
+            isLive: true,
+          });
+        }
+      } */
+
       this.gateway.server.emit('tournament:edited', updatedStatus);
       return updatedStatus;
     }

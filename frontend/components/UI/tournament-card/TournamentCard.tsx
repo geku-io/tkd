@@ -21,18 +21,10 @@ const TournamentCard = ({
 }: IProps) => {
    const { currentId } = useGetModalsContext<string>();
    const queryClient = useQueryClient();
-   const sortedCompetitions = competitions
-      .slice()
-      .sort(
-         (a, b) =>
-            new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime(),
-      );
 
-   const finishedCompetitions = sortedCompetitions.filter(
-      item => item.isFinished,
-   );
+   const finishedCompetitions = competitions.filter(item => item.isFinished);
    const filteredCompetitions = finishedCompetitions.concat(
-      sortedCompetitions.filter(item => !item.isFinished),
+      competitions.filter(item => !item.isFinished),
    );
    const handleClick = () => {
       if (isInteractive && currentId) {
@@ -70,8 +62,15 @@ const TournamentCard = ({
                   {filteredCompetitions.length > 0 && (
                      <div className="flex flex-col gap-y-3">
                         {filteredCompetitions.map((item, index) => (
-                           <div key={item.id} className="px-2 text-sm">
-                              <div className="flex items-start gap-x-1">
+                           <div
+                              key={item.id}
+                              className="px-2 text-base tracking-wide"
+                           >
+                              <div
+                                 className={cn("flex items-start gap-x-1", {
+                                    "font-bold": item.isLive,
+                                 })}
+                              >
                                  <span>{index + 1}.</span>
                                  <div className="grow flex gap-x-2 items-start justify-between">
                                     <div
