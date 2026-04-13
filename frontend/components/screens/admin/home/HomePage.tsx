@@ -43,7 +43,7 @@ const HomePage = ({ session }: ISession) => {
          title="Список соревнований"
          subTitle="Наглядное представление всех соревнований и мест их проведения"
          actions={
-            checkAuth(session.role, ROUTES_ROLES.NEW_COMPETITION) && (
+            checkAuth(ROUTES_ROLES.NEW_COMPETITION, session.role) && (
                <AddingButton link={ROUTES.NEW_COMPETITION} />
             )
          }

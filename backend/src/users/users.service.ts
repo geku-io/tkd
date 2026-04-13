@@ -6,6 +6,8 @@ import { CreateUserDto } from './dto/create-users.dto';
 import { UpdateUserDto } from './dto/update-users.dto';
 import bcrypt from 'bcrypt';
 import { FindDto } from 'src/common/dto';
+import { JwtPayload } from 'src/auth/guards/auth/auth.guard';
+import { DeleteResult } from 'typeorm/browser';
 
 @Injectable()
 export class UsersService {
@@ -80,11 +82,21 @@ export class UsersService {
     });
   }
 
-  remove(id: string) {
+  remove(id: string, user: JwtPayload) {
+    if (user.id === id) {
+      throw new Error('Вы не можете удалить свой аккаунт');
+    }
     return this.userRepository.delete(id);
   }
 
-  removeMany(ids: string[]) {
-    return this.userRepository.delete(ids);
+  async removeMany(ids: string[], user: JwtPayload) {
+    const deleteResult: DeleteResult[] = [];
+    for (const id of ids) {
+      if (user.id !== id) {
+        const deletedItem = await this.userRepository.delete(id);
+        deleteResult.push(deletedItem);
+      }
+    }
+    return deleteResult;
   }
 }

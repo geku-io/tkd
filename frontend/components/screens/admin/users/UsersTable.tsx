@@ -28,10 +28,7 @@ import { dateFormatter } from "../../../../utils/date-formatter";
 import UpdateAction from "../../../UI/table/UpdateAction";
 import DeleteAction from "../../../UI/table/DeleteAction";
 import { useDebounce } from "../../../../hooks/useDebounce";
-import {
-   IAuthUser,
-   IBaseEntityWithTitleAndCount,
-} from "../../../../types/main.types";
+import { IBaseEntityWithTitleAndCount } from "../../../../types/main.types";
 import { QUERY_KEYS } from "../../../../constants/queryKeys";
 import { fetchApi } from "../../../../lib/fetchApi";
 import { API } from "../../../../constants/api";
@@ -46,6 +43,7 @@ import TableSkeleton from "../../../UI/table/TableSkeleton";
 import TableFooter from "../../../UI/table/TableFooter";
 import PickAction from "./PickAction";
 import PickArenasModal from "./PickArenasModal";
+import { useGetUserContext } from "../../../../providers/UserProvider";
 
 const columnHelper = createColumnHelper<IUser>();
 
@@ -120,13 +118,18 @@ const columns = [
    }),
    columnHelper.display({
       id: "delete",
-      cell: ({ row }) => <DeleteAction id={row.id} />,
+      cell: ({ row, table }) => {
+         if (table.options?.meta?.user?.id !== row.original.id) {
+            return <DeleteAction id={row.id} />;
+         }
+      },
       size: 20,
    }),
 ];
 
-const UsersTable = ({ session }: { session: IAuthUser }) => {
+const UsersTable = () => {
    const queryClient = useQueryClient();
+   const session = useGetUserContext();
    const [currentId, setCurrentId] = useState<string | null>(null);
    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -253,6 +256,9 @@ const UsersTable = ({ session }: { session: IAuthUser }) => {
       getRowId: row => {
          return row.id;
       },
+      meta: {
+         user: session,
+      },
    });
 
    const deleteAction = () => {
@@ -306,7 +312,6 @@ const UsersTable = ({ session }: { session: IAuthUser }) => {
          <div>
             <div>
                <TableActions
-                  session={session}
                   value={inputValue ?? ""}
                   setValue={tableSearchHandler}
                   selectedIds={Object.keys(rowSelection)}

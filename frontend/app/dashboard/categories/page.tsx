@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 const Page = async () => {
    const session = await verifySession();
-   if (!checkAuth(session.role, ROUTES_ROLES.CATEGORIES)) {
+   if (!checkAuth(ROUTES_ROLES.CATEGORIES, session.role)) {
       redirect(ROUTES.HOME);
    }
    return <CategoriesPage session={session} />;

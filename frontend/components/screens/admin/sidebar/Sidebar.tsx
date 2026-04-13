@@ -21,7 +21,7 @@ const Sidebar = ({ session }: ISession) => {
    const pathname = usePathname();
    const router = useRouter();
    const filteredRoutes = menuItems.filter(val =>
-      checkAuth(session.role, ROUTES_ROLES[val.link]),
+      checkAuth(ROUTES_ROLES[val.link], session.role),
    );
    const logoutHandler = async () => {
       const res = await fetchApi(API.LOGOUT, {

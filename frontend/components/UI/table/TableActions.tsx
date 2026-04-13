@@ -1,16 +1,16 @@
 import React from "react";
-import { IAuthUser, ISourceAndKey } from "../../../types/main.types";
+import { ISourceAndKey } from "../../../types/main.types";
 import TableSearch from "./TableSearch";
 import DropDown from "./DropDown";
 import { checkAuth } from "../../../utils/checkAuth";
 import { UserRole } from "../../../types/entities.types";
+import { useGetUserContext } from "../../../providers/UserProvider";
 
 interface IProps extends ISourceAndKey {
    value: string;
    setValue: (val: string) => void;
    selectedIds?: string[];
    resettingSelection: () => void;
-   session: IAuthUser;
 }
 
 const TableActions = ({
@@ -20,8 +20,8 @@ const TableActions = ({
    resettingSelection,
    source,
    queryKey,
-   session,
 }: IProps) => {
+   const session = useGetUserContext();
    return (
       <div className="flex items-center justify-between mb-8 gap-x-4">
          <div className="basis-xs">
@@ -31,7 +31,7 @@ const TableActions = ({
                placeholder="Введите название"
             />
          </div>
-         {checkAuth(session.role, [UserRole.ADMIN]) && (
+         {checkAuth([UserRole.ADMIN], session?.role) && (
             <DropDown
                ids={selectedIds}
                source={source}

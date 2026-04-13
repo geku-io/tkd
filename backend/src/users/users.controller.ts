@@ -16,6 +16,8 @@ import { UpdateUserDto } from './dto/update-users.dto';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { UserRole } from 'src/types/enums';
 import { EntityWithIdArrDto, FindDto } from 'src/common/dto';
+import { CurrentUser } from 'src/auth/decorators/currentUser.decorator';
+import { type JwtPayload } from 'src/auth/guards/auth/auth.guard';
 
 @Roles([UserRole.ADMIN])
 @Controller('users')
@@ -46,12 +48,15 @@ export class UsersController {
   }
 
   @Delete()
-  removeMany(@Body() dto: EntityWithIdArrDto) {
-    return this.usersService.removeMany(dto.items);
+  removeMany(@Body() dto: EntityWithIdArrDto, @CurrentUser() user: JwtPayload) {
+    return this.usersService.removeMany(dto.items, user);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.usersService.remove(id);
+  remove(
+    @Param('id', ParseUUIDPipe) id: string,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    return this.usersService.remove(id, user);
   }
 }

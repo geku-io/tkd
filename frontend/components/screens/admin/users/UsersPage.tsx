@@ -4,9 +4,8 @@ import MainBlock from "../MainBlock";
 import UsersTable from "./UsersTable";
 import CreateUserModal from "./CreateUserModal";
 import AddingButton from "../../../UI/buttons/AddingButton";
-import { IAuthUser } from "../../../../types/main.types";
 
-const UsersPage = ({ session }: { session: IAuthUser }) => {
+const UsersPage = () => {
    const [isOpen, setIsOpen] = useState(false);
    return (
       <MainBlock
@@ -14,7 +13,7 @@ const UsersPage = ({ session }: { session: IAuthUser }) => {
          actions={<AddingButton action={() => setIsOpen(true)} />}
       >
          <CreateUserModal isOpen={isOpen} setIsOpen={setIsOpen} />
-         <UsersTable session={session} />
+         <UsersTable />
       </MainBlock>
    );
 };

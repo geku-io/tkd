@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 const Page = async () => {
    const session = await verifySession();
-   if (!checkAuth(session.role, ROUTES_ROLES.NEW_COMPETITION)) {
+   if (!checkAuth(ROUTES_ROLES.NEW_COMPETITION, session.role)) {
       redirect(ROUTES.HOME);
    }
    return <NewCompetitionPage />;
