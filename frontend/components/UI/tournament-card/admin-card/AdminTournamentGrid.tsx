@@ -365,9 +365,9 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
       <DndContext
          collisionDetection={closestCenter}
          sensors={sensors}
-         onDragStart={dragStartHandler}
+         /* onDragStart={dragStartHandler}
          onDragEnd={dragEndHandler}
-         onDragOver={dragOverHandler}
+         onDragOver={dragOverHandler} */
       >
          <ModalsProvider<IModalIds | null, ModalType | null>
             value={{
