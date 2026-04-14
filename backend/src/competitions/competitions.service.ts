@@ -73,7 +73,7 @@ export class CompetitionsService {
       tournament = await this.tournamentRepository.findOne({
         where: [
           {
-            id: tournamentTitle,
+            id: tournamentId,
           },
         ],
       });
