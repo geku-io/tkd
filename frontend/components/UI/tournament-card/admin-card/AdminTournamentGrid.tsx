@@ -362,105 +362,35 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
    }, [socketRef, queryClient]);
 
    return (
-      <DndContext
-         collisionDetection={closestCenter}
-         sensors={sensors}
-         /* onDragStart={dragStartHandler}
-         onDragEnd={dragEndHandler}
-         onDragOver={dragOverHandler} */
+      <ModalsProvider<IModalIds | null, ModalType | null>
+         value={{
+            currentId,
+            setCurrentId,
+            currentType,
+            setCurrentType,
+            showDeleteModal: () => setIsDeleteModalOpen(true),
+            showUpdateModal: () => setIsUpdateModalOpen(true),
+            showCreateModal: () => setIsCreateModalOpen(true),
+         }}
       >
-         <ModalsProvider<IModalIds | null, ModalType | null>
-            value={{
-               currentId,
-               setCurrentId,
-               currentType,
-               setCurrentType,
-               showDeleteModal: () => setIsDeleteModalOpen(true),
-               showUpdateModal: () => setIsUpdateModalOpen(true),
-               showCreateModal: () => setIsCreateModalOpen(true),
-            }}
-         >
-            {isDeleteModalOpen && (
-               <ConfirmModal
-                  title={modalsProps?.title || modalsProps?.delete?.title}
-                  description={
-                     modalsProps?.description ||
-                     modalsProps?.delete?.description
-                  }
-                  actionBtnText="Удалить"
-                  confirmedAction={getDeleteAction()}
-                  isOpen={isDeleteModalOpen}
-                  setIsOpen={setIsDeleteModalOpen}
-                  btnType="delete"
-               />
-            )}
-            {isUpdateModalOpen &&
-               currentType !== "competition" &&
-               currentType !== "arena" && (
-                  <UpdateModal
-                     id={searchId ?? null}
-                     isOpen={isUpdateModalOpen}
-                     setIsOpen={setIsUpdateModalOpen}
-                     source={modalsProps?.update?.source ?? modalsProps?.source}
-                     searchSource={
-                        modalsProps?.update?.searchSource ??
-                        modalsProps?.searchSource
-                     }
-                     queryKey={
-                        modalsProps?.update?.queryKey ?? modalsProps?.queryKey
-                     }
-                  />
-               )}
-            {isCreateModalOpen && currentType !== "competition" && (
-               <CreateModal
-                  isOpen={isCreateModalOpen}
-                  setIsOpen={setIsCreateModalOpen}
-                  tournamentId={currentId?.tournamentId}
-                  isAdding={true}
-                  title={modalsProps?.title || modalsProps?.create?.title}
-                  description={
-                     modalsProps?.description ||
-                     modalsProps?.create?.description
-                  }
-                  source={modalsProps?.create?.source ?? modalsProps?.source}
-                  searchSource={
-                     modalsProps?.create?.searchSource ??
-                     modalsProps?.searchSource
-                  }
-                  queryKey={
-                     modalsProps?.create?.queryKey ?? modalsProps?.queryKey
-                  }
-               />
-            )}
-
-            {isCreateModalOpen && currentType === "competition" && (
-               <CreateCompetitionModal
-                  isOpen={isCreateModalOpen}
-                  setIsOpen={setIsCreateModalOpen}
-                  tournamentId={currentId?.tournamentId}
-                  arenaId={currentId?.arenaId}
-                  queryKey={
-                     modalsProps?.create?.queryKey ?? modalsProps?.queryKey
-                  }
-                  title="Добавление соревнованией"
-                  description="Добавьте одну или несколько записей дисциплин"
-               />
-            )}
-            {isUpdateModalOpen && currentType === "competition" && (
-               <UpdateCompetitionModal
+         {isDeleteModalOpen && (
+            <ConfirmModal
+               title={modalsProps?.title || modalsProps?.delete?.title}
+               description={
+                  modalsProps?.description || modalsProps?.delete?.description
+               }
+               actionBtnText="Удалить"
+               confirmedAction={getDeleteAction()}
+               isOpen={isDeleteModalOpen}
+               setIsOpen={setIsDeleteModalOpen}
+               btnType="delete"
+            />
+         )}
+         {isUpdateModalOpen &&
+            currentType !== "competition" &&
+            currentType !== "arena" && (
+               <UpdateModal
                   id={searchId ?? null}
-                  isOpen={isUpdateModalOpen}
-                  setIsOpen={setIsUpdateModalOpen}
-                  source={modalsProps?.update?.source ?? modalsProps?.source}
-                  queryKey={
-                     modalsProps?.update?.queryKey ?? modalsProps?.queryKey
-                  }
-                  title="Изменение соревнования"
-                  description="Измените название дисциплины или категорий у соревнования"
-               />
-            )}
-            {isUpdateModalOpen && currentType === "arena" && (
-               <UpdateArenaModal
                   isOpen={isUpdateModalOpen}
                   setIsOpen={setIsUpdateModalOpen}
                   source={modalsProps?.update?.source ?? modalsProps?.source}
@@ -471,12 +401,76 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
                   queryKey={
                      modalsProps?.update?.queryKey ?? modalsProps?.queryKey
                   }
-                  title="Изменение названия арены"
-                  description="Измените название арены для данного соревнования"
                />
             )}
-            <AdminTournamentGridContent data={tournaments} />
-         </ModalsProvider>
+         {isCreateModalOpen && currentType !== "competition" && (
+            <CreateModal
+               isOpen={isCreateModalOpen}
+               setIsOpen={setIsCreateModalOpen}
+               tournamentId={currentId?.tournamentId}
+               isAdding={true}
+               title={modalsProps?.title || modalsProps?.create?.title}
+               description={
+                  modalsProps?.description || modalsProps?.create?.description
+               }
+               source={modalsProps?.create?.source ?? modalsProps?.source}
+               searchSource={
+                  modalsProps?.create?.searchSource ?? modalsProps?.searchSource
+               }
+               queryKey={modalsProps?.create?.queryKey ?? modalsProps?.queryKey}
+            />
+         )}
+
+         {isCreateModalOpen && currentType === "competition" && (
+            <CreateCompetitionModal
+               isOpen={isCreateModalOpen}
+               setIsOpen={setIsCreateModalOpen}
+               tournamentId={currentId?.tournamentId}
+               arenaId={currentId?.arenaId}
+               queryKey={modalsProps?.create?.queryKey ?? modalsProps?.queryKey}
+               title="Добавление соревнованией"
+               description="Добавьте одну или несколько записей дисциплин"
+            />
+         )}
+         {isUpdateModalOpen && currentType === "competition" && (
+            <UpdateCompetitionModal
+               id={searchId ?? null}
+               isOpen={isUpdateModalOpen}
+               setIsOpen={setIsUpdateModalOpen}
+               source={modalsProps?.update?.source ?? modalsProps?.source}
+               queryKey={modalsProps?.update?.queryKey ?? modalsProps?.queryKey}
+               title="Изменение соревнования"
+               description="Измените название дисциплины или категорий у соревнования"
+            />
+         )}
+         {isUpdateModalOpen && currentType === "arena" && (
+            <UpdateArenaModal
+               isOpen={isUpdateModalOpen}
+               setIsOpen={setIsUpdateModalOpen}
+               source={modalsProps?.update?.source ?? modalsProps?.source}
+               searchSource={
+                  modalsProps?.update?.searchSource ?? modalsProps?.searchSource
+               }
+               queryKey={modalsProps?.update?.queryKey ?? modalsProps?.queryKey}
+               title="Изменение названия арены"
+               description="Измените название арены для данного соревнования"
+            />
+         )}
+         <AdminTournamentGridContent data={tournaments} />
+      </ModalsProvider>
+   );
+};
+
+export default AdminTournamentGrid;
+
+{
+   /* <DndContext
+         collisionDetection={closestCenter}
+         sensors={sensors}
+         onDragStart={dragStartHandler}
+         onDragEnd={dragEndHandler}
+         onDragOver={dragOverHandler}
+      >
          {createPortal(
             <DragOverlay>
                {activeDragId && overlayItem ? (
@@ -485,8 +479,5 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
             </DragOverlay>,
             document.body,
          )}
-      </DndContext>
-   );
-};
-
-export default AdminTournamentGrid;
+      </DndContext> */
+}
