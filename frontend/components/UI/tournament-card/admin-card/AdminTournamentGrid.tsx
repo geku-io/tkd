@@ -1,27 +1,14 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
+import React, { useEffect, useCallback } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import {
-   closestCenter,
-   DndContext,
-   DragEndEvent,
-   DragOverEvent,
-   DragOverlay,
-   DragStartEvent,
-   PointerSensor,
-   useSensor,
-   useSensors,
-} from "@dnd-kit/core";
-import CardOverlay from "./CardOverlay";
-import { arrayMove } from "@dnd-kit/sortable";
-import { createPortal } from "react-dom";
-import { IStructuredTournaments } from "../changeTournamentData";
+   IStructuredCompetition,
+   IStructuredTournaments,
+} from "../changeTournamentData";
 import AdminTournamentGridContent from "./AdminTournamentGridContent";
-import { useModalsService } from "./modals.service";
-import { modalOptions, ModalType } from "./tournamentModals.constant";
 import {
    IArenaInfo,
    IReorderCompetitionBody,
@@ -31,31 +18,8 @@ import { ITournament } from "../../../../types/entities.types";
 import { API } from "../../../../constants/api";
 import { fetchApi } from "../../../../lib/fetchApi";
 import { QUERY_KEYS } from "../../../../constants/queryKeys";
-import { SortableItemDataType } from "../../../../types/dnd.types";
-import { ModalsProvider } from "../../../../contexts/ModalsContext";
 import { useGetSocketContext } from "../../../../providers/SocketProvider";
-
-const UpdateArenaModal = dynamic(
-   () => import("../../modals/arena-modals/UpdateArenaModal"),
-   { ssr: false },
-);
-const CreateCompetitionModal = dynamic(
-   () => import("../../modals/competition-modals/CreateCompetitionModal"),
-   { ssr: false },
-);
-const CreateModal = dynamic(() => import("../../modals/CreateModal"), {
-   ssr: false,
-});
-const UpdateCompetitionModal = dynamic(
-   () => import("../../modals/competition-modals/UpdateCompetitionModal"),
-   { ssr: false },
-);
-const ConfirmModal = dynamic(() => import("../../modals/ConfirmModal"), {
-   ssr: false,
-});
-const UpdateModal = dynamic(() => import("../../modals/UpdateModal"), {
-   ssr: false,
-});
+import AdminTournamentModals from "./AdminTournamentModals";
 
 interface IProps {
    tournaments: IStructuredTournaments;
@@ -65,50 +29,29 @@ export interface IModalIds extends Partial<IArenaInfo> {
    competitionId?: string;
 }
 
+interface IMutationVariables {
+   competitions: IReorderCompetitionBody[];
+   newState: IStructuredTournaments;
+}
+
 const AdminTournamentGrid = ({ tournaments }: IProps) => {
    const { socketRef } = useGetSocketContext();
    const queryClient = useQueryClient();
-   const [prevTournaments, setPrevTournaments] =
-      useState<IStructuredTournaments | null>(null);
-   const [currentId, setCurrentId] = useState<IModalIds | null>(null);
-   const [currentType, setCurrentType] = useState<ModalType | null>(null);
 
-   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+   function arrayMove(arr: string[], from: number, to: number) {
+      const copy = [...arr];
+      const [item] = copy.splice(from, 1);
+      copy.splice(to, 0, item);
+      return copy;
+   }
 
-   const {
-      deleteTournamentHandler,
-      deleteArenaHandler,
-      deleteCompetitionHandler,
-   } = useModalsService(currentId);
-
-   const searchId =
-      currentType === "competition"
-         ? currentId?.competitionId
-         : currentType === "arena"
-           ? currentId?.arenaId
-           : currentId?.tournamentId;
-
-   const getDeleteAction = () => {
-      if (currentType === "competition") {
-         return deleteCompetitionHandler;
-      } else if (currentType === "arena") {
-         return deleteArenaHandler;
-      } else {
-         return deleteTournamentHandler;
-      }
-   };
-
-   const [activeDragId, setActiveDragId] = useState<string | null>(null);
-   const sensors = useSensors(useSensor(PointerSensor));
-
-   const changeOrderMutation = useMutation<
+   const { mutate: changeOrder } = useMutation<
       IBaseEntityWithTitleAndCount<ITournament>,
       unknown,
-      IReorderCompetitionBody[]
+      IMutationVariables,
+      IStructuredTournaments | undefined
    >({
-      mutationFn: async (competitions: IReorderCompetitionBody[]) => {
+      mutationFn: async ({ competitions }: IMutationVariables) => {
          const res = await fetchApi<IBaseEntityWithTitleAndCount<ITournament>>(
             `${API.REORDER_COMPETITIONS}`,
             {
@@ -116,8 +59,22 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
                body: JSON.stringify({ items: competitions }),
             },
          );
-
          return res;
+      },
+
+      onMutate: async ({ newState }, context) => {
+         await context.client.cancelQueries({
+            queryKey: [QUERY_KEYS.TOURNAMENTS],
+         });
+
+         const previousTodos =
+            context.client.getQueryData<IStructuredTournaments>([
+               QUERY_KEYS.TOURNAMENTS,
+            ]);
+
+         queryClient.setQueryData([QUERY_KEYS.TOURNAMENTS], newState);
+
+         return previousTodos;
       },
 
       onError: (err, newCompetitions, onMutateResult, context) => {
@@ -125,7 +82,7 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
          if (onMutateResult) {
             context.client.setQueryData(
                [QUERY_KEYS.TOURNAMENTS],
-               prevTournaments,
+               onMutateResult,
             );
          }
       },
@@ -134,219 +91,170 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
          context.client.invalidateQueries({
             queryKey: [QUERY_KEYS.TOURNAMENTS],
          });
-         setPrevTournaments(null);
       },
    });
 
-   const getOverlayItem = () => {
-      if (activeDragId) {
-         return tournaments.competitions.byId[activeDragId];
-      }
-      return null;
-   };
+   const dragEndHandler = useCallback(
+      (event: DropResult) => {
+         const { destination, draggableId, source } = event;
 
-   const overlayItem = activeDragId ? getOverlayItem() : null;
+         const prevTournaments = tournaments;
 
-   const dragStartHandler = async (event: DragStartEvent) => {
-      setActiveDragId(event.active.id.toString());
-      await queryClient.cancelQueries({
-         queryKey: [QUERY_KEYS.TOURNAMENTS],
-      });
-      if (!prevTournaments) {
-         const prevState = queryClient.getQueryData<IStructuredTournaments>([
-            QUERY_KEYS.TOURNAMENTS,
-         ]);
-         if (prevState) {
-            setPrevTournaments(prevState);
-         }
-      }
-   };
+         if (destination && prevTournaments) {
+            const [initialTourId, initialArenaId] =
+               source.droppableId.split(",");
+            const [tourId, arenaId] = destination.droppableId.split(",");
 
-   const dragEndHandler = (event: DragEndEvent) => {
-      setActiveDragId(null);
-
-      const { active } = event;
-      const activeId = active.id as string;
-
-      const activeCompetition = active.data.current as SortableItemDataType;
-
-      const nextTournaments = queryClient.getQueryData<IStructuredTournaments>([
-         QUERY_KEYS.TOURNAMENTS,
-      ]);
-
-      if (!prevTournaments || !nextTournaments) return;
-
-      const fromTournamentId =
-         prevTournaments.competitions.byId[activeId].tournamentId;
-      const fromArenaId = prevTournaments.competitions.byId[activeId].arena.id;
-      const fromList =
-         prevTournaments.orderByArena[fromTournamentId][fromArenaId];
-
-      const toTournamentId = activeCompetition.tournamentId;
-      const toArenaId = activeCompetition.arenaId;
-      const toList = nextTournaments.orderByArena[toTournamentId][toArenaId];
-
-      const fromIndex = fromList.indexOf(activeId);
-      const toIndex = toList.indexOf(activeId);
-
-      if (
-         fromTournamentId === toTournamentId &&
-         fromArenaId === toArenaId &&
-         fromIndex === toIndex
-      ) {
-         return;
-      }
-
-      const nextBody: IReorderCompetitionBody[] = toList.map((item, index) => ({
-         id: item,
-         tournamentId: toTournamentId,
-         arenaId: toArenaId,
-         order: index + 1,
-      }));
-
-      if (fromTournamentId === toTournamentId && fromArenaId === toArenaId) {
-         const minIndex = Math.min(fromIndex, toIndex);
-         const maxIndex = Math.max(fromIndex, toIndex);
-
-         const filteredNextBody = nextBody.filter(
-            (_, index) => index >= minIndex && index <= maxIndex,
-         );
-
-         changeOrderMutation.mutate(filteredNextBody);
-      } else {
-         const newFromList = fromList.filter(item => item !== activeId);
-
-         const prevBody: IReorderCompetitionBody[] = newFromList.map(
-            (item, index) => ({
-               id: item,
-               tournamentId: fromTournamentId,
-               arenaId: fromArenaId,
-               order: index + 1,
-            }),
-         );
-
-         const filteredPrevBody = prevBody.filter(
-            (_, index) => index >= fromIndex,
-         );
-
-         const filteredNextBody = nextBody.filter(
-            (_, index) => index >= toIndex,
-         );
-
-         changeOrderMutation.mutate([...filteredPrevBody, ...filteredNextBody]);
-      }
-   };
-
-   const dragOverHandler = (event: DragOverEvent) => {
-      const { active, over } = event;
-
-      if (!prevTournaments || !over?.data.current || active.id === over.id)
-         return;
-      const overCompetition = over.data.current as SortableItemDataType;
-
-      queryClient.setQueryData<IStructuredTournaments>(
-         [QUERY_KEYS.TOURNAMENTS],
-         old => {
-            if (!old) return old;
-
-            const activeId = active.id as string;
-            const overId = over.id as string;
-
-            const fromTournamentId =
-               old.competitions.byId[activeId].tournamentId;
-            const fromArenaId = old.competitions.byId[activeId].arena.id;
-            const fromList = old.orderByArena[fromTournamentId][fromArenaId];
-
-            const toTournamentId = overCompetition.tournamentId;
-            const toArenaId = overCompetition.arenaId;
-            const toList = old.orderByArena[toTournamentId][toArenaId];
-
-            const fromIndex = fromList.indexOf(activeId);
-            const toIndex = toList.indexOf(overId);
+            const initialIndex = source.index;
+            const index = destination.index;
 
             if (
-               fromTournamentId === toTournamentId &&
-               fromArenaId === toArenaId
+               initialTourId === tourId &&
+               initialArenaId === arenaId &&
+               initialIndex === index
             ) {
-               const newList = arrayMove(fromList, fromIndex, toIndex);
-               return {
-                  ...old,
+               console.log("=== NOTHING CHANGED ===");
+               return;
+            }
+
+            const sourceList =
+               prevTournaments.orderByArena[initialTourId][initialArenaId];
+
+            const getOrderedCompetitions = (listArr: string[][]) => {
+               const orderedCompetitions: Record<
+                  string,
+                  IStructuredCompetition
+               > = {
+                  ...prevTournaments.competitions.byId,
+               };
+               for (const newList of listArr) {
+                  newList.forEach((competitionId, competitionIndex) => {
+                     orderedCompetitions[competitionId] = {
+                        ...prevTournaments.competitions.byId[competitionId],
+                        order: competitionIndex + 1,
+                     };
+                  });
+               }
+               return orderedCompetitions;
+            };
+
+            const getBody = (list: string[], tour: string, arena: string) => {
+               return list.map((item, index) => ({
+                  id: item,
+                  tournamentId: tour,
+                  arenaId: arena,
+                  order: index + 1,
+               }));
+            };
+
+            if (destination.droppableId === source.droppableId) {
+               const newList = arrayMove(sourceList, initialIndex, index);
+
+               const newState = {
+                  ...prevTournaments,
+                  competitions: {
+                     ...prevTournaments.competitions,
+                     byId: getOrderedCompetitions([newList]),
+                  },
                   orderByArena: {
-                     ...old.orderByArena,
-                     [fromTournamentId]: {
-                        ...old.orderByArena[fromTournamentId],
-                        [fromArenaId]: newList,
+                     ...prevTournaments.orderByArena,
+                     [initialTourId]: {
+                        ...prevTournaments.orderByArena[initialTourId],
+                        [initialArenaId]: newList,
                      },
                   },
                };
+
+               const nextBody: IReorderCompetitionBody[] = getBody(
+                  newList,
+                  tourId,
+                  arenaId,
+               );
+
+               const minIndex = Math.min(initialIndex, index);
+               const maxIndex = Math.max(initialIndex, index);
+
+               const filteredNextBody = nextBody.filter(
+                  (_, index) => index >= minIndex && index <= maxIndex,
+               );
+               changeOrder({ competitions: filteredNextBody, newState });
             } else {
-               const arenaEntity = old.arenas.byId[toArenaId];
+               const arenaEntity = prevTournaments.arenas.byId[arenaId];
 
-               const newFromList = fromList.filter(item => item !== activeId);
-               let newToList: string[] = [];
+               let newTargetList: string[] = [];
+               const targetList = prevTournaments.orderByArena[tourId][arenaId];
 
-               if (toList.length === 0) {
-                  newToList.push(activeId);
+               const newSourceList = sourceList.filter(
+                  item => item !== draggableId,
+               );
+
+               if (targetList.length === 0) {
+                  newTargetList.push(draggableId);
                } else {
-                  if (toIndex === -1) {
-                     newToList = [...toList, activeId];
+                  if (index === undefined) {
+                     newTargetList = targetList.concat(draggableId);
                   } else {
-                     newToList = [
-                        ...toList.slice(0, toIndex),
-                        activeId,
-                        ...toList.slice(toIndex),
+                     newTargetList = [
+                        ...targetList.slice(0, index),
+                        draggableId,
+                        ...targetList.slice(index),
                      ];
                   }
                }
 
-               let nextOrderByArena: Record<
-                  string,
-                  Record<string, string[]>
-               > = {};
+               const orderedCompetitions = getOrderedCompetitions([
+                  newSourceList,
+                  newTargetList,
+               ]);
 
-               if (fromTournamentId === toTournamentId) {
-                  nextOrderByArena = {
-                     ...old.orderByArena,
-                     [fromTournamentId]: {
-                        ...old.orderByArena[fromTournamentId],
-                        [fromArenaId]: newFromList,
-                        [toArenaId]: newToList,
-                     },
-                  };
-               } else {
-                  nextOrderByArena = {
-                     ...old.orderByArena,
-                     [fromTournamentId]: {
-                        ...old.orderByArena[fromTournamentId],
-                        [fromArenaId]: newFromList,
-                     },
-                     [toTournamentId]: {
-                        ...old.orderByArena[toTournamentId],
-                        [toArenaId]: newToList,
-                     },
-                  };
-               }
-               return {
-                  ...old,
+               const newState = {
+                  ...prevTournaments,
                   competitions: {
-                     ...old.competitions,
+                     ...prevTournaments.competitions,
                      byId: {
-                        ...old.competitions.byId,
-                        [activeId]: {
-                           ...old.competitions.byId[activeId],
+                        ...orderedCompetitions,
+                        [draggableId]: {
+                           ...orderedCompetitions[draggableId],
                            arena: arenaEntity.arena,
-                           tournamentId: toTournamentId,
+                           tournamentId: tourId,
                         },
                      },
                   },
-                  orderByArena: nextOrderByArena,
+                  orderByArena: {
+                     ...prevTournaments.orderByArena,
+                     [tourId]: {
+                        ...prevTournaments.orderByArena[tourId],
+                        [arenaId]: newTargetList,
+                        [initialArenaId]: newSourceList,
+                     },
+                  },
                };
-            }
-         },
-      );
-   };
 
-   const modalsProps = currentType && modalOptions[currentType];
+               const prevBody = getBody(
+                  newSourceList,
+                  initialTourId,
+                  initialArenaId,
+               );
+               const nextBody = getBody(newTargetList, tourId, arenaId);
+
+               console.log("prevBody", prevBody);
+               console.log("nextBody", nextBody);
+
+               const filteredPrevBody = prevBody.filter(
+                  (_, i) => i >= initialIndex,
+               );
+
+               const filteredNextBody = nextBody.filter((_, i) => i >= index);
+
+               changeOrder({
+                  competitions: [...filteredPrevBody, ...filteredNextBody],
+                  newState,
+               });
+            }
+         }
+      },
+      [changeOrder, tournaments],
+   );
 
    useEffect(() => {
       if (!socketRef || !socketRef.current) return;
@@ -362,122 +270,12 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
    }, [socketRef, queryClient]);
 
    return (
-      <ModalsProvider<IModalIds | null, ModalType | null>
-         value={{
-            currentId,
-            setCurrentId,
-            currentType,
-            setCurrentType,
-            showDeleteModal: () => setIsDeleteModalOpen(true),
-            showUpdateModal: () => setIsUpdateModalOpen(true),
-            showCreateModal: () => setIsCreateModalOpen(true),
-         }}
-      >
-         {isDeleteModalOpen && (
-            <ConfirmModal
-               title={modalsProps?.title || modalsProps?.delete?.title}
-               description={
-                  modalsProps?.description || modalsProps?.delete?.description
-               }
-               actionBtnText="Удалить"
-               confirmedAction={getDeleteAction()}
-               isOpen={isDeleteModalOpen}
-               setIsOpen={setIsDeleteModalOpen}
-               btnType="delete"
-            />
-         )}
-         {isUpdateModalOpen &&
-            currentType !== "competition" &&
-            currentType !== "arena" && (
-               <UpdateModal
-                  id={searchId ?? null}
-                  isOpen={isUpdateModalOpen}
-                  setIsOpen={setIsUpdateModalOpen}
-                  source={modalsProps?.update?.source ?? modalsProps?.source}
-                  searchSource={
-                     modalsProps?.update?.searchSource ??
-                     modalsProps?.searchSource
-                  }
-                  queryKey={
-                     modalsProps?.update?.queryKey ?? modalsProps?.queryKey
-                  }
-               />
-            )}
-         {isCreateModalOpen && currentType !== "competition" && (
-            <CreateModal
-               isOpen={isCreateModalOpen}
-               setIsOpen={setIsCreateModalOpen}
-               tournamentId={currentId?.tournamentId}
-               isAdding={true}
-               title={modalsProps?.title || modalsProps?.create?.title}
-               description={
-                  modalsProps?.description || modalsProps?.create?.description
-               }
-               source={modalsProps?.create?.source ?? modalsProps?.source}
-               searchSource={
-                  modalsProps?.create?.searchSource ?? modalsProps?.searchSource
-               }
-               queryKey={modalsProps?.create?.queryKey ?? modalsProps?.queryKey}
-            />
-         )}
-
-         {isCreateModalOpen && currentType === "competition" && (
-            <CreateCompetitionModal
-               isOpen={isCreateModalOpen}
-               setIsOpen={setIsCreateModalOpen}
-               tournamentId={currentId?.tournamentId}
-               arenaId={currentId?.arenaId}
-               queryKey={modalsProps?.create?.queryKey ?? modalsProps?.queryKey}
-               title="Добавление соревнованией"
-               description="Добавьте одну или несколько записей дисциплин"
-            />
-         )}
-         {isUpdateModalOpen && currentType === "competition" && (
-            <UpdateCompetitionModal
-               id={searchId ?? null}
-               isOpen={isUpdateModalOpen}
-               setIsOpen={setIsUpdateModalOpen}
-               source={modalsProps?.update?.source ?? modalsProps?.source}
-               queryKey={modalsProps?.update?.queryKey ?? modalsProps?.queryKey}
-               title="Изменение соревнования"
-               description="Измените название дисциплины или категорий у соревнования"
-            />
-         )}
-         {isUpdateModalOpen && currentType === "arena" && (
-            <UpdateArenaModal
-               isOpen={isUpdateModalOpen}
-               setIsOpen={setIsUpdateModalOpen}
-               source={modalsProps?.update?.source ?? modalsProps?.source}
-               searchSource={
-                  modalsProps?.update?.searchSource ?? modalsProps?.searchSource
-               }
-               queryKey={modalsProps?.update?.queryKey ?? modalsProps?.queryKey}
-               title="Изменение названия арены"
-               description="Измените название арены для данного соревнования"
-            />
-         )}
-         <AdminTournamentGridContent data={tournaments} />
-      </ModalsProvider>
+      <DragDropContext onDragEnd={dragEndHandler}>
+         <AdminTournamentModals>
+            <AdminTournamentGridContent data={tournaments} />
+         </AdminTournamentModals>
+      </DragDropContext>
    );
 };
 
 export default AdminTournamentGrid;
-
-{
-   /* <DndContext
-         collisionDetection={closestCenter}
-         sensors={sensors}
-         onDragStart={dragStartHandler}
-         onDragEnd={dragEndHandler}
-         onDragOver={dragOverHandler}
-      >
-         {createPortal(
-            <DragOverlay>
-               {activeDragId && overlayItem ? (
-                  <CardOverlay item={overlayItem} />
-               ) : null}
-            </DragOverlay>,
-            document.body,
-         )}
-      </DndContext> */
-}

@@ -1,13 +1,19 @@
 import React, { createContext, useContext } from "react";
 import { SetStateType } from "../types/main.types";
 
-export interface IModalsContext<T = string, Type = string> {
+export interface IModalsContextFunctions<T = string, Type = string> {
    showDeleteModal?: () => void;
    showUpdateModal?: () => void;
    showCreateModal?: () => void;
    setCurrentId?: SetStateType<T>;
-   currentId?: T;
    setCurrentType?: SetStateType<Type>;
+}
+
+export interface IModalsContext<
+   T = string,
+   Type = string,
+> extends IModalsContextFunctions<T, Type> {
+   currentId?: T;
    currentType?: Type;
 }
 

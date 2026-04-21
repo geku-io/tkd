@@ -1,30 +1,32 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import {
    IStructuredTournament,
    IStructuredTournaments,
 } from "../changeTournamentData";
 import styles from "../Tournament.module.css";
-import AdminTournamentCard from "./AdminTournamentCard";
-import TournamentOptions from "../TournamentOptions";
-import { ModalType } from "./tournamentModals.constant";
-import { IModalIds } from "./AdminTournamentGrid";
-import { useGetModalsContext } from "../../../../contexts/ModalsContext";
 import { Eye, EyeOff } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { fetchApi } from "../../../../lib/fetchApi";
 import { API } from "../../../../constants/api";
 import { QUERY_KEYS } from "../../../../constants/queryKeys";
 import { toast } from "sonner";
-import { useGetUserContext } from "../../../../providers/UserProvider";
 import { UserRole } from "../../../../types/entities.types";
+import ArenaGrid from "./ArenaGrid";
+import { useGetUserContext } from "../../../../providers/UserProvider";
+import { IModalIds } from "./AdminTournamentGrid";
+import { ModalType } from "./tournamentModals.constant";
+import TournamentOptions from "../TournamentOptions";
+import { useGetModalsActionContext } from "../../../../contexts/ModalsActionContext";
 
 interface IProps {
    data: IStructuredTournaments;
 }
 
-const AdminTournamentGridContent = ({ data }: IProps) => {
+const AdminTournamentGridContent = memo(function AdminTournamentGridContent({
+   data,
+}: IProps) {
    const user = useGetUserContext();
    const {
       setCurrentId,
@@ -32,7 +34,7 @@ const AdminTournamentGridContent = ({ data }: IProps) => {
       showDeleteModal,
       showUpdateModal,
       showCreateModal,
-   } = useGetModalsContext<IModalIds | null, ModalType | null>();
+   } = useGetModalsActionContext<IModalIds | null, ModalType | null>();
 
    const updateVisibility = useMutation<
       unknown,
@@ -158,26 +160,14 @@ const AdminTournamentGridContent = ({ data }: IProps) => {
                   <div>
                      {arenaIds.length !== 0 ? (
                         <div className={styles["admin-card-grid"]}>
-                           {arenaIds.map(arenaId => {
-                              const competitionIdsByArena =
-                                 data.orderByArena[tournamentId][arenaId];
-                              const competitionsByArena =
-                                 competitionIdsByArena.map(
-                                    comp => data.competitions.byId[comp],
-                                 );
-                              return (
-                                 <AdminTournamentCard
-                                    key={arenaId}
-                                    tournamentId={tournamentId}
-                                    competitions={competitionsByArena}
-                                    competitionsList={competitionIdsByArena}
-                                    arenaId={arenaId}
-                                    arenaEntity={
-                                       data.arenas.byId[arenaId].arena
-                                    }
-                                 />
-                              );
-                           })}
+                           {arenaIds.map(arenaId => (
+                              <ArenaGrid
+                                 key={arenaId}
+                                 arenaId={arenaId}
+                                 tournamentId={tournamentId}
+                                 data={data}
+                              />
+                           ))}
                         </div>
                      ) : (
                         <div>Нет арен</div>
@@ -188,6 +178,6 @@ const AdminTournamentGridContent = ({ data }: IProps) => {
          })}
       </div>
    );
-};
+});
 
 export default AdminTournamentGridContent;
