@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
@@ -35,6 +35,7 @@ interface IMutationVariables {
 }
 
 const AdminTournamentGrid = ({ tournaments }: IProps) => {
+   const [draftTournaments, setDraftTournaments] = useState(tournaments);
    const { socketRef } = useGetSocketContext();
    const queryClient = useQueryClient();
 
@@ -113,7 +114,6 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
                initialArenaId === arenaId &&
                initialIndex === index
             ) {
-               console.log("=== NOTHING CHANGED ===");
                return;
             }
 
@@ -177,6 +177,8 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
                const filteredNextBody = nextBody.filter(
                   (_, index) => index >= minIndex && index <= maxIndex,
                );
+
+               setDraftTournaments(newState);
                changeOrder({ competitions: filteredNextBody, newState });
             } else {
                const arenaEntity = prevTournaments.arenas.byId[arenaId];
@@ -237,14 +239,13 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
                );
                const nextBody = getBody(newTargetList, tourId, arenaId);
 
-               console.log("prevBody", prevBody);
-               console.log("nextBody", nextBody);
-
                const filteredPrevBody = prevBody.filter(
                   (_, i) => i >= initialIndex,
                );
 
                const filteredNextBody = nextBody.filter((_, i) => i >= index);
+
+               setDraftTournaments(newState);
 
                changeOrder({
                   competitions: [...filteredPrevBody, ...filteredNextBody],
@@ -272,7 +273,7 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
    return (
       <DragDropContext onDragEnd={dragEndHandler}>
          <AdminTournamentModals>
-            <AdminTournamentGridContent data={tournaments} />
+            <AdminTournamentGridContent data={draftTournaments} />
          </AdminTournamentModals>
       </DragDropContext>
    );

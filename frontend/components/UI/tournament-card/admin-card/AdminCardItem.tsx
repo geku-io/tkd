@@ -214,7 +214,6 @@ const AdminCardItem = memo(function AdminCardItem({
                      {competition.categories.length > 0 && (
                         <span>
                            {", "}
-
                            {competition.categories
                               .map(item => item.category.title)
                               .join(", ")}
