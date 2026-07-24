@@ -273,7 +273,7 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
    return (
       <DragDropContext onDragEnd={dragEndHandler}>
          <AdminTournamentModals>
-            <AdminTournamentGridContent data={draftTournaments} />
+            <AdminTournamentGridContent data={tournaments} />
          </AdminTournamentModals>
       </DragDropContext>
    );

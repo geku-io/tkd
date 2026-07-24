@@ -13,8 +13,6 @@ const ArenaGrid = memo(function ArenaGrid({
    tournamentId,
    arenaId,
 }: IProps) {
-   // console.log("arena grid render");
-
    return (
       <AdminTournamentCard
          key={arenaId}

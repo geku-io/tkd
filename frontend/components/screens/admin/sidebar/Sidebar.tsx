@@ -48,7 +48,12 @@ const Sidebar = ({ session }: ISession) => {
                   className="flex items-center sm:gap-x-3 gap-x-2 sm:pl-6 max-sm:px-2 sm:pb-8 pb-4 border-b border-zinc-400/20"
                >
                   <div className="relative sm:size-[50px] size-10 shrink-0">
-                     <Image fill={true} src="/tkd-logo.png" alt="ГТФ РТ" />
+                     <Image
+                        fill={true}
+                        src="/tkd-logo.png"
+                        alt="ГТФ РТ"
+                        sizes="auto"
+                     />
                   </div>
                   <div className="font-bold sm:text-sm text-xs">
                      Федерация Тхэквондо ГТФ Республики Татарстан

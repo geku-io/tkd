@@ -18,6 +18,9 @@
             "name": "next"
          }
       ],
+      "paths": {
+         "test-utils": ["./tests/test-utils.tsx"]
+      },
       "types": ["jest"]
    },
    "include": [

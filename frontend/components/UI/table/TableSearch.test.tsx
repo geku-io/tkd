@@ -1,19 +1,37 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { useState } from "react";
+import userEvent from "@testing-library/user-event";
 import TableSearch from "./TableSearch";
+import { render, screen } from "test-utils";
+
+const WrapperTableSearch = () => {
+   const [value, setValue] = useState("");
+   return <TableSearch value={value} setValue={setValue} />;
+};
 
 describe("first component test render", () => {
-   test("render TableSearch component", () => {
+   test("Typing text in input field", async () => {
+      const user = userEvent.setup();
+
       const handleClick = jest.fn();
-      const { container } = render(
-         <TableSearch value="Тест" setValue={handleClick} />,
-      );
-      // screen.debug();
-      console.log(screen.getByRole("combobox"));
-      fireEvent.change(screen.getByRole("combobox"), {
-         target: {
-            value: "Второе значение",
-         },
-      });
-      expect(handleClick).toHaveBeenCalledTimes(1);
+
+      render(<TableSearch value="" setValue={handleClick} />);
+
+      const inputEl = screen.getByRole("combobox");
+
+      await user.type(inputEl, "TEST");
+
+      expect(handleClick).toHaveBeenCalled();
+   });
+
+   test("Testing typing within input field while rendering parent component", async () => {
+      const user = userEvent.setup();
+
+      render(<WrapperTableSearch />);
+
+      const controlledInputEl = screen.getByRole("combobox");
+
+      await user.type(controlledInputEl, "TEST v2.0");
+
+      expect(controlledInputEl).toHaveValue("TEST v2.0");
    });
 });
