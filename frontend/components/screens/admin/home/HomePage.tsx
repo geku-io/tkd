@@ -32,11 +32,6 @@ const HomePage = ({ session }: ISession) => {
       },
    });
 
-   console.log(
-      "PARENT",
-      data?.competitions.byId["0a6c2478-70fb-4fa1-b292-258edb24a0ab"],
-   );
-
    if (isPending) {
       return <MainSpinner />;
    }

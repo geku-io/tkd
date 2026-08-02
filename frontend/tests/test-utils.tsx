@@ -1,16 +1,30 @@
 import { Toaster } from "sonner";
-import QueryProvider from "../providers/QueryProvider";
 import { SocketProvider } from "../providers/SocketProvider";
 import { render, RenderOptions } from "@testing-library/react";
+import { useState } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { vi } from "vitest";
 
 const AllProviders = ({ children }: { children: React.ReactNode }) => {
+   const [queryClient] = useState(
+      () =>
+         new QueryClient({
+            defaultOptions: {
+               queries: {
+                  retry: false,
+               },
+            },
+         }),
+   );
+   const spyQueryClient = vi.spyOn(queryClient, "invalidateQueries");
+   spyQueryClient.mockImplementation(() => Promise.resolve());
    return (
-      <QueryProvider>
+      <QueryClientProvider client={queryClient}>
          <SocketProvider>
             <Toaster position="top-center" expand={true} richColors={true} />
             {children}
          </SocketProvider>
-      </QueryProvider>
+      </QueryClientProvider>
    );
 };
 

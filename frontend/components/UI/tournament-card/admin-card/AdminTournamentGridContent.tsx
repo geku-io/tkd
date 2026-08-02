@@ -148,7 +148,6 @@ const AdminTournamentGridContent = memo(function AdminTournamentGridContent({
                                  <EyeOff className="size-full" />
                               )}
                            </button>
-
                            <TournamentOptions
                               showDelete={showTournamentDeleteModal}
                               showUpdate={showTournamentUpdateModal}
