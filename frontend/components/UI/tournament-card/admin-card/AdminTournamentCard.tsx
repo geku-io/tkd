@@ -70,59 +70,60 @@ const AdminTournamentCard = memo(function AdminTournamentCard({
    };
    return (
       <Droppable droppableId={`${tournamentId},${arenaId}`}>
-         {(provided, snapshot) => (
-            <div
-               className={cn(
-                  "bg-light-gray rounded-xl min-h-[300px] shadow-border transition border border-transparent",
-                  { "bg-blue-400": snapshot.isDraggingOver },
-               )}
-               ref={provided.innerRef}
-               {...provided.droppableProps}
-            >
-               <div className="size-full">
-                  <div className="flex flex-col h-full text-black py-4 px-2">
-                     <div className="flex items-center justify-between mb-4">
-                        <div className="font-medium pl-2">
-                           {arenaEntity.title}
-                        </div>
-                        <CardOptions
-                           showDelete={showDeleteModalHandler}
-                           showUpdate={showUpdateModalHandler}
-                        />
-                     </div>
-                     <div className="grow flex flex-col">
-                        <div className="grow">
-                           {competitionsList.length > 0 && (
-                              <div className="flex flex-col gap-y-2 mb-6">
-                                 {competitionsList.map((id, index) => {
-                                    return (
-                                       <AdminCardItem
-                                          key={id}
-                                          id={id}
-                                          index={index}
-                                          arenaId={arenaId}
-                                          tournamentId={tournamentId}
-                                          competition={
-                                             data.competitions.byId[id]
-                                          }
-                                       />
-                                    );
-                                 })}
-                              </div>
-                           )}
-                        </div>
-                        <div className="w-full">
-                           <ActionButton
-                              action={showCreateModalHandler}
-                              className="w-full rounded-xl"
+         {(provided, snapshot) => {
+            return (
+               <div
+                  className={cn(
+                     "bg-light-gray rounded-xl min-h-[300px] shadow-border transition border border-transparent",
+                     { "bg-blue-400": snapshot.isDraggingOver },
+                  )}
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+               >
+                  <div className="size-full">
+                     <div className="flex flex-col h-full text-black py-4 px-2">
+                        <div className="flex items-center justify-between mb-4">
+                           <div className="font-medium pl-2">
+                              {arenaEntity.title}
+                           </div>
+                           <CardOptions
+                              showDelete={showDeleteModalHandler}
+                              showUpdate={showUpdateModalHandler}
                            />
+                        </div>
+                        <div className="grow flex flex-col">
+                           <div className="grow">
+                              <div className="flex flex-col mb-6">
+                                 {competitionsList.length > 0 &&
+                                    competitionsList.map((id, index) => {
+                                       return (
+                                          <AdminCardItem
+                                             key={id}
+                                             id={id}
+                                             index={index}
+                                             arenaId={arenaId}
+                                             tournamentId={tournamentId}
+                                             competition={
+                                                data.competitions.byId[id]
+                                             }
+                                          />
+                                       );
+                                    })}
+                                 {provided.placeholder}
+                              </div>
+                           </div>
+                           <div className="w-full">
+                              <ActionButton
+                                 action={showCreateModalHandler}
+                                 className="w-full rounded-xl"
+                              />
+                           </div>
                         </div>
                      </div>
                   </div>
                </div>
-               {provided.placeholder}
-            </div>
-         )}
+            );
+         }}
       </Droppable>
    );
 });

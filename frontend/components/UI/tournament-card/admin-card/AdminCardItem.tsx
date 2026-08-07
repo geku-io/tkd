@@ -212,6 +212,7 @@ const AdminCardItem = memo(function AdminCardItem({
       <Draggable draggableId={id} index={index}>
          {(provided, snapshot) => (
             <div
+               className="mb-2 last:mb-0"
                data-testid={id}
                ref={provided.innerRef}
                {...provided.draggableProps}
