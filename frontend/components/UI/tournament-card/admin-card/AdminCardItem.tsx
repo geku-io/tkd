@@ -77,6 +77,10 @@ const AdminCardItem = memo(function AdminCardItem({
                         [updatedCompetition.id]: {
                            ...old.competitions.byId[updatedCompetition.id],
                            isLive: updatedCompetition.isLive,
+                           isFinished:
+                              updatedCompetition.isFinished ??
+                              old.competitions.byId[updatedCompetition.id]
+                                 .isFinished,
                         },
                      },
                   },
@@ -141,6 +145,10 @@ const AdminCardItem = memo(function AdminCardItem({
                         [updatedCompetition.id]: {
                            ...old.competitions.byId[updatedCompetition.id],
                            isFinished: updatedCompetition.isFinished,
+                           isLive:
+                              updatedCompetition.isLive ??
+                              old.competitions.byId[updatedCompetition.id]
+                                 .isLive,
                         },
                      },
                   },
@@ -184,17 +192,31 @@ const AdminCardItem = memo(function AdminCardItem({
 
    const handleChecked = () => {
       updateStatusMutation.mutate({
-         id: id,
+         id,
          isFinished: !competition.isFinished,
          isLive:
             !competition.isFinished && competition.isLive ? false : undefined,
       });
    };
 
+   const handleLived = () => {
+      updateLiving.mutate({
+         id,
+         isLive: !competition.isLive,
+         isFinished:
+            !competition.isLive && competition.isFinished ? false : undefined,
+      });
+   };
+
    return (
       <Draggable draggableId={id} index={index}>
          {(provided, snapshot) => (
-            <div ref={provided.innerRef} {...provided.draggableProps}>
+            <div
+               className="mb-2 last:mb-0"
+               data-testid={id}
+               ref={provided.innerRef}
+               {...provided.draggableProps}
+            >
                <div
                   className={cn(
                      "flex items-center gap-x-3 bg-white rounded-xl shadow-light p-2 text-sm min-h-10",
@@ -229,16 +251,8 @@ const AdminCardItem = memo(function AdminCardItem({
                      </div>
                      <button
                         type="button"
-                        onClick={() =>
-                           updateLiving.mutate({
-                              ...competition,
-                              isLive: !competition.isLive,
-                              isFinished:
-                                 !competition.isLive && competition.isFinished
-                                    ? false
-                                    : undefined,
-                           })
-                        }
+                        aria-label="Live button"
+                        onClick={handleLived}
                         className={cn({
                            "text-red-accent": competition.isLive,
                         })}

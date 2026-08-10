@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useCallback, useState, useRef } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
@@ -36,6 +36,7 @@ interface IMutationVariables {
 
 const AdminTournamentGrid = ({ tournaments }: IProps) => {
    const [draftTournaments, setDraftTournaments] = useState(tournaments);
+   const isDraggingRef = useRef(false);
    const { socketRef } = useGetSocketContext();
    const queryClient = useQueryClient();
 
@@ -73,7 +74,7 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
                QUERY_KEYS.TOURNAMENTS,
             ]);
 
-         queryClient.setQueryData([QUERY_KEYS.TOURNAMENTS], newState);
+         context.client.setQueryData([QUERY_KEYS.TOURNAMENTS], newState);
 
          return previousTodos;
       },
@@ -86,12 +87,6 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
                onMutateResult,
             );
          }
-      },
-
-      onSettled: (data, error, variables, onMutateResult, context) => {
-         context.client.invalidateQueries({
-            queryKey: [QUERY_KEYS.TOURNAMENTS],
-         });
       },
    });
 
@@ -148,6 +143,7 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
             };
 
             if (destination.droppableId === source.droppableId) {
+               isDraggingRef.current = true;
                const newList = arrayMove(sourceList, initialIndex, index);
 
                const newState = {
@@ -177,10 +173,13 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
                const filteredNextBody = nextBody.filter(
                   (_, index) => index >= minIndex && index <= maxIndex,
                );
-
                setDraftTournaments(newState);
+
                changeOrder({ competitions: filteredNextBody, newState });
+
+               isDraggingRef.current = false;
             } else {
+               isDraggingRef.current = true;
                const arenaEntity = prevTournaments.arenas.byId[arenaId];
 
                let newTargetList: string[] = [];
@@ -251,11 +250,19 @@ const AdminTournamentGrid = ({ tournaments }: IProps) => {
                   competitions: [...filteredPrevBody, ...filteredNextBody],
                   newState,
                });
+
+               isDraggingRef.current = false;
             }
          }
       },
       [changeOrder, tournaments],
    );
+
+   useEffect(() => {
+      if (!isDraggingRef.current) {
+         setDraftTournaments(tournaments);
+      }
+   }, [tournaments]);
 
    useEffect(() => {
       if (!socketRef || !socketRef.current) return;

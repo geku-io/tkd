@@ -13,12 +13,12 @@ import { API } from "../../../../constants/api";
 import { QUERY_KEYS } from "../../../../constants/queryKeys";
 import { toast } from "sonner";
 import { UserRole } from "../../../../types/entities.types";
-import ArenaGrid from "./ArenaGrid";
 import { useGetUserContext } from "../../../../providers/UserProvider";
 import { IModalIds } from "./AdminTournamentGrid";
 import { ModalType } from "./tournamentModals.constant";
 import TournamentOptions from "../TournamentOptions";
 import { useGetModalsActionContext } from "../../../../contexts/ModalsActionContext";
+import AdminTournamentCard from "./AdminTournamentCard";
 
 interface IProps {
    data: IStructuredTournaments;
@@ -148,7 +148,6 @@ const AdminTournamentGridContent = memo(function AdminTournamentGridContent({
                                  <EyeOff className="size-full" />
                               )}
                            </button>
-
                            <TournamentOptions
                               showDelete={showTournamentDeleteModal}
                               showUpdate={showTournamentUpdateModal}
@@ -161,10 +160,11 @@ const AdminTournamentGridContent = memo(function AdminTournamentGridContent({
                      {arenaIds.length !== 0 ? (
                         <div className={styles["admin-card-grid"]}>
                            {arenaIds.map(arenaId => (
-                              <ArenaGrid
+                              <AdminTournamentCard
                                  key={arenaId}
-                                 arenaId={arenaId}
                                  tournamentId={tournamentId}
+                                 arenaId={arenaId}
+                                 arenaEntity={data.arenas.byId[arenaId].arena}
                                  data={data}
                               />
                            ))}

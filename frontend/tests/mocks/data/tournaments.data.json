@@ -1,0 +1,1251 @@
+{
+   "data": [
+      {
+         "id": "179b9ed2-7776-4107-9793-9cce2fe81290",
+         "createdAt": "2026-02-13T17:10:52.210Z",
+         "updatedAt": "2026-07-24T11:05:21.756Z",
+         "title": "Первое соревнование",
+         "order": 1,
+         "competitions": [
+            {
+               "id": "c34809ee-0def-4eef-bcfb-2e0a6b520f6e",
+               "createdAt": "2026-02-15T19:07:21.888Z",
+               "updatedAt": "2026-04-22T15:33:47.693Z",
+               "order": 2,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "02bbf28b-9741-4d59-9c19-15f9a660d777",
+                  "createdAt": "2025-12-28T14:14:50.290Z",
+                  "updatedAt": "2025-12-28T14:14:50.290Z",
+                  "title": "Дисциплина 10"
+               },
+               "arena": {
+                  "id": "18220b12-f06a-40be-9d07-8521842f1aee",
+                  "createdAt": "2026-03-09T13:38:54.663Z",
+                  "updatedAt": "2026-03-09T13:38:54.663Z",
+                  "title": "Экспо"
+               },
+               "categories": [
+                  {
+                     "id": "c381e7fc-6213-40d6-8611-63c6606a1684",
+                     "createdAt": "2026-02-15T19:07:21.905Z",
+                     "updatedAt": "2026-02-15T19:07:21.905Z",
+                     "category": {
+                        "id": "b7ae23ca-7486-4517-a3bb-f36434c630c8",
+                        "createdAt": "2025-12-09T17:20:33.590Z",
+                        "updatedAt": "2025-12-09T17:20:33.590Z",
+                        "title": "Поединки (Масоги)"
+                     }
+                  }
+               ]
+            },
+            {
+               "id": "95d99d73-00c3-496c-ad06-24c30aa9844f",
+               "createdAt": "2026-03-26T13:45:17.064Z",
+               "updatedAt": "2026-04-22T15:33:47.702Z",
+               "order": 3,
+               "isFinished": true,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "469ac3d8-a35e-4d1c-8790-f7d0466104f7",
+                  "createdAt": "2026-01-22T21:20:54.854Z",
+                  "updatedAt": "2026-01-22T21:20:54.854Z",
+                  "title": "Поединки (Масоги)"
+               },
+               "arena": {
+                  "id": "18220b12-f06a-40be-9d07-8521842f1aee",
+                  "createdAt": "2026-03-09T13:38:54.663Z",
+                  "updatedAt": "2026-03-09T13:38:54.663Z",
+                  "title": "Экспо"
+               },
+               "categories": [
+                  {
+                     "id": "6b8e3c7e-4142-4c99-a6f0-217f2a7db101",
+                     "createdAt": "2026-03-26T13:45:17.068Z",
+                     "updatedAt": "2026-03-26T13:45:17.068Z",
+                     "category": {
+                        "id": "4a11ddba-beef-4057-b84a-0c35810a7c2e",
+                        "createdAt": "2025-12-09T17:21:03.507Z",
+                        "updatedAt": "2025-12-09T17:21:03.507Z",
+                        "title": "Стоп-балл"
+                     }
+                  },
+                  {
+                     "id": "741396cb-9767-41cf-93af-de9651a3432e",
+                     "createdAt": "2026-03-26T13:45:17.070Z",
+                     "updatedAt": "2026-03-26T13:45:17.070Z",
+                     "category": {
+                        "id": "b34da757-fa51-4b69-97d0-ae6d9a684b58",
+                        "createdAt": "2025-12-09T17:22:17.521Z",
+                        "updatedAt": "2025-12-09T17:22:17.521Z",
+                        "title": "Хъёнг"
+                     }
+                  }
+               ]
+            },
+            {
+               "id": "427af194-cf6d-49dd-9f58-be0f62a96b7b",
+               "createdAt": "2026-04-09T12:40:47.687Z",
+               "updatedAt": "2026-07-24T19:30:16.331Z",
+               "order": 7,
+               "isFinished": true,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "b2c557c2-e880-45cc-9cd9-69137fc03ca4",
+                  "createdAt": "2026-01-21T15:40:16.275Z",
+                  "updatedAt": "2026-01-21T15:40:16.275Z",
+                  "title": "Очередная дисциплина"
+               },
+               "arena": {
+                  "id": "9353fc7e-3d05-4eeb-920d-c95ed342129a",
+                  "createdAt": "2026-02-12T10:00:07.117Z",
+                  "updatedAt": "2026-02-12T10:00:07.117Z",
+                  "title": "Татнефть Арена"
+               },
+               "categories": [
+                  {
+                     "id": "c61be860-213d-43ba-9baa-4357eccc3290",
+                     "createdAt": "2026-04-09T12:40:47.706Z",
+                     "updatedAt": "2026-04-09T12:40:47.706Z",
+                     "category": {
+                        "id": "b34da757-fa51-4b69-97d0-ae6d9a684b58",
+                        "createdAt": "2025-12-09T17:22:17.521Z",
+                        "updatedAt": "2025-12-09T17:22:17.521Z",
+                        "title": "Хъёнг"
+                     }
+                  }
+               ]
+            },
+            {
+               "id": "12edd904-8e98-48bc-aafd-ed5fdec9fc75",
+               "createdAt": "2026-04-13T03:32:34.327Z",
+               "updatedAt": "2026-07-24T19:30:16.331Z",
+               "order": 6,
+               "isFinished": true,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "469ac3d8-a35e-4d1c-8790-f7d0466104f7",
+                  "createdAt": "2026-01-22T21:20:54.854Z",
+                  "updatedAt": "2026-01-22T21:20:54.854Z",
+                  "title": "Поединки (Масоги)"
+               },
+               "arena": {
+                  "id": "9353fc7e-3d05-4eeb-920d-c95ed342129a",
+                  "createdAt": "2026-02-12T10:00:07.117Z",
+                  "updatedAt": "2026-02-12T10:00:07.117Z",
+                  "title": "Татнефть Арена"
+               },
+               "categories": [
+                  {
+                     "id": "04f2f5b8-d3a3-4253-8c1c-b4d0c3f96422",
+                     "createdAt": "2026-04-13T03:32:34.335Z",
+                     "updatedAt": "2026-04-13T03:32:34.335Z",
+                     "category": {
+                        "id": "b34da757-fa51-4b69-97d0-ae6d9a684b58",
+                        "createdAt": "2025-12-09T17:22:17.521Z",
+                        "updatedAt": "2025-12-09T17:22:17.521Z",
+                        "title": "Хъёнг"
+                     }
+                  }
+               ]
+            },
+            {
+               "id": "bd67b7d5-f567-45a7-a453-be47efe0c311",
+               "createdAt": "2026-04-14T07:58:48.074Z",
+               "updatedAt": "2026-04-20T17:09:35.008Z",
+               "order": 1,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "b4ea1be5-b292-4d56-835a-563e838f071d",
+                  "createdAt": "2025-12-28T14:14:50.290Z",
+                  "updatedAt": "2025-12-28T14:14:50.290Z",
+                  "title": "Дисциплина 12"
+               },
+               "arena": {
+                  "id": "18220b12-f06a-40be-9d07-8521842f1aee",
+                  "createdAt": "2026-03-09T13:38:54.663Z",
+                  "updatedAt": "2026-03-09T13:38:54.663Z",
+                  "title": "Экспо"
+               },
+               "categories": [
+                  {
+                     "id": "8c8782cf-8a77-44b9-b9ed-2fc319e45b43",
+                     "createdAt": "2026-04-14T07:58:48.091Z",
+                     "updatedAt": "2026-04-14T07:58:48.091Z",
+                     "category": {
+                        "id": "4ab26648-592f-4902-aefa-0cf9cd34963f",
+                        "createdAt": "2025-12-09T17:22:17.521Z",
+                        "updatedAt": "2025-12-09T17:22:17.521Z",
+                        "title": "Специальная техника - командные соревнования"
+                     }
+                  },
+                  {
+                     "id": "9082b9e1-f594-4dbd-aa34-acee7488ec15",
+                     "createdAt": "2026-04-14T07:58:48.099Z",
+                     "updatedAt": "2026-04-14T07:58:48.099Z",
+                     "category": {
+                        "id": "fa142c69-f5ed-4608-aa87-620debc2afd5",
+                        "createdAt": "2026-02-11T14:07:28.427Z",
+                        "updatedAt": "2026-02-11T14:07:28.427Z",
+                        "title": "Чемпионат мира"
+                     }
+                  }
+               ]
+            },
+            {
+               "id": "085422ee-d319-4294-9783-bd659f40535a",
+               "createdAt": "2026-04-14T07:59:06.208Z",
+               "updatedAt": "2026-04-22T15:25:46.244Z",
+               "order": 1,
+               "isFinished": true,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "c3b36efc-1350-4338-8d59-01b4de6ef6a7",
+                  "createdAt": "2026-04-12T20:57:17.664Z",
+                  "updatedAt": "2026-04-12T20:57:17.664Z",
+                  "title": "Демонстрация технических действий (стоп-балл) 6-7 лет (муж.)"
+               },
+               "arena": {
+                  "id": "9353fc7e-3d05-4eeb-920d-c95ed342129a",
+                  "createdAt": "2026-02-12T10:00:07.117Z",
+                  "updatedAt": "2026-02-12T10:00:07.117Z",
+                  "title": "Татнефть Арена"
+               },
+               "categories": [
+                  {
+                     "id": "56e6718a-0869-4a69-892e-6c1a242fc42b",
+                     "createdAt": "2026-04-14T07:59:06.216Z",
+                     "updatedAt": "2026-04-14T07:59:06.216Z",
+                     "category": {
+                        "id": "545bc84f-55a0-4dec-9a57-0ca86ffdf8ce",
+                        "createdAt": "2026-04-12T20:57:17.664Z",
+                        "updatedAt": "2026-04-12T20:57:17.664Z",
+                        "title": "до 39 кг"
+                     }
+                  }
+               ]
+            },
+            {
+               "id": "d7df627d-096b-4546-ae00-acfbea5f06ca",
+               "createdAt": "2026-04-14T07:59:10.549Z",
+               "updatedAt": "2026-07-24T19:30:13.010Z",
+               "order": 5,
+               "isFinished": true,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "6fa5eb9d-7abd-4804-9bd9-8296f4465791",
+                  "createdAt": "2026-01-22T21:20:54.854Z",
+                  "updatedAt": "2026-01-22T21:20:54.854Z",
+                  "title": "Стоп-балл"
+               },
+               "arena": {
+                  "id": "1a134d11-f248-47c4-98d1-0561a62dc6e0",
+                  "createdAt": "2026-02-11T22:32:53.809Z",
+                  "updatedAt": "2026-02-11T22:32:53.809Z",
+                  "title": "Ак Барс Арена"
+               },
+               "categories": [
+                  {
+                     "id": "2870b800-6dba-4cda-9042-d551b4e80ba6",
+                     "createdAt": "2026-04-14T07:59:10.567Z",
+                     "updatedAt": "2026-04-14T07:59:10.567Z",
+                     "category": {
+                        "id": "4ab26648-592f-4902-aefa-0cf9cd34963f",
+                        "createdAt": "2025-12-09T17:22:17.521Z",
+                        "updatedAt": "2025-12-09T17:22:17.521Z",
+                        "title": "Специальная техника - командные соревнования"
+                     }
+                  }
+               ]
+            },
+            {
+               "id": "21af6f6a-3682-4180-b890-24a2ae3611eb",
+               "createdAt": "2026-04-14T07:59:31.961Z",
+               "updatedAt": "2026-07-24T19:30:16.321Z",
+               "order": 7,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "c3b36efc-1350-4338-8d59-01b4de6ef6a7",
+                  "createdAt": "2026-04-12T20:57:17.664Z",
+                  "updatedAt": "2026-04-12T20:57:17.664Z",
+                  "title": "Демонстрация технических действий (стоп-балл) 6-7 лет (муж.)"
+               },
+               "arena": {
+                  "id": "00bd7013-55b9-40f5-9819-8520aebce22c",
+                  "createdAt": "2026-02-12T09:49:00.481Z",
+                  "updatedAt": "2026-02-12T09:49:00.481Z",
+                  "title": "Баскет холл"
+               },
+               "categories": [
+                  {
+                     "id": "bc233f21-8dff-4dde-8ebf-ab18a8578070",
+                     "createdAt": "2026-04-14T07:59:31.977Z",
+                     "updatedAt": "2026-04-14T07:59:31.977Z",
+                     "category": {
+                        "id": "4ab26648-592f-4902-aefa-0cf9cd34963f",
+                        "createdAt": "2025-12-09T17:22:17.521Z",
+                        "updatedAt": "2025-12-09T17:22:17.521Z",
+                        "title": "Специальная техника - командные соревнования"
+                     }
+                  }
+               ]
+            },
+            {
+               "id": "9476639b-8f2a-47a8-8339-c9f03ab4ca09",
+               "createdAt": "2026-04-14T07:59:36.881Z",
+               "updatedAt": "2026-07-24T19:30:16.328Z",
+               "order": 2,
+               "isFinished": true,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "c5ba910c-922d-4a24-bf00-2b4d62d49419",
+                  "createdAt": "2025-12-28T14:14:50.290Z",
+                  "updatedAt": "2025-12-28T14:14:50.290Z",
+                  "title": "Дисциплина 16"
+               },
+               "arena": {
+                  "id": "9353fc7e-3d05-4eeb-920d-c95ed342129a",
+                  "createdAt": "2026-02-12T10:00:07.117Z",
+                  "updatedAt": "2026-02-12T10:00:07.117Z",
+                  "title": "Татнефть Арена"
+               },
+               "categories": [
+                  {
+                     "id": "7f7a32da-96fe-4ad9-aea0-aa929d3eb4b1",
+                     "createdAt": "2026-04-14T07:59:36.889Z",
+                     "updatedAt": "2026-04-14T07:59:36.889Z",
+                     "category": {
+                        "id": "b34da757-fa51-4b69-97d0-ae6d9a684b58",
+                        "createdAt": "2025-12-09T17:22:17.521Z",
+                        "updatedAt": "2025-12-09T17:22:17.521Z",
+                        "title": "Хъёнг"
+                     }
+                  }
+               ]
+            },
+            {
+               "id": "a44593a7-6ad1-43fa-b6ca-27d6131cc6d7",
+               "createdAt": "2026-04-14T07:59:50.172Z",
+               "updatedAt": "2026-07-24T19:30:16.330Z",
+               "order": 4,
+               "isFinished": true,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "983f14aa-1f82-4def-990e-551fce02b7ae",
+                  "createdAt": "2026-04-12T20:57:17.664Z",
+                  "updatedAt": "2026-04-12T20:57:17.664Z",
+                  "title": "Поединки (Масоги) 12-14 лет (жен.)"
+               },
+               "arena": {
+                  "id": "9353fc7e-3d05-4eeb-920d-c95ed342129a",
+                  "createdAt": "2026-02-12T10:00:07.117Z",
+                  "updatedAt": "2026-02-12T10:00:07.117Z",
+                  "title": "Татнефть Арена"
+               },
+               "categories": [
+                  {
+                     "id": "9eeca82a-81f7-4189-a08c-b5f72ba91a61",
+                     "createdAt": "2026-04-14T07:59:50.180Z",
+                     "updatedAt": "2026-04-14T07:59:50.180Z",
+                     "category": {
+                        "id": "4ab26648-592f-4902-aefa-0cf9cd34963f",
+                        "createdAt": "2025-12-09T17:22:17.521Z",
+                        "updatedAt": "2025-12-09T17:22:17.521Z",
+                        "title": "Специальная техника - командные соревнования"
+                     }
+                  },
+                  {
+                     "id": "385910b6-f7da-4dc8-a421-71d6a781eb2c",
+                     "createdAt": "2026-04-14T07:59:50.187Z",
+                     "updatedAt": "2026-04-14T07:59:50.187Z",
+                     "category": {
+                        "id": "f299db73-a2a7-4ccb-8af9-f6878fb7360a",
+                        "createdAt": "2026-04-12T20:57:17.664Z",
+                        "updatedAt": "2026-04-12T20:57:17.664Z",
+                        "title": "до 48 кг"
+                     }
+                  }
+               ]
+            },
+            {
+               "id": "884a793d-a5f9-4f25-a13c-6bf9146ff6f9",
+               "createdAt": "2026-04-14T07:59:58.488Z",
+               "updatedAt": "2026-07-24T19:30:16.334Z",
+               "order": 12,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "04e8713a-92fa-4a0f-9f5f-70c30a3a60a3",
+                  "createdAt": "2026-04-12T20:57:17.664Z",
+                  "updatedAt": "2026-04-12T20:57:17.664Z",
+                  "title": "Демонстрация технических действий (стоп-балл) 6-7 лет (жен.)"
+               },
+               "arena": {
+                  "id": "9353fc7e-3d05-4eeb-920d-c95ed342129a",
+                  "createdAt": "2026-02-12T10:00:07.117Z",
+                  "updatedAt": "2026-02-12T10:00:07.117Z",
+                  "title": "Татнефть Арена"
+               },
+               "categories": [
+                  {
+                     "id": "cad45c1c-a3ef-4d3b-8c78-8d87d58a3e78",
+                     "createdAt": "2026-04-14T07:59:58.500Z",
+                     "updatedAt": "2026-04-14T07:59:58.500Z",
+                     "category": {
+                        "id": "b34da757-fa51-4b69-97d0-ae6d9a684b58",
+                        "createdAt": "2025-12-09T17:22:17.521Z",
+                        "updatedAt": "2025-12-09T17:22:17.521Z",
+                        "title": "Хъёнг"
+                     }
+                  }
+               ]
+            },
+            {
+               "id": "4cf0b67d-9b88-455e-97b2-efc8382125f1",
+               "createdAt": "2026-04-14T08:06:19.695Z",
+               "updatedAt": "2026-07-24T19:30:13.015Z",
+               "order": 7,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "469ac3d8-a35e-4d1c-8790-f7d0466104f7",
+                  "createdAt": "2026-01-22T21:20:54.854Z",
+                  "updatedAt": "2026-01-22T21:20:54.854Z",
+                  "title": "Поединки (Масоги)"
+               },
+               "arena": {
+                  "id": "1a134d11-f248-47c4-98d1-0561a62dc6e0",
+                  "createdAt": "2026-02-11T22:32:53.809Z",
+                  "updatedAt": "2026-02-11T22:32:53.809Z",
+                  "title": "Ак Барс Арена"
+               },
+               "categories": [
+                  {
+                     "id": "c75b73cc-50be-470b-b5e1-7794a70ce543",
+                     "createdAt": "2026-04-14T08:06:19.705Z",
+                     "updatedAt": "2026-04-14T08:06:19.705Z",
+                     "category": {
+                        "id": "4ab26648-592f-4902-aefa-0cf9cd34963f",
+                        "createdAt": "2025-12-09T17:22:17.521Z",
+                        "updatedAt": "2025-12-09T17:22:17.521Z",
+                        "title": "Специальная техника - командные соревнования"
+                     }
+                  }
+               ]
+            },
+            {
+               "id": "04a7880b-86c5-4f74-9e42-0e881dc58617",
+               "createdAt": "2026-04-14T08:06:33.093Z",
+               "updatedAt": "2026-07-24T19:30:13.018Z",
+               "order": 8,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "d3d0b730-6739-41b9-95f8-4ea0856d1959",
+                  "createdAt": "2025-12-28T14:14:50.290Z",
+                  "updatedAt": "2025-12-28T14:14:50.290Z",
+                  "title": "Дисциплина 30"
+               },
+               "arena": {
+                  "id": "1a134d11-f248-47c4-98d1-0561a62dc6e0",
+                  "createdAt": "2026-02-11T22:32:53.809Z",
+                  "updatedAt": "2026-02-11T22:32:53.809Z",
+                  "title": "Ак Барс Арена"
+               },
+               "categories": [
+                  {
+                     "id": "245274ec-9476-482b-8b71-0d88e6d0c662",
+                     "createdAt": "2026-04-14T08:06:33.103Z",
+                     "updatedAt": "2026-04-14T08:06:33.103Z",
+                     "category": {
+                        "id": "f4ad49f1-330e-4533-a358-369bd30528b5",
+                        "createdAt": "2026-04-12T20:57:17.664Z",
+                        "updatedAt": "2026-04-12T20:57:17.664Z",
+                        "title": "до 32 кг"
+                     }
+                  }
+               ]
+            },
+            {
+               "id": "5c49aa15-358c-40b2-8ae6-7781b559a8e3",
+               "createdAt": "2026-04-14T08:12:57.334Z",
+               "updatedAt": "2026-07-24T19:30:16.318Z",
+               "order": 6,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "b2c557c2-e880-45cc-9cd9-69137fc03ca4",
+                  "createdAt": "2026-01-21T15:40:16.275Z",
+                  "updatedAt": "2026-01-21T15:40:16.275Z",
+                  "title": "Очередная дисциплина"
+               },
+               "arena": {
+                  "id": "00bd7013-55b9-40f5-9819-8520aebce22c",
+                  "createdAt": "2026-02-12T09:49:00.481Z",
+                  "updatedAt": "2026-02-12T09:49:00.481Z",
+                  "title": "Баскет холл"
+               },
+               "categories": [
+                  {
+                     "id": "f43ff09b-afd3-4299-a00d-a1ec0c9c566e",
+                     "createdAt": "2026-04-14T08:12:57.359Z",
+                     "updatedAt": "2026-04-14T08:12:57.359Z",
+                     "category": {
+                        "id": "4a11ddba-beef-4057-b84a-0c35810a7c2e",
+                        "createdAt": "2025-12-09T17:21:03.507Z",
+                        "updatedAt": "2025-12-09T17:21:03.507Z",
+                        "title": "Стоп-балл"
+                     }
+                  },
+                  {
+                     "id": "0565acd2-725a-4387-845e-66112b01afaa",
+                     "createdAt": "2026-04-14T08:12:57.372Z",
+                     "updatedAt": "2026-04-14T08:12:57.372Z",
+                     "category": {
+                        "id": "4ab26648-592f-4902-aefa-0cf9cd34963f",
+                        "createdAt": "2025-12-09T17:22:17.521Z",
+                        "updatedAt": "2025-12-09T17:22:17.521Z",
+                        "title": "Специальная техника - командные соревнования"
+                     }
+                  }
+               ]
+            },
+            {
+               "id": "ef072b30-886e-441c-9548-7c2193c7f2c0",
+               "createdAt": "2026-04-14T08:13:48.471Z",
+               "updatedAt": "2026-04-22T15:33:46.229Z",
+               "order": 4,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "b2c557c2-e880-45cc-9cd9-69137fc03ca4",
+                  "createdAt": "2026-01-21T15:40:16.275Z",
+                  "updatedAt": "2026-01-21T15:40:16.275Z",
+                  "title": "Очередная дисциплина"
+               },
+               "arena": {
+                  "id": "18220b12-f06a-40be-9d07-8521842f1aee",
+                  "createdAt": "2026-03-09T13:38:54.663Z",
+                  "updatedAt": "2026-03-09T13:38:54.663Z",
+                  "title": "Экспо"
+               },
+               "categories": []
+            },
+            {
+               "id": "dd5440f4-a8ab-46eb-94a6-80a11ef6a926",
+               "createdAt": "2026-04-13T03:32:25.902Z",
+               "updatedAt": "2026-07-24T19:30:16.333Z",
+               "order": 10,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "b471482b-1dcb-4b6b-827c-20cc08b4207a",
+                  "createdAt": "2026-01-22T21:20:54.854Z",
+                  "updatedAt": "2026-01-22T21:20:54.854Z",
+                  "title": "Хъёнг"
+               },
+               "arena": {
+                  "id": "9353fc7e-3d05-4eeb-920d-c95ed342129a",
+                  "createdAt": "2026-02-12T10:00:07.117Z",
+                  "updatedAt": "2026-02-12T10:00:07.117Z",
+                  "title": "Татнефть Арена"
+               },
+               "categories": []
+            },
+            {
+               "id": "2a0316c8-5ae2-422e-b166-c8b678a26868",
+               "createdAt": "2026-04-14T08:06:14.241Z",
+               "updatedAt": "2026-07-24T19:30:16.329Z",
+               "order": 3,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "b4ea1be5-b292-4d56-835a-563e838f071d",
+                  "createdAt": "2025-12-28T14:14:50.290Z",
+                  "updatedAt": "2025-12-28T14:14:50.290Z",
+                  "title": "Дисциплина 12"
+               },
+               "arena": {
+                  "id": "9353fc7e-3d05-4eeb-920d-c95ed342129a",
+                  "createdAt": "2026-02-12T10:00:07.117Z",
+                  "updatedAt": "2026-02-12T10:00:07.117Z",
+                  "title": "Татнефть Арена"
+               },
+               "categories": []
+            },
+            {
+               "id": "a4515008-972a-4d92-bb77-d6c4143c91d7",
+               "createdAt": "2026-04-14T07:58:54.774Z",
+               "updatedAt": "2026-07-24T19:30:13.012Z",
+               "order": 6,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "98480f99-548b-4797-9d57-85b1d785ee3f",
+                  "createdAt": "2026-04-12T20:57:17.664Z",
+                  "updatedAt": "2026-04-12T20:57:17.664Z",
+                  "title": "Демонстрация технических действий (стоп-балл) 8-9 лет (муж.)"
+               },
+               "arena": {
+                  "id": "1a134d11-f248-47c4-98d1-0561a62dc6e0",
+                  "createdAt": "2026-02-11T22:32:53.809Z",
+                  "updatedAt": "2026-02-11T22:32:53.809Z",
+                  "title": "Ак Барс Арена"
+               },
+               "categories": []
+            },
+            {
+               "id": "c9359086-45e3-4b78-bf4f-ecef3e68d747",
+               "createdAt": "2026-04-14T08:00:01.422Z",
+               "updatedAt": "2026-07-24T19:30:16.327Z",
+               "order": 10,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "b26ee6eb-f1e3-44ca-92e7-06cbacc6a14c",
+                  "createdAt": "2026-04-12T20:57:17.664Z",
+                  "updatedAt": "2026-04-12T20:57:17.664Z",
+                  "title": "Поединки (Масоги) 10-11 лет (муж.)"
+               },
+               "arena": {
+                  "id": "00bd7013-55b9-40f5-9819-8520aebce22c",
+                  "createdAt": "2026-02-12T09:49:00.481Z",
+                  "updatedAt": "2026-02-12T09:49:00.481Z",
+                  "title": "Баскет холл"
+               },
+               "categories": []
+            },
+            {
+               "id": "e2f8ba43-fc78-4a4f-9613-c0dc23d229b4",
+               "createdAt": "2026-04-14T07:59:17.077Z",
+               "updatedAt": "2026-07-24T19:30:12.995Z",
+               "order": 2,
+               "isFinished": true,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "8234655f-7596-4acb-8ca2-fe2e1c68abd6",
+                  "createdAt": "2026-04-12T20:57:17.664Z",
+                  "updatedAt": "2026-04-12T20:57:17.664Z",
+                  "title": "Поединки (Масоги) (муж.)"
+               },
+               "arena": {
+                  "id": "1a134d11-f248-47c4-98d1-0561a62dc6e0",
+                  "createdAt": "2026-02-11T22:32:53.809Z",
+                  "updatedAt": "2026-02-11T22:32:53.809Z",
+                  "title": "Ак Барс Арена"
+               },
+               "categories": []
+            },
+            {
+               "id": "8569bc7f-75b8-4c3a-8753-03a198b88ee6",
+               "createdAt": "2026-04-14T07:59:21.126Z",
+               "updatedAt": "2026-07-24T19:30:16.310Z",
+               "order": 3,
+               "isFinished": false,
+               "isLive": true,
+               "startTime": null,
+               "discipline": {
+                  "id": "983f14aa-1f82-4def-990e-551fce02b7ae",
+                  "createdAt": "2026-04-12T20:57:17.664Z",
+                  "updatedAt": "2026-04-12T20:57:17.664Z",
+                  "title": "Поединки (Масоги) 12-14 лет (жен.)"
+               },
+               "arena": {
+                  "id": "00bd7013-55b9-40f5-9819-8520aebce22c",
+                  "createdAt": "2026-02-12T09:49:00.481Z",
+                  "updatedAt": "2026-02-12T09:49:00.481Z",
+                  "title": "Баскет холл"
+               },
+               "categories": []
+            },
+            {
+               "id": "2c8f2f69-9b5a-48c1-a657-35a9966d1353",
+               "createdAt": "2026-04-14T07:59:01.817Z",
+               "updatedAt": "2026-07-24T19:30:05.183Z",
+               "order": 1,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "ac725b3a-1332-4c27-8a62-2c9d4705c2b4",
+                  "createdAt": "2026-04-12T20:57:17.664Z",
+                  "updatedAt": "2026-04-12T20:57:17.664Z",
+                  "title": "Поединки (Масоги) (жен.)"
+               },
+               "arena": {
+                  "id": "00bd7013-55b9-40f5-9819-8520aebce22c",
+                  "createdAt": "2026-02-12T09:49:00.481Z",
+                  "updatedAt": "2026-02-12T09:49:00.481Z",
+                  "title": "Баскет холл"
+               },
+               "categories": []
+            },
+            {
+               "id": "7727f13d-e2e6-4571-9c2c-d1e802e91d43",
+               "createdAt": "2026-04-14T07:59:13.248Z",
+               "updatedAt": "2026-04-22T15:33:44.665Z",
+               "order": 5,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "04e8713a-92fa-4a0f-9f5f-70c30a3a60a3",
+                  "createdAt": "2026-04-12T20:57:17.664Z",
+                  "updatedAt": "2026-04-12T20:57:17.664Z",
+                  "title": "Демонстрация технических действий (стоп-балл) 6-7 лет (жен.)"
+               },
+               "arena": {
+                  "id": "18220b12-f06a-40be-9d07-8521842f1aee",
+                  "createdAt": "2026-03-09T13:38:54.663Z",
+                  "updatedAt": "2026-03-09T13:38:54.663Z",
+                  "title": "Экспо"
+               },
+               "categories": []
+            },
+            {
+               "id": "0b767537-963f-44a6-8144-bca589c0cf4d",
+               "createdAt": "2026-04-14T07:58:58.525Z",
+               "updatedAt": "2026-07-24T19:30:13.004Z",
+               "order": 3,
+               "isFinished": true,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "0e063c96-89bd-489d-a7b0-c21de185a23f",
+                  "createdAt": "2026-04-12T20:57:17.664Z",
+                  "updatedAt": "2026-04-12T20:57:17.664Z",
+                  "title": "Поединки (Масоги) 15-17 лет (муж.)"
+               },
+               "arena": {
+                  "id": "1a134d11-f248-47c4-98d1-0561a62dc6e0",
+                  "createdAt": "2026-02-11T22:32:53.809Z",
+                  "updatedAt": "2026-02-11T22:32:53.809Z",
+                  "title": "Ак Барс Арена"
+               },
+               "categories": []
+            },
+            {
+               "id": "057c1073-14f1-4b14-b5b4-c05bc5619c2b",
+               "createdAt": "2026-04-14T07:59:39.065Z",
+               "updatedAt": "2026-07-24T19:30:16.315Z",
+               "order": 5,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "6fa5eb9d-7abd-4804-9bd9-8296f4465791",
+                  "createdAt": "2026-01-22T21:20:54.854Z",
+                  "updatedAt": "2026-01-22T21:20:54.854Z",
+                  "title": "Стоп-балл"
+               },
+               "arena": {
+                  "id": "00bd7013-55b9-40f5-9819-8520aebce22c",
+                  "createdAt": "2026-02-12T09:49:00.481Z",
+                  "updatedAt": "2026-02-12T09:49:00.481Z",
+                  "title": "Баскет холл"
+               },
+               "categories": []
+            },
+            {
+               "id": "5cc294c8-8376-46cb-87ab-e1eb6706c622",
+               "createdAt": "2026-04-14T07:58:51.749Z",
+               "updatedAt": "2026-07-24T19:30:13.021Z",
+               "order": 9,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "e1a501aa-5046-4d0c-9831-eeabb2356e45",
+                  "createdAt": "2026-04-12T20:57:17.664Z",
+                  "updatedAt": "2026-04-12T20:57:17.664Z",
+                  "title": "Поединки (Масоги) 12-14 лет (муж.)"
+               },
+               "arena": {
+                  "id": "1a134d11-f248-47c4-98d1-0561a62dc6e0",
+                  "createdAt": "2026-02-11T22:32:53.809Z",
+                  "updatedAt": "2026-02-11T22:32:53.809Z",
+                  "title": "Ак Барс Арена"
+               },
+               "categories": []
+            },
+            {
+               "id": "279aebd6-519f-4c6a-817f-5ecb23d0d37f",
+               "createdAt": "2026-04-13T03:32:29.232Z",
+               "updatedAt": "2026-07-24T19:30:16.330Z",
+               "order": 5,
+               "isFinished": true,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "98480f99-548b-4797-9d57-85b1d785ee3f",
+                  "createdAt": "2026-04-12T20:57:17.664Z",
+                  "updatedAt": "2026-04-12T20:57:17.664Z",
+                  "title": "Демонстрация технических действий (стоп-балл) 8-9 лет (муж.)"
+               },
+               "arena": {
+                  "id": "9353fc7e-3d05-4eeb-920d-c95ed342129a",
+                  "createdAt": "2026-02-12T10:00:07.117Z",
+                  "updatedAt": "2026-02-12T10:00:07.117Z",
+                  "title": "Татнефть Арена"
+               },
+               "categories": []
+            },
+            {
+               "id": "37ce1dd3-fe5a-409e-9796-158922ef7aa7",
+               "createdAt": "2026-04-14T08:06:04.833Z",
+               "updatedAt": "2026-07-24T19:30:16.332Z",
+               "order": 9,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "e1a501aa-5046-4d0c-9831-eeabb2356e45",
+                  "createdAt": "2026-04-12T20:57:17.664Z",
+                  "updatedAt": "2026-04-12T20:57:17.664Z",
+                  "title": "Поединки (Масоги) 12-14 лет (муж.)"
+               },
+               "arena": {
+                  "id": "9353fc7e-3d05-4eeb-920d-c95ed342129a",
+                  "createdAt": "2026-02-12T10:00:07.117Z",
+                  "updatedAt": "2026-02-12T10:00:07.117Z",
+                  "title": "Татнефть Арена"
+               },
+               "categories": []
+            },
+            {
+               "id": "ffbc022d-4f72-4ec6-95be-0b480d34ddc0",
+               "createdAt": "2026-04-14T07:58:41.300Z",
+               "updatedAt": "2026-07-24T19:30:16.332Z",
+               "order": 8,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "02bbf28b-9741-4d59-9c19-15f9a660d777",
+                  "createdAt": "2025-12-28T14:14:50.290Z",
+                  "updatedAt": "2025-12-28T14:14:50.290Z",
+                  "title": "Дисциплина 10"
+               },
+               "arena": {
+                  "id": "9353fc7e-3d05-4eeb-920d-c95ed342129a",
+                  "createdAt": "2026-02-12T10:00:07.117Z",
+                  "updatedAt": "2026-02-12T10:00:07.117Z",
+                  "title": "Татнефть Арена"
+               },
+               "categories": []
+            },
+            {
+               "id": "1b98bc5f-aa20-4ef5-922c-e4c7028a64c8",
+               "createdAt": "2026-04-14T08:05:37.552Z",
+               "updatedAt": "2026-07-24T19:30:16.313Z",
+               "order": 4,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "6cbbdcad-ae05-4473-9a20-178e3961ed26",
+                  "createdAt": "2025-12-28T14:14:50.290Z",
+                  "updatedAt": "2025-12-28T14:14:50.290Z",
+                  "title": "Дисциплина 5"
+               },
+               "arena": {
+                  "id": "00bd7013-55b9-40f5-9819-8520aebce22c",
+                  "createdAt": "2026-02-12T09:49:00.481Z",
+                  "updatedAt": "2026-02-12T09:49:00.481Z",
+                  "title": "Баскет холл"
+               },
+               "categories": []
+            },
+            {
+               "id": "0f8b82fa-9407-49c7-8a41-4f44f0a2a446",
+               "createdAt": "2026-04-14T07:59:54.698Z",
+               "updatedAt": "2026-07-24T19:30:16.309Z",
+               "order": 2,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "c3b36efc-1350-4338-8d59-01b4de6ef6a7",
+                  "createdAt": "2026-04-12T20:57:17.664Z",
+                  "updatedAt": "2026-04-12T20:57:17.664Z",
+                  "title": "Демонстрация технических действий (стоп-балл) 6-7 лет (муж.)"
+               },
+               "arena": {
+                  "id": "00bd7013-55b9-40f5-9819-8520aebce22c",
+                  "createdAt": "2026-02-12T09:49:00.481Z",
+                  "updatedAt": "2026-02-12T09:49:00.481Z",
+                  "title": "Баскет холл"
+               },
+               "categories": []
+            },
+            {
+               "id": "72f382e8-42c7-48d8-aebb-25b759ee4267",
+               "createdAt": "2026-04-14T07:59:24.630Z",
+               "updatedAt": "2026-07-24T19:30:13.007Z",
+               "order": 4,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "922ed9f0-025c-42f7-b812-bbc7c623d599",
+                  "createdAt": "2026-04-12T20:57:17.664Z",
+                  "updatedAt": "2026-04-12T20:57:17.664Z",
+                  "title": "Поединки (Масоги) 15-17 лет (жен.)"
+               },
+               "arena": {
+                  "id": "1a134d11-f248-47c4-98d1-0561a62dc6e0",
+                  "createdAt": "2026-02-11T22:32:53.809Z",
+                  "updatedAt": "2026-02-11T22:32:53.809Z",
+                  "title": "Ак Барс Арена"
+               },
+               "categories": []
+            },
+            {
+               "id": "927ec20a-889a-4607-a6d9-68abce7d6ff4",
+               "createdAt": "2026-02-15T19:07:05.201Z",
+               "updatedAt": "2026-07-29T12:58:16.877Z",
+               "order": 1,
+               "isFinished": true,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "a6255c0e-3307-43fc-bf45-ba63fbe9b62c",
+                  "createdAt": "2026-04-12T20:57:17.664Z",
+                  "updatedAt": "2026-04-12T20:57:17.664Z",
+                  "title": "Поединки (Масоги) 10-11 лет (жен.)"
+               },
+               "arena": {
+                  "id": "1a134d11-f248-47c4-98d1-0561a62dc6e0",
+                  "createdAt": "2026-02-11T22:32:53.809Z",
+                  "updatedAt": "2026-02-11T22:32:53.809Z",
+                  "title": "Ак Барс Арена"
+               },
+               "categories": []
+            },
+            {
+               "id": "a19f642f-9099-4bde-bfc1-8181e2098098",
+               "createdAt": "2026-04-01T19:12:47.572Z",
+               "updatedAt": "2026-07-24T19:30:16.323Z",
+               "order": 8,
+               "isFinished": false,
+               "isLive": true,
+               "startTime": null,
+               "discipline": {
+                  "id": "02bbf28b-9741-4d59-9c19-15f9a660d777",
+                  "createdAt": "2025-12-28T14:14:50.290Z",
+                  "updatedAt": "2025-12-28T14:14:50.290Z",
+                  "title": "Дисциплина 10"
+               },
+               "arena": {
+                  "id": "00bd7013-55b9-40f5-9819-8520aebce22c",
+                  "createdAt": "2026-02-12T09:49:00.481Z",
+                  "updatedAt": "2026-02-12T09:49:00.481Z",
+                  "title": "Баскет холл"
+               },
+               "categories": []
+            },
+            {
+               "id": "3c35460b-3715-4e69-8186-f6c7f2279955",
+               "createdAt": "2026-04-14T08:05:58.399Z",
+               "updatedAt": "2026-07-24T19:30:16.333Z",
+               "order": 11,
+               "isFinished": true,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "4cfa7dbd-ea95-4842-854d-f19245c5fc13",
+                  "createdAt": "2026-04-12T20:57:17.664Z",
+                  "updatedAt": "2026-04-12T20:57:17.664Z",
+                  "title": "Поединки (Масоги) Фестиваль (муж.)"
+               },
+               "arena": {
+                  "id": "9353fc7e-3d05-4eeb-920d-c95ed342129a",
+                  "createdAt": "2026-02-12T10:00:07.117Z",
+                  "updatedAt": "2026-02-12T10:00:07.117Z",
+                  "title": "Татнефть Арена"
+               },
+               "categories": []
+            },
+            {
+               "id": "df223924-a083-44b3-a3e3-60021c7de34a",
+               "createdAt": "2026-04-14T08:05:49.983Z",
+               "updatedAt": "2026-07-24T19:30:16.325Z",
+               "order": 9,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "c3b36efc-1350-4338-8d59-01b4de6ef6a7",
+                  "createdAt": "2026-04-12T20:57:17.664Z",
+                  "updatedAt": "2026-04-12T20:57:17.664Z",
+                  "title": "Демонстрация технических действий (стоп-балл) 6-7 лет (муж.)"
+               },
+               "arena": {
+                  "id": "00bd7013-55b9-40f5-9819-8520aebce22c",
+                  "createdAt": "2026-02-12T09:49:00.481Z",
+                  "updatedAt": "2026-02-12T09:49:00.481Z",
+                  "title": "Баскет холл"
+               },
+               "categories": []
+            }
+         ],
+         "arenas": [
+            {
+               "id": "14e9f440-7c4c-478a-a84d-fe8b483428ae",
+               "createdAt": "2026-04-01T18:29:28.912Z",
+               "updatedAt": "2026-04-01T18:29:28.912Z",
+               "order": 4,
+               "arena": {
+                  "id": "18220b12-f06a-40be-9d07-8521842f1aee",
+                  "createdAt": "2026-03-09T13:38:54.663Z",
+                  "updatedAt": "2026-03-09T13:38:54.663Z",
+                  "title": "Экспо"
+               }
+            },
+            {
+               "id": "065cc134-8c48-4d32-9287-d9783b5a0d9d",
+               "createdAt": "2026-04-01T18:29:22.670Z",
+               "updatedAt": "2026-04-01T18:29:22.670Z",
+               "order": 3,
+               "arena": {
+                  "id": "9353fc7e-3d05-4eeb-920d-c95ed342129a",
+                  "createdAt": "2026-02-12T10:00:07.117Z",
+                  "updatedAt": "2026-02-12T10:00:07.117Z",
+                  "title": "Татнефть Арена"
+               }
+            },
+            {
+               "id": "345e8229-6ffa-4d8e-a9f2-2362ce6873be",
+               "createdAt": "2026-02-13T17:10:52.267Z",
+               "updatedAt": "2026-03-26T15:01:46.450Z",
+               "order": 1,
+               "arena": {
+                  "id": "1a134d11-f248-47c4-98d1-0561a62dc6e0",
+                  "createdAt": "2026-02-11T22:32:53.809Z",
+                  "updatedAt": "2026-02-11T22:32:53.809Z",
+                  "title": "Ак Барс Арена"
+               }
+            },
+            {
+               "id": "91c232d3-f72c-4991-a944-eadca3dac521",
+               "createdAt": "2026-02-15T18:49:03.211Z",
+               "updatedAt": "2026-03-26T13:31:52.167Z",
+               "order": 2,
+               "arena": {
+                  "id": "00bd7013-55b9-40f5-9819-8520aebce22c",
+                  "createdAt": "2026-02-12T09:49:00.481Z",
+                  "updatedAt": "2026-02-12T09:49:00.481Z",
+                  "title": "Баскет холл"
+               }
+            }
+         ],
+         "isVisible": true
+      },
+      {
+         "id": "a03dc23e-2351-4526-921e-63e628387460",
+         "createdAt": "2026-03-26T13:45:17.054Z",
+         "updatedAt": "2026-07-15T13:58:27.989Z",
+         "title": "Второе соревнование",
+         "order": 2,
+         "competitions": [
+            {
+               "id": "9e23cde1-2b57-4ba7-909c-fea3202e8a71",
+               "createdAt": "2026-04-14T08:05:44.214Z",
+               "updatedAt": "2026-07-15T16:35:07.890Z",
+               "order": 1,
+               "isFinished": true,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "c5ba910c-922d-4a24-bf00-2b4d62d49419",
+                  "createdAt": "2025-12-28T14:14:50.290Z",
+                  "updatedAt": "2025-12-28T14:14:50.290Z",
+                  "title": "Дисциплина 16"
+               },
+               "arena": {
+                  "id": "1a134d11-f248-47c4-98d1-0561a62dc6e0",
+                  "createdAt": "2026-02-11T22:32:53.809Z",
+                  "updatedAt": "2026-02-11T22:32:53.809Z",
+                  "title": "Ак Барс Арена"
+               },
+               "categories": [
+                  {
+                     "id": "931b0b9c-5295-4f5e-abc4-031a281ca7e2",
+                     "createdAt": "2026-04-14T08:05:44.232Z",
+                     "updatedAt": "2026-04-14T08:05:44.232Z",
+                     "category": {
+                        "id": "4ab26648-592f-4902-aefa-0cf9cd34963f",
+                        "createdAt": "2025-12-09T17:22:17.521Z",
+                        "updatedAt": "2025-12-09T17:22:17.521Z",
+                        "title": "Специальная техника - командные соревнования"
+                     }
+                  }
+               ]
+            },
+            {
+               "id": "0a6c2478-70fb-4fa1-b292-258edb24a0ab",
+               "createdAt": "2026-04-18T19:30:45.703Z",
+               "updatedAt": "2026-07-24T11:05:25.579Z",
+               "order": 1,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "3b0c1212-35fd-4cd6-8449-4f24f11a08e8",
+                  "createdAt": "2025-12-28T14:14:50.290Z",
+                  "updatedAt": "2025-12-28T14:14:50.290Z",
+                  "title": "Дисциплина 11"
+               },
+               "arena": {
+                  "id": "5941f831-f835-4c3b-9233-856104cb6c29",
+                  "createdAt": "2026-02-15T18:49:22.021Z",
+                  "updatedAt": "2026-02-15T18:49:22.021Z",
+                  "title": "Корстон"
+               },
+               "categories": [
+                  {
+                     "id": "b8cf0009-a986-4698-9806-45048841705f",
+                     "createdAt": "2026-04-18T19:30:45.720Z",
+                     "updatedAt": "2026-04-18T19:30:45.720Z",
+                     "category": {
+                        "id": "4a11ddba-beef-4057-b84a-0c35810a7c2e",
+                        "createdAt": "2025-12-09T17:21:03.507Z",
+                        "updatedAt": "2025-12-09T17:21:03.507Z",
+                        "title": "Стоп-балл"
+                     }
+                  }
+               ]
+            },
+            {
+               "id": "07e7f209-696e-4cda-99d6-708ab297547b",
+               "createdAt": "2026-04-01T19:12:41.703Z",
+               "updatedAt": "2026-04-20T19:12:11.442Z",
+               "order": 3,
+               "isFinished": true,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "6cbbdcad-ae05-4473-9a20-178e3961ed26",
+                  "createdAt": "2025-12-28T14:14:50.290Z",
+                  "updatedAt": "2025-12-28T14:14:50.290Z",
+                  "title": "Дисциплина 5"
+               },
+               "arena": {
+                  "id": "1a134d11-f248-47c4-98d1-0561a62dc6e0",
+                  "createdAt": "2026-02-11T22:32:53.809Z",
+                  "updatedAt": "2026-02-11T22:32:53.809Z",
+                  "title": "Ак Барс Арена"
+               },
+               "categories": []
+            },
+            {
+               "id": "b8da1dab-fa00-477b-9da2-ec8b3df2dfec",
+               "createdAt": "2026-04-18T19:30:57.187Z",
+               "updatedAt": "2026-04-20T19:12:11.440Z",
+               "order": 2,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "ac725b3a-1332-4c27-8a62-2c9d4705c2b4",
+                  "createdAt": "2026-04-12T20:57:17.664Z",
+                  "updatedAt": "2026-04-12T20:57:17.664Z",
+                  "title": "Поединки (Масоги) (жен.)"
+               },
+               "arena": {
+                  "id": "1a134d11-f248-47c4-98d1-0561a62dc6e0",
+                  "createdAt": "2026-02-11T22:32:53.809Z",
+                  "updatedAt": "2026-02-11T22:32:53.809Z",
+                  "title": "Ак Барс Арена"
+               },
+               "categories": []
+            },
+            {
+               "id": "033d84e9-4d32-412b-97a8-6f30fc8133e7",
+               "createdAt": "2026-04-18T19:30:41.222Z",
+               "updatedAt": "2026-04-22T14:49:04.713Z",
+               "order": 1,
+               "isFinished": false,
+               "isLive": false,
+               "startTime": null,
+               "discipline": {
+                  "id": "b2c557c2-e880-45cc-9cd9-69137fc03ca4",
+                  "createdAt": "2026-01-21T15:40:16.275Z",
+                  "updatedAt": "2026-01-21T15:40:16.275Z",
+                  "title": "Очередная дисциплина"
+               },
+               "arena": {
+                  "id": "c1a8ffcb-39a9-455b-b308-0d4f33d86344",
+                  "createdAt": "2026-04-09T12:43:46.658Z",
+                  "updatedAt": "2026-04-09T12:43:46.658Z",
+                  "title": "asdfsadf"
+               },
+               "categories": []
+            }
+         ],
+         "arenas": [
+            {
+               "id": "b8fe5ca3-275e-46ef-99c6-bce7b2cc4365",
+               "createdAt": "2026-04-18T19:30:36.554Z",
+               "updatedAt": "2026-04-18T19:30:36.554Z",
+               "order": 3,
+               "arena": {
+                  "id": "c1a8ffcb-39a9-455b-b308-0d4f33d86344",
+                  "createdAt": "2026-04-09T12:43:46.658Z",
+                  "updatedAt": "2026-04-09T12:43:46.658Z",
+                  "title": "asdfsadf"
+               }
+            },
+            {
+               "id": "5e942e76-346b-417b-9a58-da685e298b75",
+               "createdAt": "2026-04-18T19:30:36.504Z",
+               "updatedAt": "2026-04-18T19:30:36.504Z",
+               "order": 2,
+               "arena": {
+                  "id": "5941f831-f835-4c3b-9233-856104cb6c29",
+                  "createdAt": "2026-02-15T18:49:22.021Z",
+                  "updatedAt": "2026-02-15T18:49:22.021Z",
+                  "title": "Корстон"
+               }
+            },
+            {
+               "id": "6db1d5a1-e358-476e-b759-89135f772e08",
+               "createdAt": "2026-03-26T13:45:17.060Z",
+               "updatedAt": "2026-03-26T13:45:17.060Z",
+               "order": 1,
+               "arena": {
+                  "id": "1a134d11-f248-47c4-98d1-0561a62dc6e0",
+                  "createdAt": "2026-02-11T22:32:53.809Z",
+                  "updatedAt": "2026-02-11T22:32:53.809Z",
+                  "title": "Ак Барс Арена"
+               }
+            }
+         ],
+         "isVisible": true
+      }
+   ],
+   "count": 2
+}
